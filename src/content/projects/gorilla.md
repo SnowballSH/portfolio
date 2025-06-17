@@ -12,7 +12,7 @@ links:
     url: "https://snowballsh.github.io/Gorilla/"
     type: "docs"
 category: "other"
-priority: 3
+priority: 2
 ---
 
 # The Gorilla Programming Language
