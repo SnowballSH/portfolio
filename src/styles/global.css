@@ -1,0 +1,471 @@
+@import "tailwindcss";
+
+/* Custom CSS Variables */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg-strong: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-border-strong: rgba(255, 255, 255, 0.4);
+}
+
+/* Balanced Glass Morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #ffffff;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 174, 239, 0.3);
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 174, 239, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
+  color: #ffffff;
+}
+
+/* Button Glass Effect */
+.glass-button {
+  background: rgba(0, 174, 239, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 174, 239, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 174, 239, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.glass-button:hover {
+  background: rgba(0, 174, 239, 0.2);
+  border: 1px solid rgba(0, 174, 239, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 174, 239, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+/* Project buttons */
+.project-button {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.project-button:hover {
+  cursor: pointer;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00aeef;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+/* Text glow effect */
+.text-glow {
+  text-shadow: 0 0 20px rgba(0, 174, 239, 0.5);
+}
+
+/* Floating animation helper */
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Markdown Content Styles - Global to override Tailwind reset */
+.markdown-content h1,
+article.prose-content h1,
+.prose-content h1 {
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-bottom: 1.5rem !important;
+  margin-top: 2rem !important;
+  line-height: 1.2 !important;
+  font-family: "Poppins", system-ui, sans-serif !important;
+  display: block !important;
+}
+
+.markdown-content h1:first-child,
+article.prose-content h1:first-child,
+.prose-content h1:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-content h2,
+article.prose-content h2,
+.prose-content h2 {
+  font-size: 1.875rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  margin-bottom: 1rem !important;
+  margin-top: 2.5rem !important;
+  line-height: 1.3 !important;
+  font-family: "Poppins", system-ui, sans-serif !important;
+  display: block !important;
+}
+
+.markdown-content h3,
+article.prose-content h3,
+.prose-content h3 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  margin-bottom: 0.75rem !important;
+  margin-top: 2rem !important;
+  line-height: 1.4 !important;
+  font-family: "Poppins", system-ui, sans-serif !important;
+  display: block !important;
+}
+
+.markdown-content h4,
+article.prose-content h4,
+.prose-content h4 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  margin-bottom: 0.5rem !important;
+  margin-top: 1.5rem !important;
+  line-height: 1.4 !important;
+  font-family: "Poppins", system-ui, sans-serif !important;
+  display: block !important;
+}
+
+.markdown-content p,
+article.prose-content p,
+.prose-content p {
+  color: #d1d5db !important;
+  margin-bottom: 1.25rem !important;
+  line-height: 1.75 !important;
+  font-size: 1.125rem !important;
+  display: block !important;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  color: #d1d5db !important;
+  margin-bottom: 1.25rem !important;
+  padding-left: 1.5rem !important;
+  line-height: 1.75 !important;
+}
+
+.markdown-content li {
+  margin-bottom: 0.5rem !important;
+  font-size: 1.125rem !important;
+  color: #d1d5db !important;
+}
+
+.markdown-content ul li {
+  list-style-type: disc !important;
+}
+
+.markdown-content ol li {
+  list-style-type: decimal !important;
+}
+
+.markdown-content strong,
+.markdown-content b {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.markdown-content em,
+.markdown-content i {
+  color: #e5e7eb !important;
+  font-style: italic !important;
+}
+
+.markdown-content a {
+  color: #00aeef !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+  transition: color 0.3s ease !important;
+}
+
+.markdown-content a:hover {
+  color: #38bdf8 !important;
+}
+
+/* Futuristic Background */
+.futuristic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(0, 174, 239, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(56, 189, 248, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(0, 174, 239, 0.05) 0%,
+      transparent 50%
+    ),
+    linear-gradient(135deg, #0a0a0a 0%, #0f172a 50%, #1e293b 100%);
+}
+
+/* Creative Geometric Background */
+.geometric-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: radial-gradient(
+      circle at 25% 25%,
+      rgba(0, 174, 239, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(56, 189, 248, 0.08) 0%,
+      transparent 40%
+    );
+  overflow: hidden;
+}
+
+.geometric-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: conic-gradient(
+      from 0deg at 20% 30%,
+      transparent 0deg,
+      rgba(0, 174, 239, 0.03) 60deg,
+      transparent 120deg
+    ),
+    conic-gradient(
+      from 180deg at 80% 70%,
+      transparent 0deg,
+      rgba(56, 189, 248, 0.02) 60deg,
+      transparent 120deg
+    );
+  animation: geometric-rotate 30s linear infinite;
+}
+
+.geometric-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(0, 174, 239, 0.02) 50%,
+      transparent 100%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 0%,
+      rgba(56, 189, 248, 0.015) 50%,
+      transparent 100%
+    );
+  background-size: 200px 200px, 300px 300px;
+  animation: geometric-flow 25s ease-in-out infinite;
+}
+
+@keyframes geometric-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes geometric-flow {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(10px, -10px) scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+/* Animated particles */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(0, 174, 239, 0.6);
+  border-radius: 50%;
+  animation: particle-float 15s infinite linear;
+}
+
+.particle:nth-child(1) {
+  left: 10%;
+  animation-delay: 0s;
+}
+.particle:nth-child(2) {
+  left: 20%;
+  animation-delay: 2s;
+}
+.particle:nth-child(3) {
+  left: 30%;
+  animation-delay: 4s;
+}
+.particle:nth-child(4) {
+  left: 40%;
+  animation-delay: 6s;
+}
+.particle:nth-child(5) {
+  left: 50%;
+  animation-delay: 8s;
+}
+.particle:nth-child(6) {
+  left: 60%;
+  animation-delay: 10s;
+}
+.particle:nth-child(7) {
+  left: 70%;
+  animation-delay: 12s;
+}
+.particle:nth-child(8) {
+  left: 80%;
+  animation-delay: 14s;
+}
+.particle:nth-child(9) {
+  left: 90%;
+  animation-delay: 16s;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Glow orbs */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: glow-pulse 4s ease-in-out infinite alternate;
+}
+
+.glow-orb:nth-child(1) {
+  width: 300px;
+  height: 300px;
+  background: rgba(0, 174, 239, 0.1);
+  top: -150px;
+  left: -150px;
+  animation-delay: 0s;
+}
+
+.glow-orb:nth-child(2) {
+  width: 200px;
+  height: 200px;
+  background: rgba(56, 189, 248, 0.08);
+  top: 20%;
+  right: -100px;
+  animation-delay: 2s;
+}
+
+.glow-orb:nth-child(3) {
+  width: 250px;
+  height: 250px;
+  background: rgba(0, 174, 239, 0.06);
+  bottom: -125px;
+  left: 30%;
+  animation-delay: 1s;
+}
+
+@keyframes glow-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}

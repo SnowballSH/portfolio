@@ -1,0 +1,152 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const {
+  title,
+  shortDescription,
+  technologies,
+  image,
+  imageAlt,
+  githubUrl,
+  liveUrl,
+  demoUrl,
+  links,
+  status,
+} = project.data;
+
+const primaryLink = liveUrl || demoUrl || githubUrl;
+const primaryLabel = liveUrl
+  ? "View Live"
+  : demoUrl
+    ? "View Demo"
+    : "View Code";
+
+const statusStyles = {
+  completed: "bg-green-500/20 text-green-300 border-green-500/30",
+  "in-progress": "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
+  planned: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+};
+---
+
+<div class="glass-card p-6 group h-full flex flex-col">
+  {
+    status !== "completed" && (
+      <div
+        class={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border mb-4 self-start ${statusStyles[status]}`}
+      >
+        {status === "in-progress" ? "In Progress" : "Planned"}
+      </div>
+    )
+  }
+
+  {
+    image && (
+      <div class="h-48 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-xl mb-6 flex items-center justify-center overflow-hidden">
+        <img
+          src={image}
+          alt={imageAlt || `Screenshot of ${title}`}
+          class="w-full h-full object-contain rounded-xl transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  {
+    !image && (
+      <div class="h-48 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-xl mb-6 flex items-center justify-center">
+        <div class="text-6xl text-primary-400 opacity-50">
+          {technologies.includes("React")
+            ? "⚛️"
+            : technologies.includes("Vue")
+              ? "💚"
+              : technologies.includes("Astro")
+                ? "🚀"
+                : technologies.includes("Node")
+                  ? "🟢"
+                  : "💻"}
+        </div>
+      </div>
+    )
+  }
+
+  <h3
+    class="text-2xl font-semibold mb-3 text-white group-hover:text-primary-400 transition-colors"
+  >
+    <a href={`/projects/${project.slug}`} class="hover:underline">
+      {title}
+    </a>
+  </h3>
+
+  <p class="text-dark-300 mb-4 flex-grow">
+    {shortDescription}
+  </p>
+
+  <div class="flex flex-wrap gap-2 mb-6">
+    {
+      technologies.map((tech) => (
+        <span class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm">
+          {tech}
+        </span>
+      ))
+    }
+  </div>
+
+  <div class="flex gap-4 mt-auto">
+    {
+      primaryLink && (
+        <a
+          href={primaryLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-button text-primary-400 hover:text-primary-300 transition-colors font-medium"
+        >
+          {primaryLabel}
+        </a>
+      )
+    }
+
+    {
+      githubUrl && primaryLink !== githubUrl && (
+        <a
+          href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-button text-primary-400 hover:text-primary-300 transition-colors font-medium"
+        >
+          Source Code
+        </a>
+      )
+    }
+
+    {
+      links &&
+        links.map(
+          (link) =>
+            link.url !== primaryLink &&
+            link.url !== githubUrl && (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-button text-primary-400 hover:text-primary-300 transition-colors font-medium"
+              >
+                {link.label}
+              </a>
+            ),
+        )
+    }
+
+    <a
+      href={`/projects/${project.slug}`}
+      class="project-button text-gray-400 hover:text-white transition-colors font-medium ml-auto"
+    >
+      Details →
+    </a>
+  </div>
+</div>

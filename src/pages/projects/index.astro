@@ -1,0 +1,119 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects");
+const sortedProjects = allProjects.sort((a, b) => {
+  if (a.data.priority !== b.data.priority) {
+    return a.data.priority - b.data.priority;
+  }
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+const projectsByCategory = sortedProjects.reduce(
+  (acc, project) => {
+    const category = project.data.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(project);
+    return acc;
+  },
+  {} as Record<string, typeof sortedProjects>,
+);
+
+const categoryLabels = {
+  web: "Web Applications",
+  mobile: "Mobile Apps",
+  desktop: "Desktop Applications",
+  api: "APIs & Backend",
+  library: "Libraries & Tools",
+  other: "General Projects",
+};
+---
+
+<Layout
+  title="Projects - SnowballSH Portfolio"
+  description="Explore my portfolio of web applications, tools, and creative projects built with modern technologies."
+>
+  <div class="futuristic-bg"></div>
+  <div class="geometric-overlay"></div>
+
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <main class="relative z-10 min-h-screen">
+    <div class="container mx-auto px-6 pt-8">
+      <a
+        href="/"
+        class="inline-flex items-center text-primary-400 hover:text-primary-300 transition-colors mb-8"
+      >
+        ← Back to Portfolio
+      </a>
+    </div>
+
+    <section class="py-20">
+      <div class="container mx-auto px-6 text-center">
+        <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 text-white">
+          My Projects
+        </h1>
+        <p class="text-xl text-dark-300 mb-8 max-w-3xl mx-auto">
+          A collection of applications, tools, and experiments built with modern
+          technologies. Each project represents a learning journey and a step
+          forward in my development skills.
+        </p>
+        <p class="text-dark-400">
+          {sortedProjects.length} projects and counting...
+        </p>
+      </div>
+    </section>
+
+    {
+      Object.entries(projectsByCategory).map(([category, projects]) => (
+        <section class="py-12">
+          <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-display font-bold text-white mb-8">
+              {categoryLabels[category as keyof typeof categoryLabels] ||
+                category}
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project) => (
+                <ProjectCard project={project} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+
+    <section class="py-20">
+      <div class="container mx-auto px-6 text-center">
+        <div class="max-w-2xl mx-auto glass-panel">
+          <h2 class="text-3xl font-display font-bold mb-6 text-white">
+            Let's Innovate Together
+          </h2>
+          <p class="text-xl text-dark-300 mb-8">
+            Any questions? Any suggestions? Any creative ideas?
+          </p>
+          <a
+            href="/contact"
+            class="glass-button px-8 py-4 text-lg font-semibold inline-block"
+          >
+            Contact Me
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
