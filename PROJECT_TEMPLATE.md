@@ -1,8 +1,3 @@
-# Project Template
-
-Copy this template to `/src/content/projects/your-project-name.md` to add a new project:
-
-```markdown
 ---
 title: "Your Project Title"
 shortDescription: "Brief description that appears on project cards (1-2 sentences)"
@@ -51,21 +46,3 @@ You can include:
 - [Links](https://example.com)
 - Images: ![Description](path/to/image.jpg)
 - Lists and more!
-```
-
-## Quick Tips:
-
-1. **File naming**: Use kebab-case for the filename (e.g., `my-awesome-project.md`)
-2. **Featured projects**: Set `featured: true` for projects you want on the homepage (limit to 3-4)
-3. **Priority**: Use 1-10 where 1 is highest priority (appears first)
-4. **Images**: Place images in `/public/images/projects/` folder
-5. **Status badges**: Use "in-progress" or "planned" to show work-in-progress projects
-6. **Categories**: Choose the most appropriate category for organization
-
-The system will automatically:
-
-- Generate the project page at `/projects/your-project-name`
-- Add it to the projects listing
-- Show it on homepage if featured
-- Sort by priority and date
-- Handle all the styling and responsive design
