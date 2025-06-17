@@ -1,6 +1,6 @@
 ---
 title: "Headpace"
-shortDescription: "Natural-language AI-driven calendar assistant to boost your productivity and solve scheduling conflicts."
+shortDescription: "A Natural-language AI-driven calendar assistant to boost your productivity and solve scheduling conflicts."
 date: "2024-04-24" # YYYY-MM-DD format
 technologies: ["React", "Typescript", "Firebase", "LLM"]
 featured: true

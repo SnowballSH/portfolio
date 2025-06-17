@@ -10,7 +10,7 @@ imageAlt: "A Demo of ExperienceML"
 githubUrl: "https://github.com/SnowballSH/experience_ml"
 liveUrl: "https://snowballsh.github.io/experience_ml/"
 category: "web"
-priority: 3
+priority: 2
 ---
 
 # Experience ML

@@ -1,6 +1,6 @@
 ---
 title: "Avalanche"
-shortDescription: "Fast, Strong, and Intelligent Chess Engine. With an ELO of 3400, Avalanche is one of the strongest chess engines and the first ever written in Zig."
+shortDescription: "A Fast, Strong, and Intelligent Chess Engine. With an ELO of 3400, Avalanche is one of the strongest chess engines and the first ever written in Zig."
 date: "2024-01-13"
 technologies: ["Zig", "Neural Networks", "Minimax", "Chess"]
 featured: true

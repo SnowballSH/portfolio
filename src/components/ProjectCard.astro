@@ -3,9 +3,10 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   project: CollectionEntry<"projects">;
+  showFeaturedIcon?: boolean;
 }
 
-const { project } = Astro.props;
+const { project, showFeaturedIcon = false } = Astro.props;
 const {
   title,
   shortDescription,
@@ -17,6 +18,7 @@ const {
   demoUrl,
   links,
   status,
+  featured,
 } = project.data;
 
 const primaryLink = liveUrl || demoUrl || githubUrl;
@@ -33,7 +35,15 @@ const statusStyles = {
 };
 ---
 
-<div class="glass-card p-6 group h-full flex flex-col">
+<div class="glass-card p-6 group h-full flex flex-col relative">
+  {
+    featured && showFeaturedIcon && (
+      <div class="absolute top-4 right-4 text-yellow-400 text-lg z-10" title="Featured Project">
+        ⭐
+      </div>
+    )
+  }
+  
   {
     status !== "completed" && (
       <div

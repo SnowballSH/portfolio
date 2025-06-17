@@ -23,6 +23,10 @@ const projectsByCategory = sortedProjects.reduce(
   {} as Record<string, typeof sortedProjects>,
 );
 
+// Define category order with web first
+const categoryOrder = ["web", "mobile", "desktop", "api", "library", "other"];
+const orderedCategories = categoryOrder.filter(cat => projectsByCategory[cat]);
+
 const categoryLabels = {
   web: "Web Applications",
   mobile: "Mobile Apps",
@@ -79,7 +83,7 @@ const categoryLabels = {
     </section>
 
     {
-      Object.entries(projectsByCategory).map(([category, projects]) => (
+      orderedCategories.map((category) => (
         <section class="py-12">
           <div class="container mx-auto px-6">
             <h2 class="text-3xl font-display font-bold text-white mb-8">
@@ -88,8 +92,8 @@ const categoryLabels = {
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
-                <ProjectCard project={project} />
+              {projectsByCategory[category].map((project) => (
+                <ProjectCard project={project} showFeaturedIcon={true} />
               ))}
             </div>
           </div>
