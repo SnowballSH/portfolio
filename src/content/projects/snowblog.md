@@ -6,6 +6,7 @@ technologies: ["Astro", "Deno", "Vibe Coding"]
 featured: false
 status: "in-progress"
 image: "/snowblog.png"
+imageAlt: "A Technological and Mathematical Blue Snowflake"
 githubUrl: "https://github.com/SnowballSH/snowblog"
 category: "web"
 priority: 3

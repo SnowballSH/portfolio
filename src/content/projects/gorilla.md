@@ -6,6 +6,7 @@ technologies: ["Golang", "Compilers"]
 featured: true
 status: "completed"
 image: "/gorilla.png"
+imageAlt: "A Black Gorilla and the text 'Gorilla'"
 githubUrl: "https://github.com/SnowballSH/Gorilla/tree/0.x"
 links:
   - label: "Documentation"

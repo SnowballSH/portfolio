@@ -6,6 +6,7 @@ technologies: ["LaTeX", "Math Parsing", "Python", "Discord"]
 featured: false
 status: "completed"
 image: "/fireballsh.png"
+imageAlt: "A Fierce Fireball and the text 'FireballSH'"
 githubUrl: "https://github.com/SnowballSH/math-bot"
 category: "other"
 priority: 4

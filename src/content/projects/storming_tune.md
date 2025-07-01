@@ -6,6 +6,7 @@ technologies: ["Python", "Statistics"]
 featured: false
 status: "completed"
 image: "/storming_tune.png"
+imageAlt: "A thunderstorm, a horse, and the text 'Storming Tune'"
 githubUrl: "https://github.com/SnowballSH/storming_tune"
 category: "other"
 priority: 4

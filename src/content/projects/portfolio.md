@@ -6,6 +6,7 @@ technologies: ["Astro"]
 featured: true
 status: "completed"
 image: "/favicon.png"
+imageAlt: "A Cute Snowball in Aurora"
 githubUrl: "https://github.com/SnowballSH/SnowballSH.github.io"
 liveUrl: "https://snowballsh.github.io/"
 category: "web"
