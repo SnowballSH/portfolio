@@ -174,7 +174,6 @@ const statusStyles = {
       </div>
     </section>
 
-<<<<<<< ours
     {
       image && (
         <section class="py-8">
@@ -184,25 +183,12 @@ const statusStyles = {
                 <img
                   src={image}
                   alt={imageAlt || `Screenshot of ${title}`}
+                  width="800"
+                  height="480"
                   class="w-full h-80 object-contain rounded-lg"
-                  loading="lazy"
+                  loading="eager"
                 />
               </div>
-=======
-    {image && (
-      <section class="py-8">
-        <div class="container mx-auto px-6">
-          <div class="max-w-4xl mx-auto">
-            <div class="glass-panel p-4">
-              <img
-                src={image}
-                alt={imageAlt || `Screenshot of ${title}`}
-                width="800"
-                height="480"
-                class="w-full h-80 object-contain rounded-lg"
-                loading="eager"
-              />
->>>>>>> theirs
             </div>
           </div>
         </section>
