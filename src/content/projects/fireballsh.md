@@ -5,12 +5,8 @@ date: "2025-06-16" # YYYY-MM-DD format
 technologies: ["LaTeX", "Math Parsing", "Python", "Discord"]
 featured: false
 status: "completed"
-<<<<<<< ours
-image: "/fireballsh.png"
-imageAlt: "A Fierce Fireball and the text 'FireballSH'"
-=======
 image: "/fireballsh.webp"
->>>>>>> theirs
+imageAlt: "A Fierce Fireball and the text 'FireballSH'"
 githubUrl: "https://github.com/SnowballSH/math-bot"
 category: "other"
 priority: 4
