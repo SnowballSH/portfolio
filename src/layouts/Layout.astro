@@ -22,6 +22,18 @@ const {
 		<meta http-equiv="Cache-Control" content="public, max-age=31536000" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		<meta
+			name="keywords"
+			content="SnowballSH,Yinuo Huang,software developer,portfolio"
+		/>
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="/favicon.webp" />
+		<link
+			rel="canonical"
+			href={`https://snowballsh.github.io${Astro.url.pathname}`}
+		/>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
