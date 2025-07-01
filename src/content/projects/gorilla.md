@@ -5,7 +5,7 @@ date: "2021-02-26" # YYYY-MM-DD format
 technologies: ["Golang", "Compilers"]
 featured: true
 status: "completed"
-image: "/gorilla.png"
+image: "/gorilla.webp"
 imageAlt: "A Black Gorilla and the text 'Gorilla'"
 githubUrl: "https://github.com/SnowballSH/Gorilla/tree/0.x"
 links:

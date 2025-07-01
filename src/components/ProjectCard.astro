@@ -4,9 +4,14 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   project: CollectionEntry<"projects">;
   showFeaturedIcon?: boolean;
+  /**
+   * Controls the loading behavior of the project image. Use "eager" for the
+   * first above-the-fold image to improve Largest Contentful Paint.
+   */
+  loading?: "eager" | "lazy";
 }
 
-const { project, showFeaturedIcon = false } = Astro.props;
+const { project, showFeaturedIcon = false, loading = "lazy" } = Astro.props;
 const {
   title,
   shortDescription,
@@ -60,8 +65,10 @@ const statusStyles = {
         <img
           src={image}
           alt={imageAlt || `Screenshot of ${title}`}
+          width="800"
+          height="480"
           class="w-full h-full object-contain rounded-xl transition-transform duration-300 group-hover:scale-105"
-          loading="lazy"
+          loading={loading}
         />
       </div>
     )

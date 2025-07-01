@@ -5,7 +5,7 @@ date: "2022-07-07" # YYYY-MM-DD format
 technologies: ["Machine Learning", "Statistics", "Rust", "Python", "Chess"]
 featured: true
 status: "completed"
-image: "/lila.png"
+image: "/lila.webp"
 imageAlt: "Lichess homepage."
 githubUrl: "https://github.com/lichess-org/lila"
 links:

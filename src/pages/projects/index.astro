@@ -11,6 +11,8 @@ const sortedProjects = allProjects.sort((a, b) => {
   return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
 
+const firstProjectSlug = sortedProjects[0]?.slug;
+
 const projectsByCategory = sortedProjects.reduce(
   (acc, project) => {
     const category = project.data.category;
@@ -94,7 +96,11 @@ const categoryLabels = {
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projectsByCategory[category].map((project) => (
-                <ProjectCard project={project} showFeaturedIcon={true} />
+                <ProjectCard
+                  project={project}
+                  showFeaturedIcon={true}
+                  loading={project.slug === firstProjectSlug ? "eager" : "lazy"}
+                />
               ))}
             </div>
           </div>

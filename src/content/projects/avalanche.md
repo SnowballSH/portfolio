@@ -5,7 +5,7 @@ date: "2024-01-13"
 technologies: ["Zig", "Neural Networks", "Minimax", "Chess"]
 featured: true
 status: "completed"
-image: "/avalanche.png"
+image: "/avalanche.webp"
 imageAlt: "A black elephant and a white horse"
 githubUrl: "https://github.com/SnowballSH/Avalanche"
 links:

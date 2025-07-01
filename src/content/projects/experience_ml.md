@@ -5,7 +5,7 @@ date: "2022-12-23" # YYYY-MM-DD format
 technologies: ["Rust", "Typescript", "Neural Networks"]
 featured: true
 status: "completed"
-image: "/experienceml.png"
+image: "/experienceml.webp"
 imageAlt: "A Demo of ExperienceML"
 githubUrl: "https://github.com/SnowballSH/experience_ml"
 liveUrl: "https://snowballsh.github.io/experience_ml/"

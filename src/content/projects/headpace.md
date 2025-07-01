@@ -5,7 +5,7 @@ date: "2024-04-24" # YYYY-MM-DD format
 technologies: ["React", "Typescript", "Firebase", "LLM"]
 featured: true
 status: "completed"
-image: "/headpace.png"
+image: "/headpace.webp"
 imageAlt: "A green timer and the text 'Headpace'"
 githubUrl: "https://github.com/szhen0340/headpace"
 links:

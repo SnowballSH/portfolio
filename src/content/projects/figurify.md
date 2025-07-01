@@ -5,7 +5,7 @@ date: "2021-03-28" # YYYY-MM-DD format
 technologies: ["React", "Golang", "Visualization"]
 featured: false
 status: "completed"
-image: "/figurify.png"
+image: "/figurify.webp"
 imageAlt: "A green eye in a purple circle; text that spells 'Figurify.'"
 githubUrl: "https://github.com/SnowballSH/Figurify"
 liveUrl: "https://figurify.vercel.app/"

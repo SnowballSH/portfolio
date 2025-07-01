@@ -5,7 +5,7 @@ date: "2023-08-03" # YYYY-MM-DD format
 technologies: ["Python", "Statistics"]
 featured: false
 status: "completed"
-image: "/storming_tune.png"
+image: "/storming_tune.webp"
 imageAlt: "A thunderstorm, a horse, and the text 'Storming Tune'"
 githubUrl: "https://github.com/SnowballSH/storming_tune"
 category: "other"
