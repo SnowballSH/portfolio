@@ -5,6 +5,7 @@ date: "2025-06-17" # YYYY-MM-DD format
 technologies: ["Astro"]
 featured: true
 status: "completed"
+image: "/favicon.png"
 githubUrl: "https://github.com/SnowballSH/SnowballSH.github.io"
 liveUrl: "https://snowballsh.github.io/"
 category: "web"

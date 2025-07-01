@@ -23,22 +23,23 @@ const projectsByCategory = sortedProjects.reduce(
   {} as Record<string, typeof sortedProjects>,
 );
 
-// Define category order with web first
-const categoryOrder = ["web", "mobile", "desktop", "api", "library", "other"];
-const orderedCategories = categoryOrder.filter(cat => projectsByCategory[cat]);
+const categoryOrder = ["other", "web", "mobile", "desktop", "api", "library"];
+const orderedCategories = categoryOrder.filter(
+  (cat) => projectsByCategory[cat],
+);
 
 const categoryLabels = {
+  other: "General Projects",
   web: "Web Applications",
   mobile: "Mobile Apps",
   desktop: "Desktop Applications",
   api: "APIs & Backend",
   library: "Libraries & Tools",
-  other: "General Projects",
 };
 ---
 
 <Layout
-  title="Projects - SnowballSH Portfolio"
+  title="Projects - SnowballSH (Yinuo Huang)"
   description="Explore my portfolio of web applications, tools, and creative projects built with modern technologies."
 >
   <div class="futuristic-bg"></div>

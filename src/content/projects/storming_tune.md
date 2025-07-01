@@ -5,6 +5,7 @@ date: "2023-08-03" # YYYY-MM-DD format
 technologies: ["Python", "Statistics"]
 featured: false
 status: "completed"
+image: "/storming_tune.png"
 githubUrl: "https://github.com/SnowballSH/storming_tune"
 category: "other"
 priority: 4

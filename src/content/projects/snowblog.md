@@ -5,6 +5,7 @@ date: "2025-04-19" # YYYY-MM-DD format
 technologies: ["Astro", "Deno", "Vibe Coding"]
 featured: false
 status: "in-progress"
+image: "/snowblog.png"
 githubUrl: "https://github.com/SnowballSH/snowblog"
 category: "web"
 priority: 3
