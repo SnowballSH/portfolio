@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://snowballsh.github.io/sitemap.xml
+Host: https://snowballsh.github.io
+Sitemap: https://snowballsh.github.io/sitemap-index.xml

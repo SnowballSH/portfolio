@@ -40,19 +40,22 @@ const statusStyles = {
 };
 ---
 
-<div class="glass-card p-6 group h-full flex flex-col relative">
+<div class="glass-card group relative flex h-full flex-col p-6">
   {
     featured && showFeaturedIcon && (
-      <div class="absolute top-4 right-4 text-yellow-400 text-lg z-10" title="Featured Project">
+      <div
+        class="absolute top-4 right-4 z-10 text-lg text-yellow-400"
+        title="Featured Project"
+      >
         ⭐
       </div>
     )
   }
-  
+
   {
     status !== "completed" && (
       <div
-        class={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border mb-4 self-start ${statusStyles[status]}`}
+        class={`mb-4 inline-flex items-center self-start rounded-full border px-2 py-1 text-xs font-medium ${statusStyles[status]}`}
       >
         {status === "in-progress" ? "In Progress" : "Planned"}
       </div>
@@ -61,14 +64,16 @@ const statusStyles = {
 
   {
     image && (
-      <div class="h-48 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-xl mb-6 flex items-center justify-center overflow-hidden">
+      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br">
         <img
           src={image}
           alt={imageAlt || `Screenshot of ${title}`}
           width="800"
           height="480"
-          class="w-full h-full object-contain rounded-xl transition-transform duration-300 group-hover:scale-105"
+          class="h-full w-full rounded-xl object-contain transition-transform duration-300 group-hover:scale-105"
           loading={loading}
+          decoding="async"
+          fetchpriority={loading === "eager" ? "high" : "auto"}
         />
       </div>
     )
@@ -76,8 +81,8 @@ const statusStyles = {
 
   {
     !image && (
-      <div class="h-48 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-xl mb-6 flex items-center justify-center">
-        <div class="text-6xl text-primary-400 opacity-50">
+      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center rounded-xl bg-gradient-to-br">
+        <div class="text-primary-400 text-6xl opacity-50">
           {technologies.includes("React")
             ? "⚛️"
             : technologies.includes("Vue")
@@ -93,7 +98,7 @@ const statusStyles = {
   }
 
   <h3
-    class="text-2xl font-semibold mb-3 text-white group-hover:text-primary-400 transition-colors"
+    class="group-hover:text-primary-400 mb-3 text-2xl font-semibold text-white transition-colors"
   >
     <a href={`/projects/${project.slug}`} class="hover:underline">
       {title}
@@ -104,24 +109,24 @@ const statusStyles = {
     {shortDescription}
   </p>
 
-  <div class="flex flex-wrap gap-2 mb-6">
+  <div class="mb-6 flex flex-wrap gap-2">
     {
       technologies.map((tech) => (
-        <span class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm">
+        <span class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm">
           {tech}
         </span>
       ))
     }
   </div>
 
-  <div class="flex gap-4 mt-auto">
+  <div class="mt-auto flex gap-4">
     {
       primaryLink && (
         <a
           href={primaryLink}
           target="_blank"
           rel="noopener noreferrer"
-          class="project-button text-primary-400 hover:text-primary-300 transition-colors font-medium"
+          class="project-button text-primary-400 hover:text-primary-300 font-medium transition-colors"
         >
           {primaryLabel}
         </a>
@@ -134,7 +139,7 @@ const statusStyles = {
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="project-button text-primary-400 hover:text-primary-300 transition-colors font-medium"
+          class="project-button text-primary-400 hover:text-primary-300 font-medium transition-colors"
         >
           Source Code
         </a>
@@ -151,7 +156,7 @@ const statusStyles = {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="project-button text-primary-400 hover:text-primary-300 transition-colors font-medium"
+                class="project-button text-primary-400 hover:text-primary-300 font-medium transition-colors"
               >
                 {link.label}
               </a>
@@ -161,7 +166,7 @@ const statusStyles = {
 
     <a
       href={`/projects/${project.slug}`}
-      class="project-button text-gray-300 hover:text-white transition-colors font-medium ml-auto"
+      class="project-button ml-auto font-medium text-gray-300 transition-colors hover:text-white"
     >
       Details →
     </a>

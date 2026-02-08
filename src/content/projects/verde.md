@@ -23,6 +23,7 @@ This map is managed and enriched by agents, which asynchronously pull data, clus
 This project was built in under 24 hours as a submission to the 2025 HackMIT global hackathon.
 
 ## Inspiration
+
 Have you ever noticed an environmental issue but not been able to address it alone? 🤔
 
 Our current model of environmental action just can’t keep up; cities receive hundreds of thousands of environmental complaints per year, but community efforts remain limited. That’s because of the current top-down framework for environmentalism, where people rely on a few large organizations to plan events, which is slow, bureaucratic, and disconnected from the local issues people see in their own neighborhoods every day.

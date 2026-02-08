@@ -1,5 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+import { typst } from "astro-typst";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -8,7 +10,27 @@ export default defineConfig({
   site: "https://snowballsh.github.io",
   base: "/",
   output: "static",
+  integrations: [
+    typst({
+      options: {
+        remPx: 14,
+      },
+      target: (id) => {
+        if (/[\\/]src[\\/]content[\\/]blogs[\\/]/.test(id)) {
+          if (id.endsWith(".html.typ") || /[\\/]html[\\/]/.test(id)) {
+            return "html";
+          }
+          return "svg";
+        }
+        return "svg";
+      },
+    }),
+    sitemap(),
+  ],
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      external: ["@myriaddreamin/typst-ts-node-compiler"],
+    },
   },
 });

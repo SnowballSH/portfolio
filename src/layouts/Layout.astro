@@ -3,49 +3,106 @@ import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 
 export interface Props {
-	title?: string;
-	description?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article" | "profile";
+  canonical?: string;
+  noindex?: boolean;
+  keywords?: string | string[];
+  publishedTime?: string;
+  modifiedTime?: string;
+  schema?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
-	title = "SnowballSH (Yinuo Huang)",
-	description = "Portfolio showcasing SnowballSH (Yinuo Huang) projects and skills",
+  title = "SnowballSH (Yinuo Huang)",
+  description = "Portfolio showcasing SnowballSH (Yinuo Huang) projects and skills",
+  image = "/favicon.webp",
+  type = "website",
+  canonical,
+  noindex = false,
+  keywords = [
+    "SnowballSH",
+    "Yinuo Huang",
+    "software developer",
+    "portfolio",
+    "projects",
+    "blog",
+  ],
+  publishedTime,
+  modifiedTime,
+  schema,
 } = Astro.props;
+
+const site = Astro.site ?? new URL("https://snowballsh.github.io");
+
+const normalizeUrl = (value: string) => new URL(value, site).toString();
+const canonicalUrl = normalizeUrl(canonical ?? Astro.url.pathname);
+const imageUrl = normalizeUrl(image);
+const keywordContent = Array.isArray(keywords) ? keywords.join(",") : keywords;
+const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
+const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.webp" />
-		<meta http-equiv="Cache-Control" content="public, max-age=31536000" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<meta
-			name="keywords"
-			content="SnowballSH,Yinuo Huang,software developer,portfolio"
-		/>
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:type" content="website" />
-		<meta property="og:image" content="/favicon.webp" />
-		<link
-			rel="canonical"
-			href={`https://snowballsh.github.io${Astro.url.pathname}`}
-		/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content="Yinuo Huang" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywordContent} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="theme-color" content="#0f172a" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="SnowballSH (Yinuo Huang)" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    {
+      publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )
+    }
+    {
+      modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
+      )
+    }
+    <link rel="canonical" href={canonicalUrl} />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      href={normalizeUrl("/sitemap-index.xml")}
+    />
+    {
+      schemaItems.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
-			rel="stylesheet"
-		/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-		<title>{title}</title>
-	</head>
-	<body class="bg-dark-950 text-white font-sans antialiased">
-		<Navbar />
-		<slot />
-	</body>
+    <title>{title}</title>
+  </head>
+  <body
+    class="bg-slate-950 font-sans text-slate-50 antialiased selection:bg-cyan-300/30"
+  >
+    <Navbar />
+    <slot />
+  </body>
 </html>

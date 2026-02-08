@@ -5,276 +5,288 @@ import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects");
 const featuredProjects = allProjects
-	.filter((project) => project.data.featured)
-	.sort((a, b) => {
-		if (a.data.priority !== b.data.priority) {
-			return a.data.priority - b.data.priority;
-		}
-		return (
-			new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-		);
-	})
-	.slice(0, 4);
+  .filter((project) => project.data.featured)
+  .sort((a, b) => {
+    if (a.data.priority !== b.data.priority) {
+      return a.data.priority - b.data.priority;
+    }
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
+  .slice(0, 4);
+
+const siteUrl = "https://snowballsh.github.io";
+const homeSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${siteUrl}/#person`,
+    name: "Yinuo Huang",
+    alternateName: "SnowballSH",
+    url: siteUrl,
+    image: `${siteUrl}/favicon.webp`,
+    jobTitle: "Software Developer",
+    knowsAbout: [
+      "Software Engineering",
+      "Web Development",
+      "Algorithms",
+      "Mathematics",
+      "Music Production",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    url: siteUrl,
+    name: "SnowballSH Portfolio",
+    inLanguage: "en-US",
+    author: {
+      "@id": `${siteUrl}/#person`,
+    },
+  },
+];
 ---
 
-<Layout>
-	<div class="futuristic-bg"></div>
-	<div class="geometric-overlay"></div>
+<Layout
+  title="SnowballSH (Yinuo Huang)"
+  description="Portfolio and blog of SnowballSH (Yinuo Huang): software projects, technical writing, and creative work."
+  schema={homeSchema}
+>
+  <div class="futuristic-bg"></div>
+  <div class="geometric-overlay"></div>
 
-	<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-		<div class="particle"></div>
-	</div>
+  <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
 
-	<main class="relative z-10">
-		<section
-			class="relative overflow-hidden min-h-screen flex items-center"
-		>
-			<div class="absolute inset-0 overflow-hidden">
-				<div class="glow-orb"></div>
-				<div class="glow-orb"></div>
-				<div class="glow-orb"></div>
-			</div>
+  <main class="relative z-10">
+    <section class="relative flex min-h-screen items-center overflow-hidden">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
+      </div>
 
-			<div class="relative container mx-auto px-6 py-20 text-center">
-				<div class="max-w-4xl mx-auto">
-					<h1
-						class="text-6xl md:text-8xl font-display font-bold mb-6 text-glow"
-					>
-						<span
-							class="inline-block animate-bounce-slow text-primary-500"
-							>SnowballSH</span
-						>
-					</h1>
+      <div class="relative container mx-auto px-6 py-20 text-center">
+        <div class="mx-auto max-w-4xl space-y-6">
+          <h1 class="section-heading text-glow text-6xl font-bold md:text-8xl">
+            <span class="animate-bounce-slow text-primary-500 inline-block"
+              >SnowballSH</span
+            >
+          </h1>
 
-					<h1
-						class="text-3xl md:text-4xl font-display font-bold mb-6 text-glow"
-					>
-						<span
-							class="inline-block animate-bounce-slow text-primary-300"
-							>Yinuo Huang</span
-						>
-					</h1>
+          <p
+            class="section-heading text-primary-200 text-2xl font-semibold md:text-3xl"
+          >
+            <span class="animate-bounce-slow text-primary-300 inline-block"
+              >Yinuo Huang</span
+            >
+          </p>
 
-					<p
-						class="text-xl md:text-2xl text-dark-300 mb-8 max-w-2xl mx-auto"
-					>
-						I write innovative software, produce cool music, and
-						more.
-					</p>
+          <p class="section-lead mx-auto max-w-2xl text-lg md:text-xl">
+            I write innovative software, produce cool music, and more.
+          </p>
 
-					<div
-						class="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-					>
-						<button
-							class="glass-button px-8 py-4 text-lg font-semibold"
-							onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})"
-						>
-							View Projects
-						</button>
-						<a
-							href="/contact"
-							class="glass-button px-8 py-4 text-lg font-semibold inline-block"
-						>
-							Get In Touch
-						</a>
-					</div>
-				</div>
-			</div>
-		</section>
+          <div
+            class="mb-16 flex flex-col justify-center gap-4 pt-2 sm:flex-row"
+          >
+            <a
+              href="#projects"
+              class="glass-button inline-block px-8 py-4 text-lg font-semibold"
+            >
+              View Projects
+            </a>
+            <a
+              href="/contact"
+              class="glass-button inline-block px-8 py-4 text-lg font-semibold"
+            >
+              Get In Touch
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-		<section class="py-20">
-			<div class="container mx-auto px-6">
-				<h2
-					class="text-4xl font-display font-bold text-center mb-12 text-white"
-				>
-					Skills
-				</h2>
+    <section class="py-20">
+      <div class="container mx-auto px-6">
+        <div class="mb-12 text-center">
+          <h2 class="section-heading text-4xl font-bold text-white">Skills</h2>
+        </div>
 
-				<div
-					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-				>
-					<div class="glass-panel float">
-						<div
-							class="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center mb-4"
-						>
-							<svg
-								class="w-6 h-6 text-white"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-								></path>
-							</svg>
-						</div>
-						<h3 class="text-xl font-semibold mb-3 text-white">
-							Algorithms and Data Structures
-						</h3>
-						<p class="text-dark-300 mb-4">
-							USACO Platinum, Codeforces Master, 2000+
-							LeetCode Rating
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Graph Theory</span
-							>
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>DP</span
-							>
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Game Theory</span
-							>
-						</div>
-					</div>
+        <div
+          class="mosaic-grid mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+        >
+          <div class="glass-panel float">
+            <div
+              class="bg-primary-500 mb-4 flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <svg
+                class="h-6 w-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">
+              Algorithms and Data Structures
+            </h3>
+            <p class="text-dark-300 mb-4">
+              USACO Platinum, Codeforces Master, 2000+ LeetCode Rating
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Graph Theory</span
+              >
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >DP</span
+              >
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Game Theory</span
+              >
+            </div>
+          </div>
 
-					<div class="glass-panel float" style="animation-delay: 1s;">
-						<div
-							class="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center mb-4"
-						>
-							<svg
-								class="w-6 h-6 text-white"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-								></path>
-							</svg>
-						</div>
-						<h3 class="text-xl font-semibold mb-3 text-white">
-							Mathematics
-						</h3>
-						<p class="text-dark-300 mb-4">
-							Illinois State Math Champion, 3x AIME Qualifier,
-							Problemsetter for Middle and High School Math
-							Competitions
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Algebra</span
-							>
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Calculus</span
-							>
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Analysis</span
-							>
-						</div>
-					</div>
+          <div class="glass-panel float" style="animation-delay: 1s;">
+            <div
+              class="bg-primary-500 mb-4 flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <svg
+                class="h-6 w-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">Mathematics</h3>
+            <p class="text-dark-300 mb-4">
+              Illinois State Math Champion, 3x AIME Qualifier, Problemsetter for
+              Middle and High School Math Competitions
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Algebra</span
+              >
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Calculus</span
+              >
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Analysis</span
+              >
+            </div>
+          </div>
 
-					<div class="glass-panel float" style="animation-delay: 2s;">
-						<div
-							class="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center mb-4"
-						>
-							<svg
-								class="w-6 h-6 text-white"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-							</svg>
-						</div>
-						<h3 class="text-xl font-semibold mb-3 text-white">
-							Quick Learner
-						</h3>
-						<p class="text-dark-300 mb-4">
-							10+ Programming Languages, Domain-specific
-							Applications, LLMs, AI-powered Tools
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Rust</span
-							>
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Zig</span
-							>
-							<span
-								class="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm"
-								>Claude Code</span
-							>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+          <div class="glass-panel float" style="animation-delay: 2s;">
+            <div
+              class="bg-primary-500 mb-4 flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <svg
+                class="h-6 w-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">Quick Learner</h3>
+            <p class="text-dark-300 mb-4">
+              10+ Programming Languages, Domain-specific Applications, LLMs,
+              AI-powered Tools
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Rust</span
+              >
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Zig</span
+              >
+              <span
+                class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm"
+                >Claude Code</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-		<section id="projects" class="py-20">
-			<div class="container mx-auto px-6">
-				<h2
-					class="text-4xl font-display font-bold text-center mb-12 text-white"
-				>
-					Featured Projects
-				</h2>
+    <section id="projects" class="py-20">
+      <div class="container mx-auto px-6">
+        <div class="mb-12 text-center">
+          <h2 class="section-heading text-4xl font-bold text-white">
+            Featured Projects
+          </h2>
+        </div>
 
-				<div
-					class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto"
-				>
-					{
-						featuredProjects.map((project) => (
-							<ProjectCard project={project} />
-						))
-					}
-				</div>
+        <div
+          class="mosaic-grid mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2"
+        >
+          {featuredProjects.map((project) => <ProjectCard project={project} />)}
+        </div>
 
-				<div class="text-center mt-12">
-					<a
-						href="/projects"
-						class="glass-button px-8 py-4 text-lg font-semibold inline-block"
-					>
-						View All Projects ({allProjects.length})
-					</a>
-				</div>
-			</div>
-		</section>
+        <div class="mt-12 text-center">
+          <a
+            href="/projects"
+            class="glass-button inline-block px-8 py-4 text-lg font-semibold"
+          >
+            View All Projects ({allProjects.length})
+          </a>
+        </div>
+      </div>
+    </section>
 
-		<section id="contact" class="py-20">
-			<div class="container mx-auto px-6 text-center">
-				<div class="max-w-2xl mx-auto">
-					<h2 class="text-4xl font-display font-bold mb-6 text-white">
-						Problems are Better Solved Together
-					</h2>
-					<p class="text-xl text-dark-300 mb-8">
-						Noticing any problems that can be solved with
-						technologies? Have any awesome ideas? Let's innovate
-						together!
-					</p>
-					<a
-						href="/contact"
-						class="glass-button px-8 py-4 text-lg font-semibold inline-block"
-					>
-						Contact Me
-					</a>
-				</div>
-			</div>
-		</section>
-	</main>
+    <section id="contact" class="py-20">
+      <div class="container mx-auto px-6 text-center">
+        <div class="glass-panel mx-auto max-w-2xl">
+          <h2 class="section-heading mb-4 text-4xl font-bold text-white">
+            Problems are Better Solved Together
+          </h2>
+          <p class="section-lead mb-8 text-lg md:text-xl">
+            Noticing any problems that can be solved with technologies? Have any
+            awesome ideas? Let's innovate together!
+          </p>
+          <a
+            href="/contact"
+            class="glass-button inline-block px-8 py-4 text-lg font-semibold"
+          >
+            Contact Me
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
 </Layout>

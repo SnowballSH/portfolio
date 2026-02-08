@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-**Package Manager**: Use `pnpm` (not npm/yarn)
+**Package Manager**: Use `bun`
 
-- `pnpm dev` - Start development server at localhost:4321
-- `pnpm build` - Build production site to `./dist/`
-- `pnpm preview` - Preview production build locally
-- `pnpm astro add <integration>` - Add Astro integrations
-- `pnpm astro check` - Check for TypeScript/Astro errors
+- `bun run dev` - Start development server at localhost:4321
+- `bun run build` - Build production site to `./dist/`
+- `bun run preview` - Preview production build locally
+- `bunx astro add <integration>` - Add Astro integrations
+- `bun run check` - Check for TypeScript/Astro errors
 
 ## Architecture
 
-**Framework**: Astro 5.9.3 static site generator with TypeScript
+**Framework**: Astro 5.17.x static site generator with TypeScript
 **Module Type**: ES modules only (`"type": "module"`)
 **Config**: Strict TypeScript configuration extending Astro's recommended settings
 
@@ -33,7 +33,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Styling
 
 - Component-scoped CSS using `<style>` blocks in `.astro` files
-- No CSS framework currently configured
+- Tailwind CSS v4 is configured via `@tailwindcss/vite`
 - Styles are automatically scoped to components
 
 ## Key Patterns
@@ -44,12 +44,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-- **Package manager**: pnpm
-- **Development**: `pnpm dev` starts server (localhost:4321)
-- **Build**: `pnpm build` outputs static site to `./dist/`
-- **Preview**: `pnpm preview` serves the production build locally
-- **Integrations**: `pnpm astro add <integration-name>`
-- **Type checks**: `pnpm astro check` for TypeScript/Astro errors
+- **Package manager**: bun
+- **Development**: `bun run dev` starts server (localhost:4321)
+- **Build**: `bun run build` outputs static site to `./dist/`
+- **Preview**: `bun run preview` serves the production build locally
+- **Integrations**: `bunx astro add <integration-name>`
+- **Type checks**: `bun run check` for TypeScript/Astro errors
 
 ## Project Cleanup and Initialization
 
@@ -68,7 +68,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Theme and Design System
 
 - **Color Palette**:
-
   - Accent: light blue (e.g., around `#00AEEF`) for logo animation and highlights.
   - Background: dark neutral (e.g., near `#0A0A0A`) or light neutral, ensuring high contrast.
   - Glass panels: semi-transparent white/gray (\~20% opacity) with strong backdrop blur and subtle border (\~30% opacity).
@@ -82,19 +81,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## File Structure and Routing
 
 - **Layouts**:
-
   - Base layout for common head metadata, navigation, footer, and content slot.
   - Optional homepage-specific layout for full-viewport hero wrapper.
 
 - **Pages**:
-
   - `index.astro` for homepage.
   - `projects/index.astro` for listing.
   - `projects/[slug].astro` for individual project pages via dynamic routing.
   - Optional pages like about or contact.
 
 - **Components**:
-
   - Navbar and footer components.
   - Hero component with bouncing site name animation.
   - Project card component implementing glass panel preview.
@@ -104,19 +100,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Animation wrapper for reveal-on-scroll or page transitions.
 
 - **Content**:
-
   - Use Astro Content Collections: store each project as a markdown file with frontmatter fields (title, description, date, technologies array, optional image path, optional live/repo links) and detailed body.
   - Define a schema for the collection to enforce types and generate typed data.
 
 - **Assets**:
-
   - `src/assets/` for build-time images, SVGs.
   - `public/` for static files (favicon, robots.txt).
 
 ## Content Modeling
 
 - **Project schema**:
-
   - title (string), description (string), date (ISO date string), technologies (array of strings), optional image path, optional live URL, optional repository URL.
 
 - **Markdown entries**: Each project file includes defined frontmatter and a rich markdown body for narrative, images, code snippets.

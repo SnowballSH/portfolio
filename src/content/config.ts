@@ -24,7 +24,7 @@ const projects = defineCollection({
           type: z
             .enum(["github", "live", "demo", "docs", "other"])
             .default("other"),
-        })
+        }),
       )
       .optional(),
     category: z
@@ -34,6 +34,18 @@ const projects = defineCollection({
   }),
 });
 
+const blogs = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    date: z.string(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   projects,
+  blogs,
 };
