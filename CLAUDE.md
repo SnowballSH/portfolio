@@ -43,6 +43,7 @@ Use Bun for all package and script operations.
 ### Projects collection
 
 Project content is Markdown with frontmatter fields validated in `src/content/config.ts`:
+
 - `title`
 - `shortDescription`
 - `date`
@@ -58,6 +59,7 @@ Project content is Markdown with frontmatter fields validated in `src/content/co
 ### Blogs collection
 
 Blog content is Typst (`.typ`) with frontmatter metadata exposed via Typst metadata and validated in `src/content/config.ts`:
+
 - `title`
 - `description`
 - `date`

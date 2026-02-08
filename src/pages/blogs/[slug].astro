@@ -7,7 +7,7 @@ import { Typst } from "astro-typst/src/components";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const blogs = (await getCollection("blogs")).filter(
-    (entry) => !entry.data.draft,
+    (entry) => !entry.data.draft && !entry.data.hidden,
   );
   return blogs.map((blog) => ({
     params: { slug: blog.slug },
