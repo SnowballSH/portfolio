@@ -1,6 +1,8 @@
 ## SnowballSH (Yinuo Huang) Portfolio v2
 
-![favicon](https://github.com/user-attachments/assets/36962955-c4ab-42fa-9b44-f5e8ede9233f)
+<img src="./public/favicon.webp" alt="SnowballSH logo" width="96" height="96" />
+
+A modern personal portfolio built with Astro, Tailwind CSS, and Bun.
 
 ### Development
 
@@ -11,22 +13,3 @@
 - `bun run format:check`
 - `bun run build`
 - `bun run preview`
-
-### Typst Blogs
-
-- Blog list page: `/blogs`
-- Blog posts live in: `src/content/blogs/*.typ`
-- Each `.typ` post must include frontmatter metadata:
-
-```typ
-#metadata(
-  (
-    title: "Post title",
-    description: "One-line summary",
-    date: "2026-02-08",
-    tags: ("typst", "astro"),
-  ),
-)<frontmatter>
-```
-
-- Example post: `src/content/blogs/welcome.typ`
