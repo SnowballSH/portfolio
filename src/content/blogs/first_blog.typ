@@ -8,8 +8,13 @@
 )<frontmatter>
 
 #set page(height: auto, margin: 0.7em)
-#show link: set text(fill: rgb("#3eafff"))
+#set par(first-line-indent: (amount: 1em, all: true))
+#show link: set text(fill: rgb("#3eff54"))
 #show link: underline
+
+#set quote(block: true)
+#show quote: set align(center)
+#show heading: set block(below: 1em)
 
 = Introduction
 
