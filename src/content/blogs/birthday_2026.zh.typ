@@ -8,7 +8,10 @@
   ),
 )<frontmatter>
 
-#set text(font: ("Libertinus Serif", "Kaiti SC"), fallback: false)
+#set text(
+  font: ("Libertinus Serif", "Kaiti SC", "Noto Serif CJK SC", "Noto Serif CJK TC"),
+  fallback: true,
+)
 #set page(height: auto, margin: 0.7em)
 #set par(first-line-indent: (amount: 1em, all: true))
 #show link: set text(fill: rgb("#3eff54"))
@@ -138,4 +141,4 @@
 
 但世界变化如此之快，我们必须适应这种速度。我希望能乘前沿技术的浪潮，为一个尚不存在的更美好的未来而努力。
 
-#quote[*让我们一起去做。严谨地。真实地。美丽地。*]
+#quote[*让我们一起努力吧。*]
