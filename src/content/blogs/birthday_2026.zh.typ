@@ -4,7 +4,7 @@
     description: "进入人生第二个十年的最后一年的随想",
     date: "2026-02-11",
     tags: ("personal", "reflection", "math"),
-    // hidden: true,
+    hidden: true,
   ),
 )<frontmatter>
 

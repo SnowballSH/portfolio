@@ -4,7 +4,7 @@
     description: "Reflections as I enter the last year of the second decade of my life.",
     date: "2026-02-11",
     tags: ("personal", "reflection", "math"),
-    hidden: true,
+    // hidden: true,
   ),
 )<frontmatter>
 
