@@ -9,7 +9,7 @@
 )<frontmatter>
 
 #set text(
-  font: ("Kaiti SC", "Libertinus Serif"),
+  font: ("KaiTi", "Libertinus Serif"),
   fallback: true,
 )
 #set page(height: auto, margin: 0.7em)
