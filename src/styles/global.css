@@ -55,6 +55,17 @@
   z-index: 1;
 }
 
+/* Keep project cards aligned even when mosaic offsets are enabled elsewhere. */
+.project-grid {
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+}
+
+.project-grid > * {
+  margin-top: 0 !important;
+  align-self: stretch;
+}
+
 @media (min-width: 768px) {
   .mosaic-grid > *:nth-child(3n + 2) {
     margin-top: 0.65rem;
@@ -62,6 +73,11 @@
 
   .mosaic-grid > *:nth-child(4n) {
     margin-top: -0.35rem;
+  }
+
+  .project-grid > *:nth-child(3n + 2),
+  .project-grid > *:nth-child(4n) {
+    margin-top: 0;
   }
 }
 
