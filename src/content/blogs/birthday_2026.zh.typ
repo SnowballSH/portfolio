@@ -8,6 +8,7 @@
   ),
 )<frontmatter>
 
+#set text(font: ("Libertinus Serif", "Kaiti SC"), fallback: false)
 #set page(height: auto, margin: 0.7em)
 #set par(first-line-indent: (amount: 1em, all: true))
 #show link: set text(fill: rgb("#3eff54"))

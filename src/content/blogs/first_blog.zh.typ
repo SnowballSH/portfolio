@@ -8,6 +8,7 @@
   ),
 )<frontmatter>
 
+#set text(font: ("Libertinus Serif", "Kaiti SC"), fallback: false)
 #set page(height: auto, margin: 0.7em)
 #set par(first-line-indent: (amount: 1em, all: true))
 #show link: set text(fill: rgb("#3eff54"))
@@ -17,7 +18,7 @@
 #show quote: set align(center)
 #show heading: set block(below: 1em)
 
-= Introduction
+= 引言
 
 #link("https://typst.app")[Typst] 从我第一次听说它开始就让我非常惊艳。它是由 Rust 编写的、对 LaTeX 的一种极快且简洁的替代方案。
 
