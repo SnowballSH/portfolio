@@ -4,12 +4,12 @@
     description: "进入人生第二个十年的最后一年的随想",
     date: "2026-02-11",
     tags: ("personal", "reflection", "math"),
-    hidden: true,
+    // hidden: true,
   ),
 )<frontmatter>
 
 #set text(
-  font: ("KaiTi", "Libertinus Serif"),
+  font: ("Kaiti SC", "KaiTi", "Libertinus Serif"),
   fallback: true,
 )
 #set page(height: auto, margin: 0.7em)

@@ -4,12 +4,12 @@
     description: "用 Typst 编写和发布博客",
     date: "2026-02-08",
     tags: ("typst", "astro", "blog"),
-    hidden: true,
+    // hidden: true,
   ),
 )<frontmatter>
 
 #set text(
-  font: ("KaiTi", "Libertinus Serif"),
+  font: ("Kaiti SC", "KaiTi", "Libertinus Serif"),
   fallback: true,
 )
 #set page(height: auto, margin: 0.7em)
