@@ -1,6 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import { existsSync } from "node:fs";
+
+const isTranslationEntry = (entry: { id: string }) => {
+  if (!entry.id.endsWith("zh")) {
+    return false;
+  }
+
+  const baseId = entry.id.slice(0, -2);
+  return existsSync(`src/content/blogs/${baseId}.typ`);
+};
 
 const parseDateString = (date: string) => {
   const [year, month, day] = date.split("-").map(Number);
@@ -8,7 +18,10 @@ const parseDateString = (date: string) => {
 };
 
 const blogs = (await getCollection("blogs"))
-  .filter((entry) => !entry.data.draft && !entry.data.hidden)
+  .filter(
+    (entry) =>
+      !entry.data.draft && !entry.data.hidden && !isTranslationEntry(entry),
+  )
   .sort(
     (a, b) =>
       parseDateString(b.data.date).getTime() -

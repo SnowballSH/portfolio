@@ -85,7 +85,7 @@ And yes, I agree with Professor Iyer. If you take facts for granted and hand-wav
 
 = Final Year in the Second Decade of My Life
 
-I always tell people that, to me, the "modern" era is anchored at the year 2017. Maybe it was because I didn't care about things around the world until 2017, or maybe it was because I watched #link("https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol")[AlphaGo beat Lee Sedol] on Live TV around that time, or maybe it was because #link("https://arxiv.org/abs/1706.03762")[Attention Is All You Need], or maybe it was because of the invention of #link("https://www.apply.computer-shogi.org/wcsc28/appeal/the_end_of_genesis_T.N.K.evolution_turbo_type_D/nnue.pdf")[高速に差分計算可能なニューラルネットワーク], 2017 felt like the turning point of the world to me.
+I always tell people that, to me, the "modern" era is anchored at the year 2017. Maybe it was because I didn't care about things around the world until 2017, or maybe it was because I watched #link("https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol")[AlphaGo beat Lee Sedol] on Live TV around that time, or maybe it was because #link("https://arxiv.org/abs/1706.03762")[Attention Is All You Need], or maybe it was because of the invention of #link("https://www.apply.computer-shogi.org/wcsc28/appeal/the_end_of_genesis_T.N.K.evolution_turbo_type_D/nnue.pdf")[高速に差分計算可能なニューラルネットワーク (Efficiently Updated Neural Networks, NNUE)], 2017 felt like the turning point of the world to me.
 
 Now, if I can subtract correctly (after spending 99% of my time on abstract proofs recently), we are already $2026-2017=9$ years from that anchor. What I imagined as "modern" is soon to become a decade-old past that we would soon view as ancient, given how quickly the world is moving today.
 

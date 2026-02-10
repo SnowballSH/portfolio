@@ -4,11 +4,15 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import { Typst } from "astro-typst/src/components";
+import { existsSync } from "node:fs";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const blogs = (await getCollection("blogs")).filter(
-    (entry) => !entry.data.draft && !entry.data.hidden,
-  );
+  const blogs = (await getCollection("blogs")).filter((entry) => {
+    const isLikelyTranslation =
+      entry.id.endsWith("zh") &&
+      existsSync(`src/content/blogs/${entry.id.slice(0, -2)}.typ`);
+    return !entry.data.draft && !entry.data.hidden && !isLikelyTranslation;
+  });
   return blogs.map((blog) => ({
     params: { slug: blog.slug },
     props: { blog },
@@ -35,6 +39,48 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 const blogSourcePath = `src/content/blogs/${blog.slug}.typ`;
 const desktopTypstCode = `#set text(font: "Libertinus Serif", weight: 500, size: 12pt, fill: rgb("#eaf6ff"))\n#include "${blogSourcePath}"`;
 const mobileTypstCode = `#set text(font: "Libertinus Serif", weight: 500, size: 20pt, fill: rgb("#eaf6ff"))\n#include "${blogSourcePath}"`;
+const chineseSourceCandidates = (() => {
+  const fallback = `src/content/blogs/${blog.slug}.zh.typ`;
+  const custom = blog.data.chineseSource?.trim();
+  if (!custom) {
+    return [fallback];
+  }
+
+  const candidates = custom.startsWith("src/")
+    ? [custom]
+    : [`src/content/blogs/${custom}`];
+
+  if (!custom.endsWith(".typ")) {
+    candidates.push(`src/content/blogs/${custom}.typ`);
+    candidates.push(`src/content/blogs/${custom}.zh.typ`);
+  }
+
+  candidates.push(fallback);
+  return candidates;
+})();
+const normalizedChineseSource = chineseSourceCandidates.find((path) =>
+  existsSync(path),
+);
+const hasChineseTranslation = Boolean(normalizedChineseSource);
+const normalizePath = (path: string) => path.replaceAll("\\", "/");
+const allBlogs = await getCollection("blogs");
+const chineseEntry = hasChineseTranslation
+  ? allBlogs.find(
+      (entry) =>
+        entry.filePath &&
+        normalizedChineseSource &&
+        normalizePath(entry.filePath) ===
+          normalizePath(normalizedChineseSource),
+    )
+  : undefined;
+const chineseTitle = chineseEntry?.data.title;
+const chineseDescription = chineseEntry?.data.description;
+const desktopTypstCodeZh = hasChineseTranslation
+  ? `#set text(font: "Libertinus Serif", weight: 500, size: 12pt, fill: rgb("#eaf6ff"))\n#include "${normalizedChineseSource!}"`
+  : "";
+const mobileTypstCodeZh = hasChineseTranslation
+  ? `#set text(font: "Libertinus Serif", weight: 500, size: 20pt, fill: rgb("#eaf6ff"))\n#include "${normalizedChineseSource!}"`
+  : "";
 const site = Astro.site ?? new URL("https://snowballsh.github.io");
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const blogsHref = `${import.meta.env.BASE_URL}blogs/`;
@@ -99,17 +145,73 @@ const blogSchema = {
 
     <section class="pb-24">
       <div class="container mx-auto px-3 sm:px-6">
-        <article class="mx-auto max-w-5xl">
+        <article
+          class="mx-auto max-w-5xl"
+          data-blog-post
+          data-blog-language={hasChineseTranslation ? "en" : undefined}
+        >
+          {
+            hasChineseTranslation && (
+              <div
+                class="blog-language-toggle mb-6 inline-flex rounded-full p-1"
+                data-blog-language-switch
+              >
+                <button
+                  class="blog-language-option active"
+                  type="button"
+                  data-lang-option="en"
+                  aria-pressed="true"
+                >
+                  English
+                </button>
+                <button
+                  class="blog-language-option"
+                  type="button"
+                  data-lang-option="zh"
+                  aria-pressed="false"
+                >
+                  中文
+                </button>
+              </div>
+            )
+          }
+
           <header class="mb-8">
             <p class="text-sm text-sky-100/75">{formattedDate}</p>
             <h1
               class="section-heading mt-3 text-4xl font-bold text-white md:text-5xl"
             >
-              {blog.data.title}
+              {
+                hasChineseTranslation ? (
+                  <>
+                    <span class="blog-lang-en" data-lang-content="en">
+                      {blog.data.title}
+                    </span>
+                    <span class="blog-lang-zh" data-lang-content="zh" hidden>
+                      {chineseTitle ?? blog.data.title}
+                    </span>
+                  </>
+                ) : (
+                  <span>{blog.data.title}</span>
+                )
+              }
             </h1>
             {
               blog.data.description && (
-                <p class="section-lead mt-4 text-lg">{blog.data.description}</p>
+                <p class="section-lead mt-4 text-lg">
+                  {hasChineseTranslation ? (
+                    <>
+                      <span class="blog-lang-en" data-lang-content="en">
+                        {blog.data.description}
+                      </span>
+                      <span class="blog-lang-zh" data-lang-content="zh" hidden>
+                        {chineseDescription ?? blog.data.description}
+                      </span>
+                    </>
+                  ) : (
+                    <span>{blog.data.description}</span>
+                  )}
+                </p>
               )
             }
             {
@@ -126,30 +228,126 @@ const blogSchema = {
           </header>
 
           <div class="glass-panel typst-blog p-1 sm:p-6">
-            <div class="typst-desktop">
-              <Typst
-                code={desktopTypstCode}
-                target="svg"
-                width="100%"
-                style={true}
-              />
+            <div class="blog-panel-en" data-lang-content="en">
+              <div class="typst-desktop">
+                <Typst
+                  code={desktopTypstCode}
+                  target="svg"
+                  width="100%"
+                  style={true}
+                />
+              </div>
+              <div class="typst-mobile">
+                <Typst
+                  code={mobileTypstCode}
+                  target="svg"
+                  width="100%"
+                  style={true}
+                />
+              </div>
             </div>
-            <div class="typst-mobile">
-              <Typst
-                code={mobileTypstCode}
-                target="svg"
-                width="100%"
-                style={true}
-              />
-            </div>
+            {
+              hasChineseTranslation && (
+                <div class="blog-panel-zh" data-lang-content="zh" hidden>
+                  <div class="typst-desktop">
+                    <Typst
+                      code={desktopTypstCodeZh}
+                      target="svg"
+                      width="100%"
+                      style={true}
+                    />
+                  </div>
+                  <div class="typst-mobile">
+                    <Typst
+                      code={mobileTypstCodeZh}
+                      target="svg"
+                      width="100%"
+                      style={true}
+                    />
+                  </div>
+                </div>
+              )
+            }
           </div>
         </article>
       </div>
     </section>
   </main>
+
+  <script is:inline>
+    (() => {
+      const article = document.querySelector("[data-blog-post]");
+      const switcher = document.querySelector("[data-blog-language-switch]");
+      if (
+        !(article instanceof HTMLElement) ||
+        !(switcher instanceof HTMLElement)
+      ) {
+        return;
+      }
+
+      const buttons = switcher.querySelectorAll("[data-lang-option]");
+      const langBlocks = article.querySelectorAll("[data-lang-content]");
+      const setLanguage = (lang) => {
+        const isZh = lang === "zh";
+        article.dataset.blogLanguage = isZh ? "zh" : "en";
+
+        langBlocks.forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const nodeLang = node.dataset.langContent === "zh" ? "zh" : "en";
+          const show = nodeLang === lang;
+          node.hidden = !show;
+          node.setAttribute("aria-hidden", show ? "false" : "true");
+        });
+
+        buttons.forEach((button) => {
+          if (!(button instanceof HTMLElement)) return;
+          const active = button.dataset.langOption === lang;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      };
+
+      setLanguage("en");
+      buttons.forEach((button) => {
+        if (!(button instanceof HTMLElement)) return;
+        button.addEventListener("click", () => {
+          setLanguage(button.dataset.langOption === "zh" ? "zh" : "en");
+        });
+      });
+    })();
+  </script>
 </Layout>
 
 <style>
+  .blog-language-toggle {
+    background: rgba(166, 220, 251, 0.18);
+    border: 1px solid rgba(178, 228, 255, 0.35);
+    backdrop-filter: blur(10px);
+  }
+
+  .blog-language-option {
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(226, 242, 255, 0.9);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.42rem 0.9rem;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .blog-language-option:hover {
+    color: #ffffff;
+  }
+
+  .blog-language-option.active {
+    background: rgba(105, 198, 255, 0.28);
+    color: #ffffff;
+  }
+
   .blog-back-link {
     position: relative;
     z-index: 35;

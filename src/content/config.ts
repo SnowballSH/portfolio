@@ -43,6 +43,7 @@ const blogs = defineCollection({
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     hidden: z.boolean().default(false),
+    chineseSource: z.string().optional(),
   }),
 });
 
