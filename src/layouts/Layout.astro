@@ -89,6 +89,17 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
       ))
     }
+    <script is:inline>
+      (() => {
+        try {
+          if (localStorage.getItem("snowballsh-animations") === "enabled") {
+            document.documentElement.classList.add("animations-enabled");
+          }
+        } catch {
+          document.documentElement.classList.remove("animations-enabled");
+        }
+      })();
+    </script>
 
     <title>{title}</title>
   </head>
@@ -96,6 +107,39 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     class="bg-slate-950 font-sans text-slate-50 antialiased selection:bg-cyan-300/30"
   >
     <Navbar />
+    <label class="motion-toggle" title="Enable background animations">
+      <input
+        id="background-animation-toggle"
+        type="checkbox"
+        aria-label="Enable background animations"
+      />
+      <span>Motion</span>
+    </label>
     <slot />
+    <script is:inline>
+      (() => {
+        const checkbox = document.getElementById("background-animation-toggle");
+
+        if (!(checkbox instanceof HTMLInputElement)) {
+          return;
+        }
+
+        const root = document.documentElement;
+        checkbox.checked = root.classList.contains("animations-enabled");
+
+        checkbox.addEventListener("change", () => {
+          root.classList.toggle("animations-enabled", checkbox.checked);
+
+          try {
+            localStorage.setItem(
+              "snowballsh-animations",
+              checkbox.checked ? "enabled" : "disabled",
+            );
+          } catch {
+            // The class still updates for the current page if storage is unavailable.
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

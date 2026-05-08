@@ -21,6 +21,38 @@
   --text-secondary: #d9ebf7;
 }
 
+.motion-toggle {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(196, 232, 255, 0.32);
+  border-radius: 999px;
+  background: rgba(9, 25, 48, 0.72);
+  padding: 0.35rem 0.55rem;
+  color: rgba(240, 249, 255, 0.86);
+  font-size: 0.75rem;
+  line-height: 1;
+  box-shadow: 0 8px 24px rgba(4, 18, 35, 0.28);
+  backdrop-filter: blur(12px) saturate(150%);
+  cursor: pointer;
+}
+
+.motion-toggle input {
+  width: 0.85rem;
+  height: 0.85rem;
+  margin: 0;
+  accent-color: #38bdf8;
+}
+
+.motion-toggle:focus-within {
+  outline: 2px solid rgba(125, 211, 252, 0.9);
+  outline-offset: 3px;
+}
+
 .section-heading {
   font-family: "Poppins", system-ui, sans-serif;
   letter-spacing: -0.02em;
@@ -232,7 +264,11 @@ html {
 
 /* Floating animation helper */
 .float {
-  animation: float 6s ease-in-out infinite;
+  animation: none;
+}
+
+html.animations-enabled .float {
+  animation: float 12s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -410,6 +446,7 @@ article.prose-content p,
 
 .geometric-overlay::before {
   content: "";
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -428,11 +465,11 @@ article.prose-content p,
       rgba(112, 188, 245, 0.06) 60deg,
       transparent 120deg
     );
-  animation: geometric-rotate 30s linear infinite;
 }
 
 .geometric-overlay::after {
   content: "";
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -466,7 +503,16 @@ article.prose-content p,
     300px 300px,
     58px 58px,
     58px 58px;
-  animation: geometric-flow 25s ease-in-out infinite;
+}
+
+html.animations-enabled .geometric-overlay::before {
+  display: block;
+  animation: geometric-rotate 90s linear infinite;
+}
+
+html.animations-enabled .geometric-overlay::after {
+  display: block;
+  animation: geometric-flow 70s ease-in-out infinite;
 }
 
 @keyframes geometric-rotate {
@@ -492,13 +538,19 @@ article.prose-content p,
 
 /* Animated particles */
 .particle {
+  display: none;
   position: absolute;
   top: 100%;
   width: 4px;
   height: 4px;
   background: rgba(148, 226, 255, 0.7);
   border-radius: 50%;
-  animation: particle-float 15s infinite linear;
+  animation: none;
+}
+
+html.animations-enabled .particle:nth-child(-n + 5) {
+  display: block;
+  animation: particle-float 30s infinite linear;
 }
 
 .particle:nth-child(1) {
@@ -506,20 +558,20 @@ article.prose-content p,
   animation-delay: 0s;
 }
 .particle:nth-child(2) {
-  left: 20%;
-  animation-delay: 2s;
-}
-.particle:nth-child(3) {
   left: 30%;
-  animation-delay: 4s;
-}
-.particle:nth-child(4) {
-  left: 40%;
   animation-delay: 6s;
 }
-.particle:nth-child(5) {
+.particle:nth-child(3) {
   left: 50%;
-  animation-delay: 8s;
+  animation-delay: 12s;
+}
+.particle:nth-child(4) {
+  left: 70%;
+  animation-delay: 18s;
+}
+.particle:nth-child(5) {
+  left: 90%;
+  animation-delay: 24s;
 }
 .particle:nth-child(6) {
   left: 60%;
@@ -557,10 +609,16 @@ article.prose-content p,
 
 /* Glow orbs */
 .glow-orb {
+  display: none;
   position: absolute;
   border-radius: 50%;
   filter: blur(40px);
-  animation: glow-pulse 4s ease-in-out infinite alternate;
+  animation: none;
+}
+
+html.animations-enabled .glow-orb {
+  display: block;
+  animation: glow-pulse 12s ease-in-out infinite alternate;
 }
 
 .glow-orb:nth-child(1) {
@@ -599,6 +657,10 @@ article.prose-content p,
     transform: scale(1.2);
     opacity: 0.6;
   }
+}
+
+.animate-bounce-slow {
+  animation: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

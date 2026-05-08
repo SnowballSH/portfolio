@@ -124,6 +124,7 @@
 
   .toolbar-shell::after {
     content: "";
+    display: none;
     position: absolute;
     inset: -20%;
     transform: translateX(-65%) rotate(10deg);
@@ -134,7 +135,11 @@
       transparent
     );
     pointer-events: none;
-    animation: liquid-glint 10s ease-in-out infinite;
+  }
+
+  html.animations-enabled .toolbar-shell::after {
+    display: block;
+    animation: liquid-glint 18s ease-in-out infinite;
   }
 
   @keyframes liquid-glint {
