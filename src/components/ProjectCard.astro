@@ -100,7 +100,7 @@ const statusStyles = {
   <h3
     class="group-hover:text-primary-400 mb-3 text-2xl font-semibold text-white transition-colors"
   >
-    <a href={`/projects/${project.slug}`} class="hover:underline">
+    <a href={`/projects/${project.id}`} class="hover:underline">
       {title}
     </a>
   </h3>
@@ -165,7 +165,7 @@ const statusStyles = {
     }
 
     <a
-      href={`/projects/${project.slug}`}
+      href={`/projects/${project.id}`}
       class="project-button ml-auto font-medium text-gray-300 transition-colors hover:text-white"
     >
       Details →

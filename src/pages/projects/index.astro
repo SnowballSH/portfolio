@@ -11,7 +11,7 @@ const sortedProjects = allProjects.sort((a, b) => {
   return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
 
-const firstProjectSlug = sortedProjects[0]?.slug;
+const firstProjectSlug = sortedProjects[0]?.id;
 
 const projectsByCategory = sortedProjects.reduce(
   (acc, project) => {
@@ -52,7 +52,7 @@ const projectListSchema = {
     itemListElement: sortedProjects.map((project, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: new URL(`/projects/${project.slug}`, site).toString(),
+      url: new URL(`/projects/${project.id}`, site).toString(),
       name: project.data.title,
     })),
   },
@@ -129,7 +129,7 @@ const projectListSchema = {
                 <ProjectCard
                   project={project}
                   showFeaturedIcon={true}
-                  loading={project.slug === firstProjectSlug ? "eager" : "lazy"}
+                  loading={project.id === firstProjectSlug ? "eager" : "lazy"}
                 />
               ))}
             </div>

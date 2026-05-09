@@ -9,12 +9,12 @@ import { existsSync } from "node:fs";
 export const getStaticPaths: GetStaticPaths = async () => {
   const blogs = (await getCollection("blogs")).filter((entry) => {
     const isLikelyTranslation =
-      entry.id.endsWith("zh") &&
-      existsSync(`src/content/blogs/${entry.id.slice(0, -2)}.typ`);
+      entry.id.endsWith(".zh") &&
+      existsSync(`src/content/blogs/${entry.id.slice(0, -3)}.typ`);
     return !entry.data.draft && !entry.data.hidden && !isLikelyTranslation;
   });
   return blogs.map((blog) => ({
-    params: { slug: blog.slug },
+    params: { slug: blog.id },
     props: { blog },
   }));
 };
@@ -36,11 +36,11 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
 }).format(parseDateString(blog.data.date));
 
-const blogSourcePath = `src/content/blogs/${blog.slug}.typ`;
+const blogSourcePath = `src/content/blogs/${blog.id}.typ`;
 const desktopTypstCode = `#set text(font: "Libertinus Serif", weight: 500, size: 12pt, fill: rgb("#eaf6ff"))\n#include "${blogSourcePath}"`;
 const mobileTypstCode = `#set text(font: "Libertinus Serif", weight: 500, size: 20pt, fill: rgb("#eaf6ff"))\n#include "${blogSourcePath}"`;
 const chineseSourceCandidates = (() => {
-  const fallback = `src/content/blogs/${blog.slug}.zh.typ`;
+  const fallback = `src/content/blogs/${blog.id}.zh.typ`;
   const custom = blog.data.chineseSource?.trim();
   if (!custom) {
     return [fallback];
