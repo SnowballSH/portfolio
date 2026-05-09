@@ -1,12 +1,13 @@
 #metadata(
   (
-    title: "TODO",
-    description: "TODO",
+    title: "Trying to be a Fun Person: My First Year at CMU",
+    description: "Things I'm proud of and things I need to work on.",
     date: "2026-05-09",
     tags: ("personal", "reflection"),
-    hidden: true,
+    hidden: false,
   ),
 )<frontmatter>
+
 
 #set page(height: auto, margin: 0.7em)
 #set par(first-line-indent: (amount: 1em, all: true))
@@ -18,12 +19,19 @@
 #show heading: set block(below: 1em)
 
 #quote(
-  attribution: [Jean Baudrillard, _Simulacra and Simulation_],
+  attribution: [Confucius, _The Analects_],
 )[
-  This world wants to be childish in order to make us believe that the adults are elsewhere, in the "real" world, and to conceal the fact that true childishness is everywhere --- that it is that of the adults themselves who come here to act the child in order to foster illusions as to their real childishness.
+  #block[
+    #set text(
+      font: ("Kaiti SC", "KaiTi", "Libertinus Serif"),
+      fallback: true,
+    )
+    子曰：学而时习之，不亦说乎。有朋自远方来，不亦乐乎。人不知而不愠，不亦君子乎。
+  ]
+  The Master said, "To learn and at due times to repeat what one has learnt, is that not after all a pleasure? That friends should come to one from afar, is this not after all delightful? To remain unsoured even though one's merits are unrecognized by others, is that not after all what is expected of a gentleman?"
 ]
 
-= Introduction (Not #link("https://math.stackexchange.com/questions/1196303/fake-induction-proofs")[Induction])
+= Introduction
 
 As my first year of college comes to an end, I thought it would be nice to #link("https://arxiv.org/abs/2312.10997")[recall], #link("https://arxiv.org/abs/2601.07190")[compact], and #link("https://pokemondb.net/move/reflect")[reflect] on everything I've learned throughout this eventful year.
 
@@ -40,7 +48,11 @@ In college, one major observation I had is that companies are competing to throw
 
 I can list many, many examples from this year. ICPC, CMIMC, ICMT, various hackathons, 15-122 Staff merch, Jane Street FTTP, Discover Citadel, ... Even 8 hours before my flight home, I was still at a "recruiting" (read: free food) event with Citadel Securities about their Quantitative Trading internship program. These sponsorship programs are all very different in many ways, but what holds for all of them is that they allow me to connect closely with recruiting teams at all kinds of companies and learn about each company's unique recruiting processes and work cultures. This helps me form an opinion on what I desire in my future career.
 
-I call the act of attending these events "sidequesting." I was never required to participate in those activities, and yet I've decided to leave campus for over half of my weekends and give up my free time. While I probably could have done something fun at home during the weekends, I don't regret sidequesting with my friends at all. I meet amazing new and old friends from all around the world (Macau IMO, Türkiye IOI, ...). I get to travel to NYC three times and walk 100 blocks at midnight in dress shoes. I visit various college campuses. All for free. I don't think these opportunities will be here after I graduate. I'm really, really lucky to get them, so I'll take them while I can.
+I call the act of attending these events "sidequesting." I was never required to participate in those activities, and yet I've decided to leave campus for over half of my weekends and give up my free time. While I probably could have done something fun at home during the weekends, I don't regret sidequesting with my friends at all. I meet amazing new and old friends from all around the world. I get to travel to NYC three times and walk 100 blocks at midnight in dress shoes. I visit various college campuses. All for free. I don't think these opportunities will be here after I graduate. I'm really, really lucky to get them, so I'll take them while I can.
+
+#align(
+  center,
+)[#image("./assets/nyc_times_square.jpg", width: 50%) (Me and my friends at Times Square right before the 100-block walk north in NYC)]
 
 Of course, none of this would be at all possible without support from my friends around the country. I am very, very grateful to Amie (MIT) and William (Columbia) for hosting me, and to Molly, Frank (Columbia), Racheal, and Renz (UIUC) for taking time out of their days to show me around their beautiful campuses. I know that there are a thousand times more reasons for going to NYC than for coming to Pittsburgh, but if anyone happens to be #link("https://maps.app.goo.gl/pRwcTwWFVnrQMixu7")[visiting Pittsburgh], I'll be more than happy to meet and help.
 
