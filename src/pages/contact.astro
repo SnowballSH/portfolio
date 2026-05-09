@@ -29,9 +29,9 @@ import Layout from "../layouts/Layout.astro";
             </h1>
             <p class="section-lead mx-auto max-w-2xl text-lg md:text-xl">
               I am currently a student at the School of Computer Science at
-              Carnegie Mellon University studying Computer Science and AI with a
-              minor in Math. I am excited to discuss new ideas. Here are ways
-              you can reach out:
+              Carnegie Mellon University studying Computer Science with a minor
+              in Math. I am excited to discuss new ideas. Here are ways you can
+              reach out:
             </p>
           </div>
 
@@ -92,6 +92,20 @@ import Layout from "../layouts/Layout.astro";
               </div>
             </div>
           </div>
+
+          <p
+            class="academic-profile-note section-lead mx-auto mt-8 max-w-2xl text-center text-base"
+          >
+            For academic-related information about me, see my
+            <a
+              href="https://www.andrew.cmu.edu/user/yinuohua/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-primary-300 hover:text-primary-200 font-medium underline underline-offset-4 transition-colors"
+            >
+              CMU academic profile
+            </a>.
+          </p>
         </div>
       </div>
     </section>
@@ -143,6 +157,10 @@ import Layout from "../layouts/Layout.astro";
 
   .contact-card:nth-of-type(2) {
     animation-delay: 0.1s;
+  }
+
+  .academic-profile-note {
+    text-wrap: balance;
   }
 
   .glass-panel:hover {

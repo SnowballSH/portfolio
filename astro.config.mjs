@@ -16,6 +16,13 @@ export default defineConfig({
   site: "https://snowballsh.github.io",
   base: "/",
   output: "static",
+  experimental: {
+    rustCompiler: true,
+    queuedRendering: {
+      enabled: true,
+      contentCache: true,
+    },
+  },
   integrations: [
     typst({
       options: {

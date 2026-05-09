@@ -64,7 +64,7 @@ const statusStyles = {
 
   {
     image && (
-      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br">
+      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center overflow-hidden rounded-xl bg-linear-to-br">
         <img
           src={image}
           alt={imageAlt || `Screenshot of ${title}`}
@@ -81,7 +81,7 @@ const statusStyles = {
 
   {
     !image && (
-      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center rounded-xl bg-gradient-to-br">
+      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center rounded-xl bg-linear-to-br">
         <div class="text-primary-400 text-6xl opacity-50">
           {technologies.includes("React")
             ? "⚛️"
@@ -105,7 +105,7 @@ const statusStyles = {
     </a>
   </h3>
 
-  <p class="text-dark-300 mb-4 flex-grow">
+  <p class="text-dark-300 mb-4 grow">
     {shortDescription}
   </p>
 
