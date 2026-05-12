@@ -237,11 +237,12 @@ To summarize, we transform the apples into pairs $(u, v)$ where $u = T + X$ and 
 
 Since the LIS/LDS problem can be solved in $O(N log N)$, and the preprocessing is $O(N log N)$ bottlenecked by sorting, the full solution to this problem runs in $O(N log N)$, which is fast enough.
 
-My code:
+My code (here I sorted by $u$ and ran LDS on $v$, but the same idea works):
 
 #align(center)[
   ```kotlin
   val n = nextInt()
+  // Substitution and sort in the first coordinate
   val a = Array(n) {
       val t = nextInt()
       val x = nextInt()
@@ -252,6 +253,7 @@ My code:
       else
             a.first.compareTo(b.first)
   }
+  // Compute LDS in the second coordinate
   val dp = Array(n + 1) { Int.MIN_VALUE }
   dp[0] = Int.MAX_VALUE
   var ans = 0
