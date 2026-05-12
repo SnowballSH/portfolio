@@ -26,7 +26,9 @@
 
 = Introduction
 
-The #link("https://atcoder.jp/contests/abc457")[Polaris.AI Programming Contest 2026 (AtCoder Beginner Contest 457)] concluded this past Saturday. After taking a virtual contest, I find the problems very cute and interesting. For problems A, B, C, D, and E, I was comfortable with the ideas and solved the problems fairly quickly. Problems F and G were harder but contains some nice ideas. Here I will share some of my thought processes.
+The #link("https://atcoder.jp/contests/abc457")[Polaris.AI Programming Contest 2026 (AtCoder Beginner Contest 457)] concluded this past Saturday. After taking a virtual contest, I find the problems very cute and interesting. For problems A, B, C, D, and E, I was comfortable with the ideas and solved the problems fairly quickly. Problems F and G were harder but contain some nice ideas. Here I will share some of my thought processes.
+
+By the way, as part of my journey of learning new programming languages, I write all my code in #link("https://kotlinlang.org/")[Kotlin]. I am also working on a #link("https://github.com/SnowballSH/kotprog")[snippet collection] for competitive programming in Kotlin as I go.
 
 = A. Array
 
@@ -46,7 +48,7 @@ The #link("https://atcoder.jp/contests/abc457")[Polaris.AI Programming Contest 2
 
 *Constraints.* $sum_(i=1)^N |A_i| <= 2 times 10^5$, $1 <= A_(i,j) <= 10^9$, $1 <= C_i <= 10^9$.
 
-*Analysis.* Simulating can take over $10^(14)$ steps, which is not feasible. However, we only need to find a single element, so we can use modular arithmetics to skip over almost all of the copies. Let us first find out which array contains the answer; then, we can figure out where in that array the answer lies using the remainder. For some $m$, define $ R_m = (K - 1) - sum_(i=1)^m (|A_i|C_i) $ as the number of elements remaining after skipping over $A_1, ..., A_m$. There must exist a unique $m$ such that $ R_m < |A_(m+1)|C_(m+1), $ so the answer will be an element of $A_(m+1)$. To find which one it is, we can take $i = R_m mod thick |A_(m+1)|$, and $A_(m+1, i)$ is our answer.
+*Analysis.* Simulating can take over $10^(14)$ steps, which is not feasible. However, we only need to find a single element, so we can use modular arithmetic to skip over almost all of the copies. Let us first find out which array contains the answer; then, we can figure out where in that array the answer lies using the remainder. For some $m$, define $ R_m = (K - 1) - sum_(i=1)^m (|A_i|C_i) $ as the number of elements remaining after skipping over $A_1, ..., A_m$. There must exist a unique $m$ such that $ R_m < |A_(m+1)|C_(m+1), $ so the answer will be an element of $A_(m+1)$. To find which one it is, we can take $i = R_m mod thick |A_(m+1)|$, and $A_(m+1, i)$ is our answer.
 
 = D. Raise Minimum
 
@@ -86,7 +88,7 @@ My code:
 
 = E. Crossing Table Cloth
 
-*Problem.* You are given $M$ segments on the cells $1,2,...,N$. For each of the $Q$ queries, given integers $S <= T$, determine whether or not there exist *exactly two* segments such that there union is exactly $[S, T]$.
+*Problem.* You are given $M$ segments on the cells $1,2,...,N$. For each of the $Q$ queries, given integers $S <= T$, determine whether or not there exist *exactly two* segments such that their union is exactly $[S, T]$.
 
 *Constraints.* $1 <= N <= 2 times 10^5$, $2 <= M <= 2 times 10^5$, $1 <= Q <= 2 times 10^5$.
 
@@ -98,7 +100,7 @@ I recalled that this subproblem can be solved using a Fenwick Tree: sort the que
 
 This problem overall feels very, very natural, as the steps come out one at a time very logically, and the problem reduces to solving a few well-known subproblems one by one using standard techniques, while still having a fun and quick observation.
 
-My code:
+My code (note that my Fenwick Tree operates on half-open intervals $[L, R)$):
 
 #align(center)[
   ```kotlin
@@ -179,7 +181,7 @@ If the second-largest element is at position $j$, then the largest element (whic
 
 This is correct but runs in $O(N^2)$, which is not good. The observation is that most of the updates are "global" (i.e. similar for all the elements). We notice that the transitions are just range multiplication updates and point addition updates, which reminds us of a Lazy Segment Tree. Hence the problem can be solved in $O(N log N)$ time, which is fast enough.
 
-My code:
+My code (note that my Segment Tree operates on half-open intervals $[L, R)$):
 
 #align(center)[
   ```kotlin
