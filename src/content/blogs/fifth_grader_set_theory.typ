@@ -19,7 +19,7 @@
 
 = Introduction
 
-Apparently, my new neighbor from Shanghai is a genius fifth grader who is enrolled in a high school curriculum right now and is on track to join Tsinghua by the age of 15. It should not be too surprising to say that he is preparing for the China Mathematical Olympiad (CMO). Today, he showed me one of his homework problems from his olympiad training class, and I was stumped.
+Apparently, my new neighbor in Shanghai is a genius fifth grader who is enrolled in a high school curriculum right now. It should not be too surprising to say that he is preparing for the China Mathematical Olympiad (CMO). Today, he showed me one of his homework problems from his olympiad training class, and I was stumped.
 
 The topic was "Set Theory." I thought that, surely as a college student, a fifth grader's set theory problem cannot be difficult?
 
