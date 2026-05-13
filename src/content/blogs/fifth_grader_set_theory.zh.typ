@@ -4,7 +4,7 @@
     description: "为我五年级邻居困难的数学作业提供一份严谨的解答。",
     date: "2026-05-12",
     tags: ("math", "algebra"),
-    // hidden: true,
+    hidden: true,
   ),
 )<frontmatter>
 
