@@ -57,7 +57,7 @@ _Proof._ We break the proof down into two claims.
 
 _Proof of claim 1._
 
-$(=>)$ #text(red)[First note that if $a = 0$], the claim trivially holds.
+$(=>)$ #text(red)[First note that if $a = 0$], the claim trivially holds because $0 >= -1/4$.
 
 #text(yellow)[For the case where $a != 0$], if $A != emptyset$, then $f(x)-x=a x^2-x-1$ has a root. Therefore, $Delta = (-1)^2 - 4(a)(-1) >= 0$, so $a >= -1/4$.
 
@@ -72,10 +72,6 @@ $ f(f(x))-x & = a (f(x))^2 - 1 - x \
           & = a (f(x))^2 + f(x) - a x^2 - x \
           & = a (f(x)-x)(f(x)+x) + (f(x) - x) \
           & = (a(f(x)+x) + 1)(f(x)-x) $ holds for all $x in RR$.
-
-If $x in B$, then $f(f(x))-x=0$, so either $a(f(x)+x) + 1 = 0$ or $f(x) - x = 0$.
-
-Expanding, either $a^2 x^2 + a x + (1-a) = 0$ or $a x^2 - x - 1 = 0$.
 
 For convenience, denote $g(x) = a^2 x^2 + a x + (1-a)$. Then $f(f(x))-x=g(x)(f(x)-x)$.
 
@@ -101,7 +97,7 @@ If $a = 3/4$, then $g(x)$ has exactly one root $-1/(2a) = -2/3$, and in this cas
 
 Hence if $a <= 3/4$ and #text(yellow)[$a != 0$], then $B subset.eq A$. Furthermore, in part (a), we deduced that $A subset.eq B$. Therefore, we have $a <= 3/4 and a != 0 ==> A = B$.
 
-Therefore, both directions are proven, and in the case where $a != 0$, we have $a <= 3/4$ if and only if $A = B$.
+Therefore, #text(yellow)[both directions] are proven, and in the case where $a != 0$, we have $a <= 3/4$ if and only if $A = B$.
 
 Combining this with #text(red)[the $a=0$ case], we have proven claim 2. $qed$
 
