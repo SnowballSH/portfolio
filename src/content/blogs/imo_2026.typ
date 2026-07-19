@@ -1,7 +1,7 @@
 #metadata(
   (
     title: "IMO 2026",
-    description: "My solutions to some problems from the 67th International Mathematical Olympiad",
+    description: "My attempts at some problems from the 67th International Mathematical Olympiad.",
     date: "2026-07-18",
     tags: ("math",),
     // hidden: true,
