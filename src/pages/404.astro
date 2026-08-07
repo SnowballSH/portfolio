@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Page Not Found - SnowballSH (Yinuo Huang)"
+  description="This page does not exist."
+  noindex={true}
+>
+  <div class="futuristic-bg"></div>
+  <div class="geometric-overlay"></div>
+
+  <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <main class="relative z-10 pt-20">
+    <section class="flex min-h-screen items-center py-20">
+      <div class="container mx-auto px-6">
+        <div class="mx-auto max-w-2xl space-y-8 text-center">
+          <p class="text-glow text-8xl font-bold text-cyan-300/80 md:text-9xl">
+            404
+          </p>
+          <h1 class="section-heading text-3xl font-bold md:text-4xl">
+            This page melted away
+          </h1>
+          <p class="section-lead mx-auto max-w-xl text-lg">
+            The page you are looking for does not exist or has moved. If you
+            followed a link here, it may be pointing at a snowball that has
+            long since rolled on.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <a href="/" class="nav-link rounded-full px-6 py-3">Home</a>
+            <a href="/projects" class="nav-link rounded-full px-6 py-3"
+              >Projects</a
+            >
+            <a href="/blogs" class="nav-link rounded-full px-6 py-3">Blogs</a>
+            <a href="/contact" class="nav-link rounded-full px-6 py-3"
+              >Contact</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
