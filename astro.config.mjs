@@ -13,7 +13,7 @@ const typstCustomFontDirs = [
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://snowballsh.github.io",
+  site: "https://snowballsh.com",
   base: "/",
   output: "static",
   integrations: [

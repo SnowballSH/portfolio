@@ -7,8 +7,8 @@ featured: true
 status: "completed"
 image: "/favicon.webp"
 imageAlt: "A Cute Snowball in Aurora"
-githubUrl: "https://github.com/SnowballSH/SnowballSH.github.io"
-liveUrl: "https://snowballsh.github.io/"
+githubUrl: "https://github.com/SnowballSH/portfolio"
+liveUrl: "https://snowballsh.com/"
 category: "web"
 priority: 3
 ---

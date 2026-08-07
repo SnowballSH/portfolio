@@ -81,7 +81,7 @@ const desktopTypstCodeZh = hasChineseTranslation
 const mobileTypstCodeZh = hasChineseTranslation
   ? `#set text(font: "Libertinus Serif", weight: 500, size: 20pt, fill: rgb("#eaf6ff"))\n#include "${normalizedChineseSource!}"`
   : "";
-const site = Astro.site ?? new URL("https://snowballsh.github.io");
+const site = Astro.site ?? new URL("https://snowballsh.com");
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const blogsHref = `${import.meta.env.BASE_URL}blogs/`;
 const publishedIso = `${blog.data.date}T00:00:00Z`;

@@ -35,7 +35,7 @@ const {
   schema,
 } = Astro.props;
 
-const site = Astro.site ?? new URL("https://snowballsh.github.io");
+const site = Astro.site ?? new URL("https://snowballsh.com");
 
 const normalizeUrl = (value: string) => new URL(value, site).toString();
 const canonicalUrl = normalizeUrl(canonical ?? Astro.url.pathname);
