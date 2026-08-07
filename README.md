@@ -4,6 +4,8 @@
 
 A modern personal portfolio built with Astro, Tailwind CSS, and Bun.
 
+Live at [snowballsh.com](https://snowballsh.com).
+
 ### Development
 
 - `bun install`
