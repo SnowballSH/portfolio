@@ -21,7 +21,7 @@
     "@myriaddreamin/typst-ts-renderer": "^0.7.0",
     "@myriaddreamin/typst.ts": "^0.7.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "7.1.1",
+    "astro": "7.1.6",
     "astro-typst": "^0.12.3",
     "cheerio": "^1.2.0",
     "tailwindcss": "^4.3.3"
