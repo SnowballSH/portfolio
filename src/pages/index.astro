@@ -15,16 +15,6 @@ const featuredProjects = allProjects
   })
   .slice(0, 4);
 
-const wordmarkText = "SnowballSH";
-const accentStart = wordmarkText.length - 2;
-const maxIndex = wordmarkText.length - 1;
-const wordmark = [...wordmarkText].map((char, index) => ({
-  char,
-  index,
-  weight: Math.round(300 + (600 * index) / maxIndex),
-  accent: index >= accentStart,
-}));
-
 const skills = [
   {
     title: "Algorithms and Data Structures",
@@ -85,23 +75,20 @@ const homeSchema = [
   schema={homeSchema}
 >
   <main class="mx-auto w-full max-w-6xl px-4 sm:px-6">
-    <section class="py-24 text-center sm:py-32">
-      <div class="mx-auto max-w-3xl space-y-6">
+    <section class="relative py-24 text-center sm:py-32">
+      <div
+        class="frost-field pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden="true"
+      >
+        <div class="frost-orb frost-orb-accent"></div>
+        <div class="frost-orb frost-orb-aurora"></div>
+        <div class="frost-orb frost-orb-high"></div>
+      </div>
+      <div class="relative mx-auto max-w-3xl space-y-6">
         <h1
-          aria-label="SnowballSH"
-          class="wordmark font-display text-ink text-[clamp(3rem,10vw,7.5rem)] leading-[0.95] tracking-[-0.045em] whitespace-nowrap"
+          class="wordmark font-display text-[clamp(3rem,10vw,7.5rem)] leading-[0.95] font-bold tracking-[-0.045em] whitespace-nowrap"
         >
-          {
-            wordmark.map((letter) => (
-              <span
-                aria-hidden="true"
-                class:list={["wordmark-letter", letter.accent && "text-accent"]}
-                style={`--w:${letter.weight};--i:${letter.index}`}
-              >
-                {letter.char}
-              </span>
-            ))
-          }
+          SnowballSH
         </h1>
         <p
           class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase"
@@ -181,24 +168,101 @@ const homeSchema = [
 </Layout>
 
 <style>
-  .wordmark-letter {
-    display: inline-block;
-    font-weight: var(--w);
-    animation: gather 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-    animation-delay: calc(var(--i) * 45ms);
+  .wordmark {
+    color: transparent;
+    background-image:
+      linear-gradient(
+        105deg,
+        transparent 42%,
+        var(--fui-glass-sheen) 50%,
+        transparent 58%
+      ),
+      linear-gradient(
+        168deg,
+        var(--fui-ink) 8%,
+        color-mix(in oklab, var(--fui-accent) 62%, var(--fui-ink)) 55%,
+        color-mix(in oklab, var(--fui-aurora) 78%, var(--fui-ink)) 96%
+      );
+    background-size:
+      260% 100%,
+      100% 100%;
+    background-position:
+      -160% 0,
+      0 0;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: sheen 1.6s ease-in-out 0.4s forwards;
   }
 
-  @keyframes gather {
-    from {
-      font-weight: 200;
-      opacity: 0;
-      transform: translateY(0.08em);
+  @keyframes sheen {
+    to {
+      background-position:
+        260% 0,
+        0 0;
+    }
+  }
+
+  .frost-field {
+    mask-image: radial-gradient(
+      100% 90% at 50% 50%,
+      black 30%,
+      transparent 82%
+    );
+  }
+
+  .frost-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(56px);
+  }
+
+  .frost-orb-accent {
+    top: 4%;
+    left: 8%;
+    width: clamp(12rem, 36vw, 22rem);
+    height: clamp(12rem, 36vw, 22rem);
+    background: color-mix(in oklab, var(--fui-accent) 18%, transparent);
+  }
+
+  .frost-orb-aurora {
+    right: 6%;
+    bottom: 4%;
+    width: clamp(10rem, 32vw, 19rem);
+    height: clamp(10rem, 32vw, 19rem);
+    background: color-mix(in oklab, var(--fui-aurora) 16%, transparent);
+  }
+
+  .frost-orb-high {
+    top: 8%;
+    right: 22%;
+    width: clamp(6rem, 18vw, 11rem);
+    height: clamp(6rem, 18vw, 11rem);
+    background: color-mix(in oklab, var(--fui-glass-sheen) 55%, transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .frost-orb {
+      animation: drift 26s ease-in-out infinite alternate;
+    }
+
+    .frost-orb-aurora {
+      animation-delay: -9s;
+    }
+
+    .frost-orb-high {
+      animation-delay: -18s;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .wordmark-letter {
+    .wordmark {
       animation: none;
+    }
+  }
+
+  @keyframes drift {
+    to {
+      transform: translate3d(2.5rem, -1.5rem, 0) scale(1.08);
     }
   }
 </style>
