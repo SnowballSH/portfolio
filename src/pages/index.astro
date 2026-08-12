@@ -15,6 +15,16 @@ const featuredProjects = allProjects
   })
   .slice(0, 4);
 
+const wordmarkText = "SnowballSH";
+const accentStart = wordmarkText.length - 2;
+const maxIndex = wordmarkText.length - 1;
+const wordmark = [...wordmarkText].map((char, index) => ({
+  char,
+  index,
+  weight: Math.round(300 + (600 * index) / maxIndex),
+  accent: index >= accentStart,
+}));
+
 const skills = [
   {
     title: "Algorithms and Data Structures",
@@ -78,11 +88,24 @@ const homeSchema = [
     <section class="py-24 text-center sm:py-32">
       <div class="mx-auto max-w-3xl space-y-6">
         <h1
-          class="font-display text-ink text-5xl font-bold tracking-tight md:text-7xl"
+          aria-label="SnowballSH"
+          class="wordmark font-display text-ink text-[clamp(3rem,10vw,7.5rem)] leading-[0.95] tracking-[-0.045em] whitespace-nowrap"
         >
-          SnowballSH
+          {
+            wordmark.map((letter) => (
+              <span
+                aria-hidden="true"
+                class:list={["wordmark-letter", letter.accent && "text-accent"]}
+                style={`--w:${letter.weight};--i:${letter.index}`}
+              >
+                {letter.char}
+              </span>
+            ))
+          }
         </h1>
-        <p class="font-display text-accent text-2xl font-semibold md:text-3xl">
+        <p
+          class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase"
+        >
           Yinuo Huang
         </p>
         <p class="text-ink-secondary mx-auto max-w-2xl text-lg md:text-xl">
@@ -156,3 +179,26 @@ const homeSchema = [
     </section>
   </main>
 </Layout>
+
+<style>
+  .wordmark-letter {
+    display: inline-block;
+    font-weight: var(--w);
+    animation: gather 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(var(--i) * 45ms);
+  }
+
+  @keyframes gather {
+    from {
+      font-weight: 200;
+      opacity: 0;
+      transform: translateY(0.08em);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark-letter {
+      animation: none;
+    }
+  }
+</style>
