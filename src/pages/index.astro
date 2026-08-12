@@ -75,13 +75,15 @@ const homeSchema = [
   schema={homeSchema}
 >
   <main class="mx-auto w-full max-w-6xl px-4 sm:px-6">
-    <section class="relative py-24 text-center sm:py-32">
+    <section
+      class="relative flex min-h-[calc(100svh-4rem)] items-center justify-center py-16 text-center"
+    >
       <div
         class="frost-field pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
       >
         <div class="frost-orb frost-orb-accent"></div>
-        <div class="frost-orb frost-orb-aurora"></div>
+        <div class="frost-orb frost-orb-deep"></div>
         <div class="frost-orb frost-orb-high"></div>
       </div>
       <div class="relative mx-auto max-w-3xl space-y-6">
@@ -170,36 +172,14 @@ const homeSchema = [
 <style>
   .wordmark {
     color: transparent;
-    background-image:
-      linear-gradient(
-        105deg,
-        transparent 42%,
-        var(--fui-glass-sheen) 50%,
-        transparent 58%
-      ),
-      linear-gradient(
-        168deg,
-        var(--fui-ink) 8%,
-        color-mix(in oklab, var(--fui-accent) 62%, var(--fui-ink)) 55%,
-        color-mix(in oklab, var(--fui-aurora) 78%, var(--fui-ink)) 96%
-      );
-    background-size:
-      260% 100%,
-      100% 100%;
-    background-position:
-      -160% 0,
-      0 0;
+    background-image: linear-gradient(
+      172deg,
+      var(--fui-ink) 6%,
+      color-mix(in oklab, var(--fui-accent) 55%, var(--fui-ink)) 55%,
+      color-mix(in oklab, var(--fui-accent) 92%, var(--fui-ink)) 98%
+    );
     background-clip: text;
     -webkit-background-clip: text;
-    animation: sheen 1.6s ease-in-out 0.4s forwards;
-  }
-
-  @keyframes sheen {
-    to {
-      background-position:
-        260% 0,
-        0 0;
-    }
   }
 
   .frost-field {
@@ -224,12 +204,12 @@ const homeSchema = [
     background: color-mix(in oklab, var(--fui-accent) 18%, transparent);
   }
 
-  .frost-orb-aurora {
+  .frost-orb-deep {
     right: 6%;
     bottom: 4%;
     width: clamp(10rem, 32vw, 19rem);
     height: clamp(10rem, 32vw, 19rem);
-    background: color-mix(in oklab, var(--fui-aurora) 16%, transparent);
+    background: color-mix(in oklab, var(--fui-accent-strong) 15%, transparent);
   }
 
   .frost-orb-high {
@@ -245,18 +225,12 @@ const homeSchema = [
       animation: drift 26s ease-in-out infinite alternate;
     }
 
-    .frost-orb-aurora {
+    .frost-orb-deep {
       animation-delay: -9s;
     }
 
     .frost-orb-high {
       animation-delay: -18s;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .wordmark {
-      animation: none;
     }
   }
 
