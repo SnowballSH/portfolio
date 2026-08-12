@@ -1,16 +1,19 @@
 ---
 title: "Avalanche"
-shortDescription: "A Fast, Strong, and Intelligent Chess Engine. With an ELO of 3400, Avalanche is one of the strongest chess engines and the first ever written in Zig."
-date: "2024-01-13"
+shortDescription: "A Fast, Strong, and Intelligent Chess Engine. Rated 3350 elo on CCRL with the new 4.0.0 measuring roughly 200 elo stronger, Avalanche is one of the strongest chess engines and the first ever written in Zig."
+date: "2026-08-11"
 technologies: ["Zig", "Neural Networks", "Minimax", "Chess"]
 featured: true
 status: "completed"
 image: "/avalanche.webp"
-imageAlt: "A black elephant and a white horse"
+imageAlt: "Avalanche logo: a black elephant and a white horse clashing amid shattering ice"
 githubUrl: "https://github.com/SnowballSH/Avalanche"
 links:
+  - label: "Download v3.0.0"
+    url: "https://github.com/SnowballSH/Avalanche/releases/tag/v3.0.0"
+    type: "other"
   - label: "CCRL"
-    url: "https://computerchess.org.uk/ccrl/4040/cgi/engine_details.cgi?match_length=30&each_game=0&print=Details&each_game=0&eng=Avalanche%202.1.0%2064-bit#Avalanche_2_1_0_64-bit"
+    url: "https://computerchess.org.uk/ccrl/4040/cgi/engine_details.cgi?match_length=30&each_game=0&print=Details&each_game=0&eng=Avalanche%203.0.0%2064-bit"
     type: "other"
   - label: "Lichess"
     url: "https://lichess.org/@/IceBurnEngine"
@@ -21,14 +24,17 @@ priority: 1
 
 # Avalanche
 
-Avalanche is the first chess engine (computer chess player and analyzer) written in the Zig programming language, proving Zig's ability to succeed in real-world, competitive applications. It is an open-source, standalone, and cross-platform software. As an Universal Chess Interface (UCI) program, Avalanche interacts with the user with text, but it is compatible with most popular chess software. With a rating of 3400 (600 higher than Magnus Carlsen, the strongest human grandmaster), Avalanche was among the top 32 chess engines to qualify for TCEC Swiss 6 and competed for the title of world champion in the most prestigious computer chess competition in the world.
+Avalanche is the first chess engine (computer chess player and analyzer) written in the Zig programming language, proving Zig's ability to succeed in real-world, competitive applications. It is an open-source, standalone, and cross-platform software. As an Universal Chess Interface (UCI) program, Avalanche interacts with the user with text, but it is compatible with most popular chess software. Version 3.0.0 holds an official CCRL rating of 3350, far beyond the strongest human grandmasters, and Avalanche was among the top 32 chess engines to qualify for TCEC Swiss 6 and competed for the title of world champion in the most prestigious computer chess competition in the world.
+
+The newly released version 4.0.0 brings a major breakthrough in neural network training and optimization, measuring roughly 200 elo stronger in testing — including an 88 elo win over Stockfish 11 — and performing on par with engines around 3600 on the CCRL Blitz list. It is currently being rated by CCRL, so version 3.0.0 remains the recommended download for now.
 
 Using UCI, the user or GUI can inform Avalanche the current board and clock situation, and it will search for the best move and decide when to stop thinking on its own.
 
 ## Features
 
-- Avalanche uses the new **NNUE** (Efficiently Updatable Neural Network) technology for its evaluation.
-- The training data is purely generated from self-play games. Currently, the latest dev network is trained on 600 million self-play positions.
+- Avalanche uses the **NNUE** (Efficiently Updatable Neural Network) technology for its evaluation, with a redesigned network architecture in 4.0.0 and the Jihan (极寒) network family introduced in 3.0.0.
+- The training data is purely generated from self-play games, accumulated over hundreds of millions of self-play positions.
+- Syzygy endgame tablebase support for perfect play in late endgames.
 
 ## Technical Details
 
@@ -44,6 +50,6 @@ For testing, I let the new version play games against the old version from rando
 
 ## Results
 
-I have released 15 versions of Avalanche, each time making many improvements. Although most of the improvements consist of modified algorithms, some unfortunately introduced new bugs.
+I have released 18 versions of Avalanche, each time making many improvements. Although most of the improvements consist of modified algorithms, some unfortunately introduced new bugs.
 For example, in version 1.3.0, I introduced a new feature called “Countermove Heuristics,” which I concluded to be 66 elo stronger than the previous version after 28 blitz games. However, when testers at CCRL tested it, they saw a decrease in strength. After consulting a statistician, I learned that 28 was way too small of a sample size for a meaningful conclusion. Furthermore, I found a critical bug in my implementation of Countermove Heuristics, where I forgot to reset a section of the memory to zero, causing Countermove Heuristics to essentially add random noises. The chess engine community taught me how to perform the Sequential Probability Ratio Test, which requires thousands of games but gives a statistically significant result. Since then, I have been using this rigorous means of regression testing and carefully zeroing important arrays at the start of the program, never making this mistake again.
 Through this project, I learned the importance of collaboration and humbly consulting experts in specific areas for advice on things I am weak in. Next time, I would design and build a rigorous development and testing workflow before starting to code to minimize the chance of committing code that contains mistakes.
