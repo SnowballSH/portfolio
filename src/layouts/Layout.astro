@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
+import { Footer, Link } from "foundationui/svelte";
 
 export interface Props {
   title?: string;
@@ -57,7 +58,16 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta name="description" content={description} />
     <meta name="keywords" content={keywordContent} />
     <meta name="robots" content={robotsContent} />
-    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#fbfdff"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#0a1220"
+    />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
@@ -95,55 +105,45 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     }
     <script is:inline>
       (() => {
+        let theme = "light";
         try {
-          if (localStorage.getItem("snowballsh-animations") === "enabled") {
-            document.documentElement.classList.add("animations-enabled");
-          }
-        } catch {
-          document.documentElement.classList.remove("animations-enabled");
-        }
+          const stored = localStorage.getItem("fui-theme");
+          theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        } catch {}
+        document.documentElement.dataset.theme = theme;
       })();
     </script>
 
     <title>{title}</title>
   </head>
   <body
-    class="bg-slate-950 font-sans text-slate-50 antialiased selection:bg-cyan-300/30"
+    class="bg-surface text-ink flex min-h-svh flex-col font-sans antialiased"
   >
+    <div
+      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(60rem_40rem_at_85%_-10%,color-mix(in_oklab,var(--fui-accent)_20%,transparent),transparent),radial-gradient(50rem_36rem_at_-10%_110%,color-mix(in_oklab,var(--fui-aurora)_16%,transparent),transparent),radial-gradient(38rem_26rem_at_50%_50%,color-mix(in_oklab,var(--fui-accent)_7%,transparent),transparent)]"
+    >
+    </div>
     <Navbar />
-    <label class="motion-toggle" title="Enable background animations">
-      <input
-        id="background-animation-toggle"
-        type="checkbox"
-        aria-label="Enable background animations"
-      />
-      <span>Motion</span>
-    </label>
-    <slot />
-    <script is:inline>
-      (() => {
-        const checkbox = document.getElementById("background-animation-toggle");
-
-        if (!(checkbox instanceof HTMLInputElement)) {
-          return;
-        }
-
-        const root = document.documentElement;
-        checkbox.checked = root.classList.contains("animations-enabled");
-
-        checkbox.addEventListener("change", () => {
-          root.classList.toggle("animations-enabled", checkbox.checked);
-
-          try {
-            localStorage.setItem(
-              "snowballsh-animations",
-              checkbox.checked ? "enabled" : "disabled",
-            );
-          } catch {
-            // The class still updates for the current page if storage is unavailable.
-          }
-        });
-      })();
-    </script>
+    <div class="flex-1">
+      <slot />
+    </div>
+    <Footer>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <span>© 2026 SnowballSH · Yinuo Huang</span>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
+          <Link subtle href="https://github.com/SnowballSH" external>
+            GitHub
+          </Link>
+          <Link subtle href="https://blogs.snowballsh.com" external>
+            Blogs
+          </Link>
+        </div>
+      </div>
+    </Footer>
   </body>
 </html>

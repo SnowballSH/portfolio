@@ -1,13 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Badge, Link, Panel } from "foundationui/svelte";
 
 interface Props {
   project: CollectionEntry<"projects">;
   showFeaturedIcon?: boolean;
-  /**
-   * Controls the loading behavior of the project image. Use "eager" for the
-   * first above-the-fold image to improve Largest Contentful Paint.
-   */
   loading?: "eager" | "lazy";
 }
 
@@ -33,142 +30,83 @@ const primaryLabel = liveUrl
     ? "View Demo"
     : "View Code";
 
-const statusStyles = {
-  completed: "bg-green-500/20 text-green-300 border-green-500/30",
-  "in-progress": "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-  planned: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-};
+const extraLinks = (links ?? []).filter(
+  (link) => link.url !== primaryLink && link.url !== githubUrl,
+);
 ---
 
-<div class="glass-card group relative flex h-full flex-col p-6">
+<Panel tier="glass" padding="lg" class="flex h-full flex-col gap-4">
   {
-    featured && showFeaturedIcon && (
-      <div
-        class="absolute top-4 right-4 z-10 text-lg text-yellow-400"
-        title="Featured Project"
-      >
-        ⭐
+    (featured && showFeaturedIcon) || status !== "completed" ? (
+      <div class="flex flex-wrap gap-2">
+        {featured && showFeaturedIcon && <Badge tone="accent">Featured</Badge>}
+        {status === "in-progress" && <Badge tone="aurora">In Progress</Badge>}
+        {status === "planned" && <Badge tone="neutral">Planned</Badge>}
       </div>
-    )
+    ) : null
   }
 
-  {
-    status !== "completed" && (
-      <div
-        class={`mb-4 inline-flex items-center self-start rounded-full border px-2 py-1 text-xs font-medium ${statusStyles[status]}`}
-      >
-        {status === "in-progress" ? "In Progress" : "Planned"}
-      </div>
-    )
-  }
-
-  {
-    image && (
-      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center overflow-hidden rounded-xl bg-linear-to-br">
+  <div
+    class="bg-glass-3 flex h-48 items-center justify-center overflow-hidden rounded-md"
+  >
+    {
+      image ? (
         <img
           src={image}
           alt={imageAlt || `Screenshot of ${title}`}
           width="800"
           height="480"
-          class="h-full w-full rounded-xl object-contain transition-transform duration-300 group-hover:scale-105"
+          class="h-full w-full object-contain"
           loading={loading}
           decoding="async"
           fetchpriority={loading === "eager" ? "high" : "auto"}
         />
-      </div>
-    )
-  }
+      ) : (
+        <span class="font-display text-ink-muted text-4xl font-semibold">
+          {title.slice(0, 1)}
+        </span>
+      )
+    }
+  </div>
 
-  {
-    !image && (
-      <div class="from-primary-500/20 to-primary-600/20 mb-6 flex h-48 items-center justify-center rounded-xl bg-linear-to-br">
-        <div class="text-primary-400 text-6xl opacity-50">
-          {technologies.includes("React")
-            ? "⚛️"
-            : technologies.includes("Vue")
-              ? "💚"
-              : technologies.includes("Astro")
-                ? "🚀"
-                : technologies.includes("Node")
-                  ? "🟢"
-                  : "💻"}
-        </div>
-      </div>
-    )
-  }
-
-  <h3
-    class="group-hover:text-primary-400 mb-3 text-2xl font-semibold text-white transition-colors"
-  >
-    <a href={`/projects/${project.id}`} class="hover:underline">
+  <h3 class="font-display text-ink text-xl font-semibold">
+    <Link href={`/projects/${project.id}`} subtle>
       {title}
-    </a>
+    </Link>
   </h3>
 
-  <p class="text-dark-300 mb-4 grow">
+  <p class="text-ink-secondary grow">
     {shortDescription}
   </p>
 
-  <div class="mb-6 flex flex-wrap gap-2">
-    {
-      technologies.map((tech) => (
-        <span class="bg-primary-500/20 text-primary-300 rounded-full px-3 py-1 text-sm">
-          {tech}
-        </span>
-      ))
-    }
+  <div class="flex flex-wrap gap-2">
+    {technologies.map((tech) => <Badge tone="neutral">{tech}</Badge>)}
   </div>
 
-  <div class="mt-auto flex gap-4">
+  <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
     {
       primaryLink && (
-        <a
-          href={primaryLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-button text-primary-400 hover:text-primary-300 font-medium transition-colors"
-        >
+        <Link href={primaryLink} external>
           {primaryLabel}
-        </a>
+        </Link>
       )
     }
-
     {
       githubUrl && primaryLink !== githubUrl && (
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-button text-primary-400 hover:text-primary-300 font-medium transition-colors"
-        >
+        <Link href={githubUrl} external>
           Source Code
-        </a>
+        </Link>
       )
     }
-
     {
-      links &&
-        links.map(
-          (link) =>
-            link.url !== primaryLink &&
-            link.url !== githubUrl && (
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-button text-primary-400 hover:text-primary-300 font-medium transition-colors"
-              >
-                {link.label}
-              </a>
-            ),
-        )
+      extraLinks.map((link) => (
+        <Link href={link.url} external>
+          {link.label}
+        </Link>
+      ))
     }
-
-    <a
-      href={`/projects/${project.id}`}
-      class="project-button ml-auto font-medium text-gray-300 transition-colors hover:text-white"
-    >
+    <Link href={`/projects/${project.id}`} subtle class="ml-auto">
       Details →
-    </a>
+    </Link>
   </div>
-</div>
+</Panel>
