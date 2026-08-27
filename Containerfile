@@ -1,6 +1,6 @@
 FROM docker.io/oven/bun:1.3.13@sha256:bb35eafd10b2e969809384850ff0474ba36a491239d715864bc87787b4cdf0a4 AS bun
 
-FROM docker.io/library/node:24-bookworm@sha256:f6d02cf1353049cf3658e6ce9ec03c6877a6479495f122062d195e2279d01055 AS build
+FROM docker.io/library/node:25-bookworm@sha256:78839ac448c23517f8eab2e8f7943d9b4f73979eb7f8bed2c73dbf72ff869e7b AS build
 COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
 WORKDIR /src
 COPY . .
