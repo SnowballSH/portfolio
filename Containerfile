@@ -8,7 +8,7 @@ RUN bun install --frozen-lockfile
 RUN bun run check
 RUN bun run build
 
-FROM docker.io/library/caddy:2@sha256:98eb57d882ccd5213d1688764db10c1ca2c58a1ca3a6717a3411ad798f7a423a
+FROM docker.io/library/caddy:2@sha256:df7f1c2fb114453b951de51a98efc010db1655a92c2e86be6706714e2417a78d
 ARG SOURCE_COMMIT=unknown
 LABEL org.opencontainers.image.source="https://github.com/SnowballSH/portfolio"
 LABEL org.opencontainers.image.revision="${SOURCE_COMMIT}"
