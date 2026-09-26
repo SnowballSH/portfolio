@@ -9,7 +9,7 @@ image: "/figurify.webp"
 imageAlt: "A green eye in a purple circle; text that spells 'Figurify.'"
 githubUrl: "https://github.com/SnowballSH/Figurify"
 liveUrl: "https://figurify.vercel.app/"
-category: "web"
+category: "earlier"
 priority: 4
 ---
 

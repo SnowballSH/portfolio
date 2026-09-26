@@ -6,7 +6,7 @@ technologies: ["C#", "Minimax", "Shogi"]
 featured: false
 status: "completed"
 githubUrl: "https://github.com/SnowballSH/GoneuraOu"
-category: "other"
+category: "earlier"
 priority: 5
 ---
 

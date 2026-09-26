@@ -7,7 +7,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     shortDescription: z.string(),
-    date: z.string().transform((str) => new Date(str)),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
     technologies: z.array(z.string()),
     featured: z.boolean().default(false),
     status: z
@@ -29,9 +30,7 @@ const projects = defineCollection({
         }),
       )
       .optional(),
-    category: z
-      .enum(["web", "mobile", "desktop", "api", "library", "other"])
-      .default("web"),
+    category: z.enum(["games", "systems", "tools", "hackathons", "earlier"]),
     priority: z.number().default(0),
   }),
 });

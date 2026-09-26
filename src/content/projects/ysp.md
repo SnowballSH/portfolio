@@ -6,7 +6,7 @@ technologies: ["Julia", "Mathematics"]
 featured: false
 status: "completed"
 githubUrl: "https://github.com/SnowballSH/ysp_2022"
-category: "other"
+category: "earlier"
 priority: 6
 ---
 

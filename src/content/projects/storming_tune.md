@@ -8,7 +8,7 @@ status: "completed"
 image: "/storming_tune.webp"
 imageAlt: "A thunderstorm, a horse, and the text 'Storming Tune'"
 githubUrl: "https://github.com/SnowballSH/storming_tune"
-category: "other"
+category: "earlier"
 priority: 4
 ---
 

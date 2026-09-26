@@ -3,42 +3,31 @@ import Layout from "../../layouts/Layout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import { Link, Panel } from "foundationui/svelte";
+import { categories, categoryOrder } from "../../data/categories";
 
 const allProjects = await getCollection("projects");
 const sortedProjects = allProjects.sort((a, b) => {
   if (a.data.priority !== b.data.priority) {
     return a.data.priority - b.data.priority;
   }
-  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  return b.data.date.getTime() - a.data.date.getTime();
 });
 
 const firstProjectSlug = sortedProjects[0]?.id;
 
-const projectsByCategory = sortedProjects.reduce(
-  (acc, project) => {
-    const category = project.data.category;
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(project);
-    return acc;
-  },
-  {} as Record<string, typeof sortedProjects>,
-);
+const groups = categoryOrder
+  .filter((category) => category !== "earlier")
+  .map((category) => ({
+    label: categories[category],
+    projects: sortedProjects.filter(
+      (project) => project.data.category === category,
+    ),
+  }))
+  .filter((group) => group.projects.length > 0);
 
-const categoryOrder = ["other", "web", "mobile", "desktop", "api", "library"];
-const orderedCategories = categoryOrder.filter(
-  (cat) => projectsByCategory[cat],
-);
-
-const categoryLabels = {
-  other: "General Projects",
-  web: "Web Applications",
-  mobile: "Mobile Apps",
-  desktop: "Desktop Applications",
-  api: "APIs & Backend",
-  library: "Libraries & Tools",
-};
+const earlierProjects = allProjects
+  .filter((project) => project.data.category === "earlier")
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const site = Astro.site ?? new URL("https://snowballsh.com");
 const projectListSchema = {
@@ -46,7 +35,7 @@ const projectListSchema = {
   "@type": "CollectionPage",
   name: "Projects - SnowballSH",
   description:
-    "Portfolio projects by SnowballSH (Yinuo Huang), including web, mobile, desktop, API, and library work.",
+    "Projects by SnowballSH (Yinuo Huang): chess engines, games, infrastructure, machine learning, and hackathon builds.",
   url: new URL(Astro.url.pathname, site).toString(),
   mainEntity: {
     "@type": "ItemList",
@@ -62,14 +51,14 @@ const projectListSchema = {
 
 <Layout
   title="Projects - SnowballSH (Yinuo Huang)"
-  description="Discover SnowballSH (Yinuo Huang)'s portfolio of web applications, tools, and creative projects built with modern technologies."
+  description="Projects by SnowballSH (Yinuo Huang): chess engines, games, infrastructure, machine learning, and hackathon builds."
   keywords={[
     "SnowballSH",
     "Yinuo Huang",
     "software projects",
     "portfolio",
-    "web development",
-    "programming",
+    "chess engine",
+    "infrastructure",
   ]}
   schema={projectListSchema}
 >
@@ -80,27 +69,22 @@ const projectListSchema = {
       <h1
         class="font-display text-ink mb-6 text-4xl font-bold tracking-tight md:text-5xl"
       >
-        My Projects
+        Projects
       </h1>
-      <p class="text-ink-secondary mx-auto mb-4 max-w-3xl text-lg md:text-xl">
-        A collection of applications, tools, and experiments built with modern
-        technologies. Each project represents a learning journey and a step
-        forward in my development skills.
-      </p>
-      <p class="text-ink-muted text-sm md:text-base">
-        {sortedProjects.length} projects and counting...
+      <p class="text-ink-secondary mx-auto max-w-3xl text-lg md:text-xl">
+        Chess engines, games, the infrastructure I run, and tools I built along
+        the way.
       </p>
     </section>
 
     {
-      orderedCategories.map((category) => (
+      groups.map((group) => (
         <section class="py-8">
           <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
-            {categoryLabels[category as keyof typeof categoryLabels] ||
-              category}
+            {group.label}
           </h2>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projectsByCategory[category].map((project) => (
+            {group.projects.map((project) => (
               <ProjectCard
                 project={project}
                 showFeaturedIcon={true}
@@ -110,6 +94,36 @@ const projectListSchema = {
           </div>
         </section>
       ))
+    }
+
+    {
+      earlierProjects.length > 0 && (
+        <section class="py-8">
+          <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
+            {categories.earlier}
+          </h2>
+          <Panel tier="glass" padding="lg">
+            <ul class="divide-line divide-y">
+              {earlierProjects.map((project) => (
+                <li class="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-4">
+                  <span class="text-ink-muted w-12 shrink-0 font-mono text-sm">
+                    {project.data.date.getUTCFullYear()}
+                  </span>
+                  <span>
+                    <Link href={`/projects/${project.id}`} class="font-medium">
+                      {project.data.title}
+                    </Link>
+                    <span class="text-ink-secondary">
+                      {" "}
+                      — {project.data.shortDescription}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Panel>
+        </section>
+      )
     }
 
     <section class="py-16">

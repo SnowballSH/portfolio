@@ -3,7 +3,7 @@ title: "The Gorilla Programming Language"
 shortDescription: "A Tiny, Dynamically Typed, Flexible Programming Language."
 date: "2021-02-26" # YYYY-MM-DD format
 technologies: ["Golang", "Compilers"]
-featured: true
+featured: false
 status: "completed"
 image: "/gorilla.webp"
 imageAlt: "A Black Gorilla and the text 'Gorilla'"
@@ -12,7 +12,7 @@ links:
   - label: "Documentation"
     url: "https://snowballsh.github.io/Gorilla/"
     type: "docs"
-category: "other"
+category: "earlier"
 priority: 2
 ---
 

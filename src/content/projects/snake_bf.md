@@ -6,7 +6,7 @@ technologies: ["Rust", "Brainf", "Compilers"]
 featured: false
 status: "completed"
 githubUrl: "https://github.com/SnowballSH/snake_bf"
-category: "other"
+category: "earlier"
 priority: 4
 ---
 

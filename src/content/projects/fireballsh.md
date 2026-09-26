@@ -1,6 +1,6 @@
 ---
 title: "FireballSH"
-shortDescription: "A Discord Bot that Provides Students with 24/7 Math Practice."
+shortDescription: "A Discord bot that gives students 24/7 math practice, with LaTeX and Asymptote rendering and automatic answer judging."
 date: "2025-06-16" # YYYY-MM-DD format
 technologies: ["LaTeX", "Math Parsing", "Python", "Discord"]
 featured: false
@@ -8,7 +8,7 @@ status: "completed"
 image: "/fireballsh.webp"
 imageAlt: "A Fierce Fireball and the text 'FireballSH'"
 githubUrl: "https://github.com/SnowballSH/math-bot"
-category: "other"
+category: "tools"
 priority: 4
 ---
 

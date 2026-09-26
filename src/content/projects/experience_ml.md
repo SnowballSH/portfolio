@@ -1,22 +1,21 @@
 ---
 title: "Experience ML"
-shortDescription: "Hands-on experiences with machine learning, completely client-side."
-date: "2022-12-23" # YYYY-MM-DD format
-technologies: ["Rust", "Typescript", "Neural Networks"]
-featured: true
+shortDescription: "A neural network written from scratch in Rust with no ML libraries, compiled to WebAssembly so you can experiment with machine learning entirely in your browser."
+date: "2022-12-23"
+technologies: ["Rust", "WebAssembly", "TypeScript", "Neural Networks"]
+featured: false
 status: "completed"
 image: "/experienceml.webp"
-imageAlt: "A Demo of ExperienceML"
+imageAlt: "A demo of Experience ML"
 githubUrl: "https://github.com/SnowballSH/experience_ml"
 liveUrl: "https://snowballsh.github.io/experience_ml/"
-category: "web"
-priority: 2
+category: "tools"
+priority: 3
 ---
 
 # Experience ML
 
-Hands-on experiences with machine learning, completely client-side.
+Experience ML is a hands-on machine learning playground that runs entirely on the client, with no server involved.
 
-Web interface is written in TypeScript using the Lit-element framework.
-
-The neural network backend is hand-written in Rust, compiled to WASM for client-side use. Zero external library is used in the algorithm.
+- The neural network is hand-written in Rust with zero external libraries in the algorithm, then compiled to WebAssembly.
+- The web interface is written in TypeScript with Lit.

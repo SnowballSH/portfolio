@@ -9,8 +9,8 @@ image: "/snowblog.webp"
 imageAlt: "A Technological and Mathematical Blue Snowflake"
 githubUrl: "https://github.com/SnowballSH/snowblog"
 liveUrl: "https://blogs.snowballsh.com"
-category: "web"
-priority: 3
+category: "systems"
+priority: 5
 ---
 
 # SnowBlog

@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { Badge, Link, Panel, Prose } from "foundationui/svelte";
+import { categories } from "../../data/categories";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getCollection("projects");
@@ -26,6 +27,7 @@ const {
   title,
   shortDescription,
   date,
+  updated,
   technologies,
   image,
   imageAlt,
@@ -37,12 +39,14 @@ const {
   category,
 } = project.data;
 
-const formattedDate = new Intl.DateTimeFormat("en-US", {
+const monthYear = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
-  day: "numeric",
   timeZone: "UTC",
-}).format(date);
+});
+const formattedDate = monthYear.format(date);
+const formattedUpdated = updated && monthYear.format(updated);
+const categoryLabel = categories[category];
 
 const externalLinks = [
   ...(liveUrl ? [{ url: liveUrl, label: "View Live Site" }] : []),
@@ -54,6 +58,7 @@ const externalLinks = [
 const site = Astro.site ?? new URL("https://snowballsh.com");
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const publishedIso = date.toISOString();
+const modifiedIso = (updated ?? date).toISOString();
 const projectSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
@@ -62,7 +67,7 @@ const projectSchema = {
   url: canonicalUrl,
   codeRepository: githubUrl,
   datePublished: publishedIso,
-  dateModified: publishedIso,
+  dateModified: modifiedIso,
   programmingLanguage: technologies,
   author: {
     "@type": "Person",
@@ -71,7 +76,7 @@ const projectSchema = {
     url: new URL("/", site).toString(),
   },
   image: new URL(image || "/favicon.webp", site).toString(),
-  keywords: [category, ...technologies],
+  keywords: [categoryLabel, ...technologies],
 };
 ---
 
@@ -81,8 +86,14 @@ const projectSchema = {
   type="article"
   image={image || "/favicon.webp"}
   publishedTime={publishedIso}
-  modifiedTime={publishedIso}
-  keywords={["SnowballSH", "Yinuo Huang", "project", category, ...technologies]}
+  modifiedTime={modifiedIso}
+  keywords={[
+    "SnowballSH",
+    "Yinuo Huang",
+    "project",
+    categoryLabel,
+    ...technologies,
+  ]}
   schema={projectSchema}
 >
   <main class="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6">
@@ -93,8 +104,16 @@ const projectSchema = {
         class="text-ink-secondary mb-6 flex flex-wrap items-center gap-x-3 gap-y-2"
       >
         <span>{formattedDate}</span>
+        {
+          formattedUpdated && (
+            <>
+              <span class="text-ink-muted">•</span>
+              <span>Updated {formattedUpdated}</span>
+            </>
+          )
+        }
         <span class="text-ink-muted">•</span>
-        <span class="capitalize">{category}</span>
+        <span>{categoryLabel}</span>
         {
           status !== "completed" && (
             <>
