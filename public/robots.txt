@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Host: https://snowballsh.com
 Sitemap: https://snowballsh.com/sitemap-index.xml

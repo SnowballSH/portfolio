@@ -9,7 +9,8 @@ files = [
     'public/experienceml.webp',
     'public/figurify.webp',
     'public/headpace.webp',
-    'public/snowblog.webp'
+    'public/snowblog.webp',
+    'public/verde.webp'
 ]
 
 for path in files:

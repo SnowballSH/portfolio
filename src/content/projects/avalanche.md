@@ -1,6 +1,6 @@
 ---
 title: "Avalanche"
-shortDescription: "A Fast, Strong, and Intelligent Chess Engine. Rated 3350 elo on CCRL with the new 4.0.0 measuring roughly 200 elo stronger, Avalanche is one of the strongest chess engines and the first ever written in Zig."
+shortDescription: "A Fast, Strong, and Intelligent Chess Engine. Rated 3597 on CCRL Blitz and 3492 on CCRL 40/15, Avalanche 4.0.0 is one of the strongest chess engines and the first ever written in Zig."
 date: "2026-08-11"
 technologies: ["Zig", "Neural Networks", "Minimax", "Chess"]
 featured: true
@@ -9,11 +9,11 @@ image: "/avalanche.webp"
 imageAlt: "Avalanche logo: a black elephant and a white horse clashing amid shattering ice"
 githubUrl: "https://github.com/SnowballSH/Avalanche"
 links:
-  - label: "Download v3.0.0"
-    url: "https://github.com/SnowballSH/Avalanche/releases/tag/v3.0.0"
+  - label: "Download v4.0.0"
+    url: "https://github.com/SnowballSH/Avalanche/releases/tag/v4.0.0"
     type: "other"
   - label: "CCRL"
-    url: "https://computerchess.org.uk/ccrl/4040/cgi/engine_details.cgi?match_length=30&each_game=0&print=Details&each_game=0&eng=Avalanche%203.0.0%2064-bit"
+    url: "https://computerchess.org.uk/ccrl/4040/cgi/engine_details.cgi?match_length=30&each_game=0&print=Details&each_game=0&eng=Avalanche%204.0.0%2064-bit"
     type: "other"
   - label: "Lichess"
     url: "https://lichess.org/@/IceBurnEngine"
@@ -24,9 +24,9 @@ priority: 1
 
 # Avalanche
 
-Avalanche is the first chess engine (computer chess player and analyzer) written in the Zig programming language, proving Zig's ability to succeed in real-world, competitive applications. It is an open-source, standalone, and cross-platform software. As an Universal Chess Interface (UCI) program, Avalanche interacts with the user with text, but it is compatible with most popular chess software. Version 3.0.0 holds an official CCRL rating of 3350, far beyond the strongest human grandmasters, and Avalanche was among the top 32 chess engines to qualify for TCEC Swiss 6 and competed for the title of world champion in the most prestigious computer chess competition in the world.
+Avalanche is the first chess engine (computer chess player and analyzer) written in the Zig programming language, proving Zig's ability to succeed in real-world, competitive applications. It is an open-source, standalone, and cross-platform software. As an Universal Chess Interface (UCI) program, Avalanche interacts with the user with text, but it is compatible with most popular chess software. Version 4.0.0 is rated 3597 on the CCRL Blitz list and 3492 on CCRL 40/15, far beyond the strongest human grandmasters. Avalanche was among the top 32 chess engines to qualify for TCEC Swiss 6, and version 4.0.0 returned for TCEC Season 30 in 2026, competing in the most prestigious computer chess competition in the world.
 
-The newly released version 4.0.0 brings a major breakthrough in neural network training and optimization, measuring roughly 200 elo stronger in testing — including an 88 elo win over Stockfish 11 — and performing on par with engines around 3600 on the CCRL Blitz list. It is currently being rated by CCRL, so version 3.0.0 remains the recommended download for now.
+Version 4.0.0 brings a major breakthrough in neural network training and optimization. CCRL rates it 180 Elo above 3.0.0 on the Blitz list (3597 vs. 3417) and 149 Elo above it on 40/15 (3492 vs. 3343), and it scored an 88 Elo win over Stockfish 11 in testing. It is the recommended download.
 
 Using UCI, the user or GUI can inform Avalanche the current board and clock situation, and it will search for the best move and decide when to stop thinking on its own.
 

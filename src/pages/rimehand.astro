@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Link, Panel } from "foundationui/svelte";
+import EmailLink from "../components/EmailLink.astro";
+import { email } from "../data/contact";
 
 const description =
   "Rimehand is a long-term project exploring a generalist robot that can perceive, reason about, and play many physical tabletop games.";
@@ -10,7 +12,6 @@ const schema = {
   "@type": "Organization",
   name: "Rimehand",
   url: "https://snowballsh.com/rimehand/",
-  email: "mailto:yinuo@snowballsh.com",
   description,
 };
 ---
@@ -59,9 +60,7 @@ const schema = {
           <Link href="https://rimehand.snowballsh.com" external>
             Visit the Rimehand site ↗
           </Link>
-          <Link href="mailto:yinuo@snowballsh.com" subtle>
-            yinuo@snowballsh.com
-          </Link>
+          <EmailLink address={email} subtle />
         </div>
 
         <p
