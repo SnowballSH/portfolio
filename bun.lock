@@ -12,7 +12,7 @@
         "@fontsource-variable/jetbrains-mono": "^5.3.0",
         "@tailwindcss/vite": "^4.3.3",
         "astro": "7.2.8",
-        "foundationui": "https://github.com/SnowballSH/foundationui/releases/download/v0.5.4/foundationui-0.5.4.tgz",
+        "foundationui": "https://github.com/SnowballSH/foundationui/releases/download/v0.5.5/foundationui-0.5.5.tgz",
         "svelte": "^5.56.10",
         "tailwindcss": "^4.3.3",
       },
@@ -500,7 +500,7 @@
 
     "fontkitten": ["fontkitten@1.0.2", "", { "dependencies": { "tiny-inflate": "^1.0.3" } }, "sha512-piJxbLnkD9Xcyi7dWJRnqszEURixe7CrF/efBfbffe2DPyabmuIuqraruY8cXTs19QoM8VJzx47BDRVNXETM7Q=="],
 
-    "foundationui": ["foundationui@https://github.com/SnowballSH/foundationui/releases/download/v0.5.4/foundationui-0.5.4.tgz", { "dependencies": { "class-variance-authority": "^0.7.1" }, "peerDependencies": { "react": "^19.2.8", "react-dom": "^19.2.8", "svelte": "^5.56.8" }, "optionalPeers": ["react", "react-dom", "svelte"] }, "sha512-zvw09mOHmEfTSjSuB/XzK5U/GovOE6q58lVNxkddxAOBrUDCb0/rM6gIDfYC5VK1HMDV1Tvx11DomI54WJN1Og=="],
+    "foundationui": ["foundationui@https://github.com/SnowballSH/foundationui/releases/download/v0.5.5/foundationui-0.5.5.tgz", { "dependencies": { "class-variance-authority": "^0.7.1" }, "peerDependencies": { "react": "^19.2.8", "react-dom": "^19.2.8", "svelte": "^5.56.8" }, "optionalPeers": ["react", "react-dom", "svelte"] }, "sha512-G/r4x3JjKjAu723L9G6yzPLldUfDpb0Vapfi7YZpgf/VVCwtMD6tHsBMXeqbXiaE42iZZwfk6pFYF3bj80A+Lg=="],
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 

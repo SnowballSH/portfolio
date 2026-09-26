@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
+import EmailLink from "../components/EmailLink.astro";
+import { email, profiles } from "../data/contact";
 import { Footer, Link } from "foundationui/svelte";
 
 export interface Props {
@@ -29,7 +31,6 @@ const {
     "software developer",
     "portfolio",
     "projects",
-    "blog",
   ],
   publishedTime,
   modifiedTime,
@@ -52,7 +53,6 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/webp" href="/favicon.webp" />
-    <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
     <meta name="generator" content={Astro.generator} />
     <meta name="author" content="Yinuo Huang" />
     <meta name="description" content={description} />
@@ -135,7 +135,18 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <Footer>
       <div class="flex flex-wrap items-center justify-between gap-4">
         <span>© 2026 SnowballSH · Yinuo Huang</span>
-        <Link subtle href="https://github.com/SnowballSH" external>GitHub</Link>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+          {
+            profiles
+              .filter((profile) => profile.label !== "Codeforces")
+              .map((profile) => (
+                <Link subtle href={profile.url} external>
+                  {profile.label}
+                </Link>
+              ))
+          }
+          <EmailLink address={email} label="Email" subtle />
+        </div>
       </div>
     </Footer>
   </body>
