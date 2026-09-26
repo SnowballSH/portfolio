@@ -1,8 +1,9 @@
 ---
 title: "Avalanche"
-shortDescription: "A Fast, Strong, and Intelligent Chess Engine. Rated 3597 on CCRL Blitz and 3492 on CCRL 40/15, Avalanche 4.0.0 is one of the strongest chess engines and the first ever written in Zig."
-date: "2026-08-11"
-technologies: ["Zig", "Neural Networks", "Minimax", "Chess"]
+shortDescription: "The first competitive chess engine written in Zig. Version 4.0.0 is rated 3597 on CCRL Blitz and 3492 on CCRL 40/15, and played in TCEC Season 30."
+date: "2022-02-01"
+updated: "2026-09-26"
+technologies: ["Zig", "NNUE", "SIMD", "Search"]
 featured: true
 status: "completed"
 image: "/avalanche.webp"
@@ -18,38 +19,30 @@ links:
   - label: "Lichess"
     url: "https://lichess.org/@/IceBurnEngine"
     type: "other"
-category: "other"
+category: "games"
 priority: 1
 ---
 
 # Avalanche
 
-Avalanche is the first chess engine (computer chess player and analyzer) written in the Zig programming language, proving Zig's ability to succeed in real-world, competitive applications. It is an open-source, standalone, and cross-platform software. As an Universal Chess Interface (UCI) program, Avalanche interacts with the user with text, but it is compatible with most popular chess software. Version 4.0.0 is rated 3597 on the CCRL Blitz list and 3492 on CCRL 40/15, far beyond the strongest human grandmasters. Avalanche was among the top 32 chess engines to qualify for TCEC Swiss 6, and version 4.0.0 returned for TCEC Season 30 in 2026, competing in the most prestigious computer chess competition in the world.
-
-Version 4.0.0 brings a major breakthrough in neural network training and optimization. CCRL rates it 180 Elo above 3.0.0 on the Blitz list (3597 vs. 3417) and 149 Elo above it on 40/15 (3492 vs. 3343), and it scored an 88 Elo win over Stockfish 11 in testing. It is the recommended download.
-
-Using UCI, the user or GUI can inform Avalanche the current board and clock situation, and it will search for the best move and decide when to stop thinking on its own.
-
-## Features
-
-- Avalanche uses the **NNUE** (Efficiently Updatable Neural Network) technology for its evaluation, with a redesigned network architecture in 4.0.0 and the Jihan (极寒) network family introduced in 3.0.0.
-- The training data is purely generated from self-play games, accumulated over hundreds of millions of self-play positions.
-- Syzygy endgame tablebase support for perfect play in late endgames.
-
-## Technical Details
-
-I represent the chess board using a unique Bitboard-Mailbox hybrid data structure. There are 8x8=64 squares on a chess board, which happens to be the same as the number of bits in a 64-bit integer. By representing each piece+color with a single integer, where a bit is 1 if the piece exists on that square, my data structure allows efficient move generations thousands of times faster than naive algorithms.
-
-Two modules influence Avalanche's thinking: Search and Evaluation.
-
-I use an extremely optimized version of Minimax. While on average 30 legal moves exist per position, Avalanche only has a branching factor of about 4, discarding most options quickly using many smart algorithms like Futility Pruning and Static Exchange Evaluation. This is because in chess, many moves are obviously worse than others, even considering tactical possibilities.
-
-I evaluate leaf nodes with an Efficiently Updatable Neural Network (NNUE), and I am one of the pioneers of applying it to chess. Because each chess move changes the position by at most four squares, Avalanche only needs to recalculate its evaluation for four input neurons instead of the whole board. With Reinforcement Learning, it predicts the future much more accurately than traditional hand-crafted methods with human knowledge.
-
-For testing, I let the new version play games against the old version from random openings until the Sequential Probability Ratio Test (SPRT) tells me there is a 95% probability the new version is stronger.
+Avalanche is an open-source chess engine and the first competitive one written in Zig. It speaks the Universal Chess Interface (UCI), so it plugs into any popular chess GUI, and runs on every major platform.
 
 ## Results
 
-I have released 18 versions of Avalanche, each time making many improvements. Although most of the improvements consist of modified algorithms, some unfortunately introduced new bugs.
-For example, in version 1.3.0, I introduced a new feature called “Countermove Heuristics,” which I concluded to be 66 elo stronger than the previous version after 28 blitz games. However, when testers at CCRL tested it, they saw a decrease in strength. After consulting a statistician, I learned that 28 was way too small of a sample size for a meaningful conclusion. Furthermore, I found a critical bug in my implementation of Countermove Heuristics, where I forgot to reset a section of the memory to zero, causing Countermove Heuristics to essentially add random noises. The chess engine community taught me how to perform the Sequential Probability Ratio Test, which requires thousands of games but gives a statistically significant result. Since then, I have been using this rigorous means of regression testing and carefully zeroing important arrays at the start of the program, never making this mistake again.
-Through this project, I learned the importance of collaboration and humbly consulting experts in specific areas for advice on things I am weak in. Next time, I would design and build a rigorous development and testing workflow before starting to code to minimize the chance of committing code that contains mistakes.
+- **CCRL Blitz:** 3597 for version 4.0.0, up from 3417 for 3.0.0.
+- **CCRL 40/15:** 3492 for version 4.0.0, up from 3343 for 3.0.0.
+- **TCEC:** among the top 32 engines at TCEC Swiss 6 in 2024, and back for TCEC Season 30 in 2026 with version 4.0.0.
+- In testing, 4.0.0 beats Stockfish 11 by 88 Elo.
+
+## How it works
+
+- **Evaluation.** Avalanche evaluates positions with an Efficiently Updatable Neural Network (NNUE). A move changes at most four squares, so only those inputs are recomputed instead of the whole board, and inference is vectorized with SIMD. The networks are trained purely on self-play data, hundreds of millions of positions of it. Version 3.0.0 introduced the Jihan (极寒) network family, and 4.0.0 redesigned the architecture.
+- **Search.** A heavily pruned alpha-beta search. There are about 30 legal moves in a typical position, but futility pruning, static exchange evaluation, and other heuristics cut the effective branching factor to about 4.
+- **Board.** A bitboard-mailbox hybrid: each piece type is a 64-bit integer with one bit per square, which makes move generation fast.
+- **Endgames.** Syzygy tablebase support for perfect play once few pieces remain.
+
+## Testing
+
+Every change has to prove itself before it ships. A candidate plays thousands of games against the current version from random openings until a Sequential Probability Ratio Test (SPRT) says it is stronger. Search parameters are tuned with [Storming Tune](https://github.com/SnowballSH/storming_tune), my Gaussian-distributed parameter tuner.
+
+I learned this the hard way. Version 1.3.0 shipped a "countermove heuristic" that looked 66 Elo stronger after 28 games, and CCRL then measured it as weaker. The sample was far too small, and the feature had a bug: an array that was never zeroed, so the heuristic was adding noise. Since then, nothing merges without SPRT.

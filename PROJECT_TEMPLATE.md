@@ -1,7 +1,8 @@
 ---
 title: "Your Project Title"
 shortDescription: "Brief description that appears on project cards (1-2 sentences)"
-date: "2024-01-15" # YYYY-MM-DD format
+date: "2024-01-15" # YYYY-MM-DD; shown as month and year
+updated: "2024-06-01" # Optional: last significant update
 technologies: ["React", "Node.js", "PostgreSQL", "Docker"] # Array of tech stack
 featured: true # true = shows on homepage, false = only on projects page
 status: "completed" # "completed", "in-progress", or "planned"
@@ -17,7 +18,7 @@ links: # Optional: additional links
   - label: "Blog Post"
     url: "https://blog.com/post"
     type: "other"
-category: "web" # "web", "mobile", "desktop", "api", "library", or "other"
+category: "tools" # "games", "systems", "tools", "hackathons", or "earlier" (compact list)
 priority: 1 # Lower numbers appear first (1 = highest priority)
 ---
 

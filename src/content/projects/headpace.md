@@ -1,9 +1,9 @@
 ---
 title: "Headpace"
-shortDescription: "A Natural-language AI-driven calendar assistant to boost your productivity and solve scheduling conflicts."
-date: "2024-04-24" # YYYY-MM-DD format
-technologies: ["React", "Typescript", "Firebase", "LLM"]
-featured: true
+shortDescription: "1st place at HSHacks 2024: a natural-language calendar assistant that finds free time and resolves conflicts with GPT-4 function calling."
+date: "2024-04-24"
+technologies: ["React", "TypeScript", "Firebase", "LLM"]
+featured: false
 status: "completed"
 image: "/headpace.webp"
 imageAlt: "A green timer and the text 'Headpace'"
@@ -12,26 +12,20 @@ links:
   - label: "Devpost"
     url: "https://devpost.com/software/headpace"
     type: "docs"
-category: "web"
+category: "hackathons"
 priority: 2
 ---
 
 # Headpace
 
-Transform your productivity. Designed to streamline your schedule, manage appointments, and keep you on track. Experience the future of time management today!
+Headpace is a natural-language calendar assistant that finds time for groups and resolves scheduling conflicts. It won **1st place** at the 2024 HSHacks 12-hour hackathon.
 
-Headpace is a natural-language AI-driven calendar assistant to boost your productivity and solve scheduling conflicts.
+## Why
 
-Headpace is the **1st place project winner** at the 2024 HSHacks 12-hour Hackathon.
+Getting people who don't plan ahead to join a group scheduling session is hard, and tools like When2meet or LettuceMeet ask a lot of every participant. We wanted scheduling to be a conversation instead.
 
-## Inspiration
+## How it works
 
-It's hard to get people who don't plan to join in on group planning sessions. Current solutions like lettucemeet or when2meet require a lot of work and we wanted to provide a more seamless experience.
+Users sign in with Google and see an overview of their upcoming events. They can ask the built-in assistant, by text or voice, when they are free or to schedule something with other people. The assistant answers with text-to-speech, so it feels like talking to a real person.
 
-Thus we introduce Headpace - an AI-driven all-in-one platform that allows you to work efficiently with your team. The user signs in with their Google account and in the future will sync the app with their Google Calendar. The user can see a clear overview of all upcoming events and time until it happens. The user can use our integrated AI-assistant powered by GPT-4 to ask for available time and help with scheduling. The AI can also help with scheduling events with other people when all of you are free. The AI also supports text-to-speech so you feel a real human assistant help you schedule your meetings.
-
-## Technical Details
-
-We used React and shadcn/ui's component library for the frontend. For backend, we used the OpenAI API for the LLM and Firestore for the database.
-
-We utilize GPT-4's function-calling feature, which allows GPT-4 to seamlessly interact with our backend algorithms that detects conflicts and finds available time slots.
+Under the hood, GPT-4's function calling lets the model call our backend algorithms that detect conflicts and find open slots, instead of guessing at times itself. The frontend uses React with shadcn/ui, and Firestore stores the data.
