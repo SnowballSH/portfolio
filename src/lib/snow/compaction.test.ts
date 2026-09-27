@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { Compaction, breakingLook, formingLook } from "./compaction";
+import {
+  Compaction,
+  type CompactionLook,
+  breakingLook,
+  formingLook,
+} from "./compaction";
 
 describe("Compaction", () => {
   test("forms gradually while settled and completes", () => {

@@ -29,7 +29,7 @@ interface Handoff {
   fromValue: number;
 }
 
-export const mixLook = (
+const mixLook = (
   from: CompactionLook,
   to: CompactionLook,
   t: number,
