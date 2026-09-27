@@ -89,9 +89,9 @@ export class SnowWordmark {
   private readonly tick = (dtMs: number): Cadence => {
     if (!this.laidOut) return "sleep";
     const drew = this.guard(() => {
-      this.swarm.step(dtMs, this.pointer);
+      this.swarm.step(dtMs, this.compaction.complete ? null : this.pointer);
       this.compaction.step(dtMs, this.swarm.settled);
-      this.renderer.render(this.swarm, this.compaction.look);
+      this.renderer.render(this.swarm, this.compaction.look());
     });
     if (!drew) return "sleep";
     if (!this.drawn) {
@@ -238,7 +238,9 @@ export class SnowWordmark {
         this.pointerRestTimer = setTimeout(() => {
           this.pointer = null;
         }, POINTER_REST_MS);
-        if (this.swarm.attracts(point)) this.loop.wake();
+        const nearSnow =
+          !this.compaction.complete && this.swarm.attracts(point);
+        if (inWord || nearSnow) this.loop.wake();
       },
       { passive: true, signal },
     );

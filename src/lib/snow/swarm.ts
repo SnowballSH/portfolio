@@ -49,6 +49,8 @@ export const DEFAULT_TUNING: SwarmTuning = {
   settleSpeed: 0.02,
 };
 
+export const FLAKE_SIZE = { min: 0.75, max: 1.2 } as const;
+
 type Phase = "idle" | "intro" | "physics" | "settled";
 
 const FRAME_MS = 1000 / 60;
@@ -121,7 +123,8 @@ export class LetterSwarm {
     this.bounds = this.computeBounds();
 
     for (let i = keep; i < count; i++) {
-      this.size[i] = 0.75 + this.random() * 0.45;
+      this.size[i] =
+        FLAKE_SIZE.min + this.random() * (FLAKE_SIZE.max - FLAKE_SIZE.min);
       this.swayPhase[i] = this.random() * Math.PI * 2;
     }
 

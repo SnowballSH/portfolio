@@ -1,4 +1,6 @@
 import { context2d } from "./canvas";
+import { FLAKE_GROWTH } from "./compaction";
+import { FLAKE_SIZE } from "./swarm";
 import {
   type Rgb,
   colorAt,
@@ -8,7 +10,7 @@ import {
 } from "./color";
 
 export const SHADE_BUCKETS = 16;
-const MAX_PARTICLE_SCALE = 1.35;
+const MAX_PARTICLE_SCALE = FLAKE_SIZE.max * (1 + FLAKE_GROWTH);
 export const FLAKE_SPRITE_RADIUS = 3;
 
 export interface ThemeColors {

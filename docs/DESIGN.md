@@ -70,15 +70,17 @@ the page (`src/lib/snow/`).
   over 1.4 s, and `compactionLook` turns that progress into eased,
   overlapping fades: the crisp word (`renderWordmarkLayer`, same font, same
   gradient) fades in beneath the flakes first, and the flakes fade out on top
-  only once it is nearly opaque, growing at most 10%. There is never a moment
+  only once it is mostly opaque, growing at most 10%. There is never a moment
   where both are half transparent, which read as a blurred double image; the
   settled heading is exactly the real type. Flakes use 16 gradient shades so
   their color matches the smooth gradient of the type. Moving the mouse onto
   the word, or clicking or tapping it, `scatter`s every particle outward, with
   force falling off with distance but never below a floor, and loosens the
   springs for 900 ms, so the whole word breaks back into snow and drifts before
-  it pulls together; it re-forms and compacts once the snow
-  settles again.
+  it pulls together; it re-forms and compacts once the snow settles again.
+  Breaking has its own `breakingLook`: the flakes appear at full strength at
+  once while the type fades out beneath them over 200 ms. A mouse that only
+  passes near a solid word leaves it alone; entering the word breaks it.
 - **One gradient definition.** `WORDMARK_STOPS` in `color.ts` drives the CSS
   gradient on the heading, the particle shades, and the crisp layer, all mixed
   in Oklab and laid out along the CSS gradient line of the heading's box

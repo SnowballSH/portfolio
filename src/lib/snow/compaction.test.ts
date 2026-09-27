@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Compaction, compactionLook } from "./compaction";
+import { Compaction, breakingLook, formingLook } from "./compaction";
 
 describe("Compaction", () => {
   test("forms gradually while settled and completes", () => {
@@ -22,28 +22,26 @@ describe("Compaction", () => {
   });
 });
 
-describe("compactionLook", () => {
+describe("formingLook", () => {
   test("starts as pure snow and ends as pure type", () => {
-    expect(compactionLook(0)).toEqual({
+    expect(formingLook(0)).toEqual({
       layerAlpha: 0,
       flakeAlpha: 1,
       flakeScale: 1,
     });
-    const solid = compactionLook(1);
+    const solid = formingLook(1);
     expect(solid.layerAlpha).toBe(1);
     expect(solid.flakeAlpha).toBe(0);
   });
 
   test("the type is nearly opaque before the flakes are half gone", () => {
     let progress = 0;
-    while (compactionLook(progress).flakeAlpha > 0.5) progress += 0.01;
-    expect(compactionLook(progress).layerAlpha).toBeGreaterThan(0.95);
+    while (formingLook(progress).flakeAlpha > 0.5) progress += 0.01;
+    expect(formingLook(progress).layerAlpha).toBeGreaterThan(0.95);
   });
 
   test("changes monotonically and eases at both ends", () => {
-    const samples = Array.from({ length: 101 }, (_, i) =>
-      compactionLook(i / 100),
-    );
+    const samples = Array.from({ length: 101 }, (_, i) => formingLook(i / 100));
     for (let i = 1; i < samples.length; i++) {
       expect(samples[i].layerAlpha).toBeGreaterThanOrEqual(
         samples[i - 1].layerAlpha,
@@ -54,5 +52,35 @@ describe("compactionLook", () => {
     }
     expect(samples[1].layerAlpha).toBeLessThan(0.01);
     expect(samples[99].flakeAlpha).toBeLessThan(0.01);
+  });
+});
+
+describe("breakingLook", () => {
+  test("shows every flake at once while the type fades out", () => {
+    expect(breakingLook(1)).toEqual({
+      layerAlpha: 1,
+      flakeAlpha: 1,
+      flakeScale: 1.1,
+    });
+    expect(breakingLook(0.5).flakeAlpha).toBe(1);
+    expect(breakingLook(0.5).layerAlpha).toBeCloseTo(0.5);
+    expect(breakingLook(0)).toEqual(formingLook(0));
+  });
+});
+
+describe("Compaction defaults", () => {
+  test("forms over 1.4 s and breaks over 200 ms, choosing the look by direction", () => {
+    const compaction = new Compaction();
+    compaction.step(1399, true);
+    expect(compaction.complete).toBe(false);
+    compaction.step(1, true);
+    expect(compaction.complete).toBe(true);
+    expect(compaction.look()).toEqual(formingLook(1));
+
+    compaction.step(100, false);
+    expect(compaction.value).toBeCloseTo(0.5);
+    expect(compaction.look()).toEqual(breakingLook(0.5));
+    compaction.step(100, false);
+    expect(compaction.value).toBe(0);
   });
 });
