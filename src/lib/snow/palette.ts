@@ -1,6 +1,13 @@
-import { type Rgb, colorAt, toRgba, wordmarkGradient } from "./color";
+import {
+  type Rgb,
+  colorAt,
+  parseCanvasColor,
+  toRgba,
+  wordmarkGradient,
+} from "./color";
 
 export const SHADE_BUCKETS = 8;
+export const MAX_PARTICLE_SCALE = 1.25;
 
 export interface ThemeColors {
   ink: Rgb;
@@ -12,11 +19,9 @@ export interface SnowPalette {
   letters: OffscreenCanvas[];
   flake: OffscreenCanvas;
   letterRadius: number;
-  flakeRadius: number;
 }
 
 const FLAKE_SPRITE_RADIUS = 3;
-const MAX_PARTICLE_SCALE = 1.25;
 const DARK_FLAKE: Rgb = { r: 225, g: 238, b: 255 };
 
 export const shadeBucket = (shade: number): number =>
@@ -39,36 +44,34 @@ export function createPalette(
   const gradient = wordmarkGradient(theme.ink, theme.accent);
   const letters = Array.from({ length: SHADE_BUCKETS }, (_, bucket) =>
     createDotSprite(
-      toRgba(colorAt(gradient, (bucket + 0.5) / SHADE_BUCKETS)),
+      colorAt(gradient, (bucket + 0.5) / SHADE_BUCKETS),
+      1,
       letterRadius * MAX_PARTICLE_SCALE,
       dpr,
       0.5,
     ),
   );
   const flake = theme.dark
-    ? createDotSprite(toRgba(DARK_FLAKE, 0.75), FLAKE_SPRITE_RADIUS, dpr, 0.2)
-    : createDotSprite(
-        toRgba(theme.accent, 0.45),
-        FLAKE_SPRITE_RADIUS,
-        dpr,
-        0.2,
-      );
-  return { letters, flake, letterRadius, flakeRadius: FLAKE_SPRITE_RADIUS };
+    ? createDotSprite(DARK_FLAKE, 0.75, FLAKE_SPRITE_RADIUS, dpr, 0.2)
+    : createDotSprite(theme.accent, 0.45, FLAKE_SPRITE_RADIUS, dpr, 0.2);
+  return { letters, flake, letterRadius };
 }
 
 function resolveCssColor(value: string): Rgb {
-  const context = new OffscreenCanvas(1, 1).getContext("2d", {
-    willReadFrequently: true,
-  });
-  if (!context) throw new Error("2D canvas is unavailable");
-  context.fillStyle = value.trim() || "#000";
-  context.fillRect(0, 0, 1, 1);
-  const [r = 0, g = 0, b = 0] = context.getImageData(0, 0, 1, 1).data;
-  return { r, g, b };
+  const color = value.trim();
+  const context = new OffscreenCanvas(1, 1).getContext("2d");
+  if (!context || !CSS.supports("color", color)) {
+    throw new Error(`Unsupported theme color: ${color}`);
+  }
+  context.fillStyle = color;
+  const rgb = parseCanvasColor(String(context.fillStyle));
+  if (!rgb) throw new Error(`Unsupported theme color: ${color}`);
+  return rgb;
 }
 
 function createDotSprite(
-  color: string,
+  color: Rgb,
+  alpha: number,
   radius: number,
   dpr: number,
   solidFraction: number,
@@ -86,9 +89,9 @@ function createDotSprite(
     center,
     center,
   );
-  fill.addColorStop(0, color);
-  fill.addColorStop(solidFraction, color);
-  fill.addColorStop(1, color.replace(/[\d.]+\)$/, "0)"));
+  fill.addColorStop(0, toRgba(color, alpha));
+  fill.addColorStop(solidFraction, toRgba(color, alpha));
+  fill.addColorStop(1, toRgba(color, 0));
   context.fillStyle = fill;
   context.fillRect(0, 0, size, size);
   return sprite;

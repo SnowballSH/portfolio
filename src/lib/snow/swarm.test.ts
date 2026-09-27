@@ -117,4 +117,10 @@ describe("LetterSwarm", () => {
     runFor(swarm, 10_000);
     expect([...swarm.x]).toEqual([200, 210, 220, 230]);
   });
+
+  test("attracts only pointers near the letters", () => {
+    const swarm = settledSwarm();
+    expect(swarm.attracts({ x: 110, y: 100 })).toBe(true);
+    expect(swarm.attracts({ x: 110, y: 400 })).toBe(false);
+  });
 });

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { SHADE_BUCKETS, shadeBucket } from "./palette";
-import { particleBudget, particleSpacing } from "./wordmark";
+import { isPlausibleInk, particleBudget, particleSpacing } from "./wordmark";
 
 describe("particle sizing", () => {
   test("budgets more particles for wider screens within limits", () => {
@@ -19,5 +19,11 @@ describe("particle sizing", () => {
     expect(shadeBucket(0)).toBe(0);
     expect(shadeBucket(0.5)).toBe(SHADE_BUCKETS / 2);
     expect(shadeBucket(1)).toBe(SHADE_BUCKETS - 1);
+  });
+
+  test("rejects blank or saturated samples", () => {
+    expect(isPlausibleInk(0, 10_000)).toBe(false);
+    expect(isPlausibleInk(9_000, 10_000)).toBe(false);
+    expect(isPlausibleInk(2_500, 10_000)).toBe(true);
   });
 });

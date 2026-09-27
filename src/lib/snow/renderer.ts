@@ -1,5 +1,6 @@
 import type { Flurry } from "./flurry";
-import { type SnowPalette, shadeBucket } from "./palette";
+import type { Bounds } from "./math";
+import { MAX_PARTICLE_SCALE, type SnowPalette, shadeBucket } from "./palette";
 import type { LetterSwarm } from "./swarm";
 
 export interface CanvasSize {
@@ -14,7 +15,8 @@ export class SnowRenderer {
   private readonly context: CanvasRenderingContext2D;
   private size: CanvasSize = { width: 0, height: 0, dpr: 1 };
   private palette: SnowPalette | null = null;
-  private settledLetters: OffscreenCanvas | null = null;
+  private settledLayer: OffscreenCanvas | null = null;
+  private settledBounds: Bounds | null = null;
 
   constructor(private readonly canvas: HTMLCanvasElement) {
     const context = canvas.getContext("2d");
@@ -26,12 +28,12 @@ export class SnowRenderer {
     this.size = size;
     this.canvas.width = Math.round(size.width * size.dpr);
     this.canvas.height = Math.round(size.height * size.dpr);
-    this.settledLetters = null;
+    this.settledBounds = null;
   }
 
   setPalette(palette: SnowPalette): void {
     this.palette = palette;
-    this.settledLetters = null;
+    this.settledBounds = null;
   }
 
   render(swarm: LetterSwarm, flurry: Flurry): void {
@@ -42,10 +44,9 @@ export class SnowRenderer {
     context.clearRect(0, 0, width, height);
 
     if (swarm.settled) {
-      this.settledLetters ??= this.paintSettledLetters(swarm, palette);
-      context.drawImage(this.settledLetters, 0, 0, width, height);
+      this.drawSettledLetters(swarm, palette);
     } else {
-      this.settledLetters = null;
+      this.settledBounds = null;
       drawLetters(context, swarm, palette);
     }
 
@@ -61,16 +62,45 @@ export class SnowRenderer {
     }
   }
 
-  private paintSettledLetters(
-    swarm: LetterSwarm,
-    palette: SnowPalette,
-  ): OffscreenCanvas {
-    const layer = new OffscreenCanvas(this.canvas.width, this.canvas.height);
-    const context = layer.getContext("2d");
+  private drawSettledLetters(swarm: LetterSwarm, palette: SnowPalette): void {
+    if (!this.settledBounds || !this.settledLayer) {
+      this.paintSettledLayer(swarm, palette);
+    }
+    const bounds = this.settledBounds;
+    if (!bounds || !this.settledLayer) return;
+    this.context.drawImage(
+      this.settledLayer,
+      bounds.left,
+      bounds.top,
+      bounds.right - bounds.left,
+      bounds.bottom - bounds.top,
+    );
+  }
+
+  private paintSettledLayer(swarm: LetterSwarm, palette: SnowPalette): void {
+    const pad = palette.letterRadius * MAX_PARTICLE_SCALE;
+    const bounds: Bounds = {
+      left: Math.floor(swarm.bounds.left - pad),
+      top: Math.floor(swarm.bounds.top - pad),
+      right: Math.ceil(swarm.bounds.right + pad),
+      bottom: Math.ceil(swarm.bounds.bottom + pad),
+    };
+    const { dpr } = this.size;
+    const width = Math.ceil((bounds.right - bounds.left) * dpr);
+    const height = Math.ceil((bounds.bottom - bounds.top) * dpr);
+    if (
+      this.settledLayer?.width !== width ||
+      this.settledLayer.height !== height
+    ) {
+      this.settledLayer = new OffscreenCanvas(width, height);
+    }
+    const context = this.settledLayer.getContext("2d");
     if (!context) throw new Error("2D canvas is unavailable");
-    context.setTransform(this.size.dpr, 0, 0, this.size.dpr, 0, 0);
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, width, height);
+    context.setTransform(dpr, 0, 0, dpr, -bounds.left * dpr, -bounds.top * dpr);
     drawLetters(context, swarm, palette);
-    return layer;
+    this.settledBounds = bounds;
   }
 }
 

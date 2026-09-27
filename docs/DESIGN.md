@@ -48,29 +48,41 @@ The home page wordmark is drawn by snow particles that fall and settle into the
 letters (`src/lib/snow/`).
 
 - **The real heading stays.** The `<h1>` keeps its text for layout, search, and
-  screen readers. It fades out only after the canvas has drawn its first frame,
-  so without JavaScript, without `OffscreenCanvas`, or with
-  `prefers-reduced-motion`, visitors see the gradient wordmark unchanged.
+  screen readers. It fades out only after the canvas has drawn its first frame.
+  The effect is skipped entirely, leaving the gradient wordmark, without
+  JavaScript or `OffscreenCanvas`, with `prefers-reduced-motion`, in forced
+  colors mode, when canvas pixels cannot be read back (privacy modes return
+  blank data, which `isPlausibleInk` rejects), or when anything throws.
+- **One gradient definition.** `WORDMARK_STOPS` in `color.ts` produces both the
+  CSS gradient on the heading and the canvas palette, and both mix in Oklab, so
+  the fallback and the snow match. Theme colors are resolved through the
+  canvas `fillStyle` normalizer, not pixel readback.
 - **Targets come from the real font.** `sampleWordmark` renders the word with
   the heading's computed font and letter spacing into an offscreen canvas,
   scales it to the heading's measured width, and samples the ink on a jittered
-  grid. The particle budget scales with viewport width (700–1,800), so phones
-  simulate fewer particles.
+  grid. The particle budget scales with viewport width (700–1,800).
 - **Simulation is separate from rendering.** `LetterSwarm` (intro fall, spring
   physics, hover, burst) and `Flurry` (ambient flakes) are pure and unit-tested;
   `SnowRenderer` only draws. Particle state is stored in typed arrays.
 - **Idle is cheap.** Particles are drawn from pre-rendered dot sprites, one per
-  shade of the wordmark gradient. Once the letters settle they are painted into
-  one cached bitmap, so a settled frame is a single image blit plus the ambient
-  flakes. The loop stops while the hero is off screen or the tab is hidden, and
-  device pixel ratio is capped at 2.
-- **Touch never blocks scrolling.** The mouse pushes snow aside on hover; a tap
-  or click away from links puffs it outward. Touch moves are ignored, so the
-  page scrolls normally on phones.
-- **Resizes morph.** A width change resamples the word; existing particles
-  spring to their new targets and any extra ones fall in from above. Height-only
-  changes (mobile address bars) are ignored.
+  gradient shade. Once the letters settle they are painted into one reused
+  bitmap the size of the word, and the loop drops from the display rate to a
+  timer-paced idle rate for the ambient flakes. It returns to full rate only
+  when a burst happens or the mouse comes near the letters, and it stops while
+  the hero is off screen or the tab is hidden. Device pixel ratio is capped at 2.
+- **Touch never blocks scrolling.** Bursts fire on `click`, which browsers do
+  not dispatch after a scroll gesture, so starting a scroll on the hero does not
+  disturb the snow. The mouse also pushes snow aside on hover.
+- **Layout follows the page.** A `ResizeObserver`, window resizes, and a
+  device-pixel-ratio media query all schedule a debounced relayout keyed on
+  width, height, and pixel ratio. Existing particles spring to their new
+  targets. A zero-size layout (a page loaded while hidden) waits for the next
+  resize instead of giving up.
+- **Teardown.** `SnowHero.destroy()` removes every listener and observer and
+  restores the heading; it runs on `astro:before-swap` for client-side
+  navigation.
 
-Measured on a desktop at 120 Hz: 0.09 ms of physics and 1.6 ms of drawing per
-frame with 1,800 moving particles, 0.18 ms when settled, and no dropped frames
-during a burst.
+Measured in Chrome at 1280×800: the first frame draws about 100 ms after load,
+the intro runs at 60 fps for about 2.4 s, then the settled hero idles at about
+20 fps. Physics costs 0.09 ms and drawing 1.6 ms per frame with 1,800 moving
+particles.

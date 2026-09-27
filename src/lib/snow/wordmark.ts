@@ -9,6 +9,7 @@ export interface WordmarkLayout {
 }
 
 const INK_ALPHA = 128;
+const MAX_INK_COVERAGE = 0.6;
 
 export const particleBudget = (viewportWidth: number): number =>
   clamp(Math.round(viewportWidth * 1.6), 700, 1800);
@@ -16,11 +17,16 @@ export const particleBudget = (viewportWidth: number): number =>
 export const particleSpacing = (inkPixels: number, budget: number): number =>
   clamp(Math.sqrt(inkPixels / budget), 1.6, 6);
 
+export const isPlausibleInk = (
+  inkPixels: number,
+  totalPixels: number,
+): boolean => inkPixels > 0 && inkPixels / totalPixels <= MAX_INK_COVERAGE;
+
 export function sampleWordmark(
   { word, font, letterSpacing, box }: WordmarkLayout,
   budget: number,
   random: Random,
-): SwarmTargets {
+): SwarmTargets | null {
   const pad = Math.ceil(box.height * 0.25);
   const width = Math.ceil(box.width) + pad * 2;
   const height = Math.ceil(box.height) + pad * 2;
@@ -36,6 +42,7 @@ export function sampleWordmark(
 
   let ink = 0;
   for (const value of alpha) if (value > INK_ALPHA) ink++;
+  if (!isPlausibleInk(ink, alpha.length)) return null;
   const spacing = particleSpacing(ink, budget);
 
   const positions: number[] = [];
@@ -79,7 +86,7 @@ function renderWordAlpha(
   const advances = glyphs.map((glyph) => context.measureText(glyph).width);
   const naturalWidth =
     advances.reduce((sum, advance) => sum + advance, 0) +
-    letterSpacing * (glyphs.length - 1);
+    letterSpacing * glyphs.length;
   context.setTransform(targetWidth / naturalWidth, 0, 0, 1, pad, 0);
   let cursor = 0;
   glyphs.forEach((glyph, index) => {

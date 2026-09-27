@@ -129,6 +129,10 @@ export class LetterSwarm {
     }
   }
 
+  attracts(point: Point): boolean {
+    return isNear(point, this.bounds, this.tuning.hoverRadius);
+  }
+
   step(dtMs: number, pointer: Point | null): void {
     this.clock += dtMs;
     const frames = dtMs / FRAME_MS;
@@ -137,8 +141,7 @@ export class LetterSwarm {
       return;
     }
     if (this.phase === "settled") {
-      if (!pointer || !isNear(pointer, this.bounds, this.tuning.hoverRadius))
-        return;
+      if (!pointer || !this.attracts(pointer)) return;
       this.phase = "physics";
     }
     if (this.phase === "physics") this.stepPhysics(frames, pointer);
@@ -260,11 +263,21 @@ export class LetterSwarm {
 
   private computeBounds(): Bounds {
     if (this.count === 0) return { left: 0, top: 0, right: 0, bottom: 0 };
+    let left = Infinity;
+    let top = Infinity;
+    let right = -Infinity;
+    let bottom = -Infinity;
+    for (let i = 0; i < this.count; i++) {
+      left = Math.min(left, this.targetX[i]);
+      right = Math.max(right, this.targetX[i]);
+      top = Math.min(top, this.targetY[i]);
+      bottom = Math.max(bottom, this.targetY[i]);
+    }
     return {
-      left: Math.min(...this.targetX) - this.radius,
-      top: Math.min(...this.targetY) - this.radius,
-      right: Math.max(...this.targetX) + this.radius,
-      bottom: Math.max(...this.targetY) + this.radius,
+      left: left - this.radius,
+      top: top - this.radius,
+      right: right + this.radius,
+      bottom: bottom + this.radius,
     };
   }
 }
