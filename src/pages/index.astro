@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import { Badge, Link, Panel } from "foundationui/svelte";
 import { profiles } from "../data/contact";
 import { BLOG_URL, getLatestPosts } from "../lib/blog";
+import { wordmarkCssGradient } from "../lib/snow/color";
 
 const allProjects = await getCollection("projects");
 const featuredProjects = allProjects
@@ -90,7 +91,12 @@ const homeSchema = [
   schema={homeSchema}
 >
   <main class="mx-auto w-full max-w-6xl px-4 sm:px-6">
+    <canvas
+      data-snow-backdrop
+      class="pointer-events-none fixed inset-0 -z-10 h-full w-full"
+      aria-hidden="true"></canvas>
     <section
+      data-snow-hero
       class="relative flex min-h-[calc(100svh-4rem)] items-center justify-center py-16 text-center"
     >
       <div
@@ -101,11 +107,16 @@ const homeSchema = [
         <div class="frost-orb frost-orb-deep"></div>
         <div class="frost-orb frost-orb-high"></div>
       </div>
+      <canvas
+        data-snow-canvas
+        class="pointer-events-none absolute top-0 left-0 h-full w-full"
+        aria-hidden="true"></canvas>
       <div class="relative mx-auto max-w-3xl space-y-6">
         <h1
+          style={`background-image: ${wordmarkCssGradient()}`}
           class="wordmark font-display text-[clamp(3rem,10vw,7.5rem)] leading-[0.95] font-bold tracking-[-0.045em] whitespace-nowrap"
         >
-          SnowballSH
+          <span data-snow-word>SnowballSH</span>
         </h1>
         <p
           class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase"
@@ -212,17 +223,41 @@ const homeSchema = [
   </main>
 </Layout>
 
+<script>
+  import { mountSnow } from "../lib/snow/mount";
+
+  void mountSnow();
+</script>
+
 <style>
   .wordmark {
     color: transparent;
-    background-image: linear-gradient(
-      172deg,
-      var(--fui-ink) 6%,
-      color-mix(in oklab, var(--fui-accent) 55%, var(--fui-ink)) 55%,
-      color-mix(in oklab, var(--fui-accent) 92%, var(--fui-ink)) 98%
-    );
     background-clip: text;
     -webkit-background-clip: text;
+    transition: opacity 0.6s ease;
+  }
+
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+    .wordmark {
+      opacity: 0;
+      animation: wordmark-reveal 0.6s ease 4s forwards;
+    }
+
+    .wordmark:global(.snow-pending),
+    .wordmark:global(.snow-active) {
+      animation: none;
+    }
+  }
+
+  .wordmark:global(.snow-fallback) {
+    animation: none;
+    opacity: 1;
+  }
+
+  @keyframes wordmark-reveal {
+    to {
+      opacity: 1;
+    }
   }
 
   .frost-field {
