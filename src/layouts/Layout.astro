@@ -1,10 +1,10 @@
 ---
 import "../styles/global.css";
-import Navbar from "../components/Navbar.astro";
+import { Footer, Link } from "foundationui/svelte";
 import EmailLink from "../components/EmailLink.astro";
+import Navbar from "../components/Navbar.astro";
 import { email, profiles } from "../data/contact";
 import { serializeJsonLd } from "../lib/json-ld";
-import { Footer, Link } from "foundationui/svelte";
 
 export interface Props {
   title?: string;

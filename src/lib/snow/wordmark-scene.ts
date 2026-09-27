@@ -6,10 +6,10 @@ import type { Box, Point, Random } from "./math";
 import { createLetterSprites, readThemeColors } from "./palette";
 import { LetterSwarm } from "./swarm";
 import {
-  type WordmarkLayout,
   particleBudget,
   renderWordmarkLayer,
   sampleWordmark,
+  type WordmarkLayout,
 } from "./wordmark";
 import { WordmarkRenderer } from "./wordmark-renderer";
 

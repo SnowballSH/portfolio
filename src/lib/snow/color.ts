@@ -1,4 +1,4 @@
-import { type Box, type Point, clamp } from "./math";
+import { type Box, clamp, type Point } from "./math";
 
 export interface Rgb {
   r: number;

@@ -8,10 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check && node node_modules/typescript-7/bin/tsc -p tsconfig.json && node node_modules/typescript-7/bin/tsc -p tsconfig.test.json",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "biome check --write",
     "astro": "astro",
-    "lint": "biome lint",
+    "lint": "biome check",
     "test": "bun test"
   },
   "dependencies": {
@@ -30,9 +29,6 @@
     "@astrojs/check": "0.9.10",
     "@biomejs/biome": "^2.5.14",
     "@types/bun": "^1.4.2",
-    "prettier": "^3.9.9",
-    "prettier-plugin-astro": "^1.1.0",
-    "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^6.0.3",
     "typescript-7": "npm:typescript@^7.0.2"
   }

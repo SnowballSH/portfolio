@@ -9,10 +9,8 @@
     "includes": ["**", "!.serena"]
   },
   "formatter": {
-    "enabled": false
-  },
-  "assist": {
-    "enabled": false
+    "enabled": true,
+    "indentStyle": "space"
   },
   "linter": {
     "enabled": true,

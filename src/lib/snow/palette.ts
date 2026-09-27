@@ -1,13 +1,13 @@
 import { context2d } from "./canvas";
-import { FLAKE_GROWTH } from "./compaction";
-import { FLAKE_SIZE } from "./swarm";
 import {
-  type Rgb,
   colorAt,
   parseCanvasColor,
+  type Rgb,
   toRgba,
   wordmarkGradient,
 } from "./color";
+import { FLAKE_GROWTH } from "./compaction";
+import { FLAKE_SIZE } from "./swarm";
 
 export const SHADE_BUCKETS = 16;
 const MAX_PARTICLE_SCALE = FLAKE_SIZE.max * (1 + FLAKE_GROWTH);

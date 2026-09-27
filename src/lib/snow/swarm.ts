@@ -1,10 +1,10 @@
 import {
   type Bounds,
-  type Point,
-  type Random,
   clamp,
   easeOutCubic,
   isNear,
+  type Point,
+  type Random,
 } from "./math";
 
 export interface SwarmTargets {

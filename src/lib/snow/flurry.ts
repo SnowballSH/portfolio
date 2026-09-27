@@ -1,4 +1,4 @@
-import { type Random, clamp, modulo } from "./math";
+import { clamp, modulo, type Random } from "./math";
 
 const FRAME_MS = 1000 / 60;
 const EDGE = 4;

@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import type { CollectionEntry } from "astro:content";
 import { Badge, Link, Panel, Prose } from "foundationui/svelte";
 import { categories } from "../../data/categories";
+import Layout from "../../layouts/Layout.astro";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getCollection("projects");

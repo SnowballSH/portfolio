@@ -36,9 +36,10 @@ under the plain `typescript` name solely as that engine. Drop it and point
 `check` at TypeScript 7 alone once Astro's checker supports it. `bun run check`
 runs all three passes.
 
-Biome lints the whole repository with its recommended preset and full HTML and
+Biome lints and formats the whole repository with its recommended preset and full HTML and
 Astro template support, so template usages count and imports used only in
-markup are not reported as unused. Prettier remains the formatter.
+markup are not reported as unused. Biome is also the formatter and sorts
+imports: `bun run lint` checks all three and `bun run format` applies them.
 
 ## Share image
 
