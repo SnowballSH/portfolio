@@ -94,7 +94,8 @@ const homeSchema = [
     <canvas
       data-snow-backdrop
       class="pointer-events-none fixed inset-0 -z-10 h-full w-full"
-      aria-hidden="true"></canvas>
+      aria-hidden="true"
+    ></canvas>
     <section
       data-snow-hero
       class="relative flex min-h-[calc(100svh-4rem)] items-center justify-center py-16 text-center"
@@ -110,7 +111,8 @@ const homeSchema = [
       <canvas
         data-snow-canvas
         class="pointer-events-none absolute top-0 left-0 h-full w-full"
-        aria-hidden="true"></canvas>
+        aria-hidden="true"
+      ></canvas>
       <div class="relative mx-auto max-w-3xl space-y-6">
         <h1
           style={`background-image: ${wordmarkCssGradient()}`}
@@ -118,17 +120,13 @@ const homeSchema = [
         >
           <span data-snow-word>SnowballSH</span>
         </h1>
-        <p
-          class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase"
-        >
+        <p class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase">
           Yinuo Huang
         </p>
         <p class="text-ink-secondary mx-auto max-w-2xl text-lg md:text-xl">
           I write innovative software, produce cool music, and more.
         </p>
-        <div
-          class="flex flex-col items-center justify-center gap-4 pt-2 text-lg sm:flex-row"
-        >
+        <div class="flex flex-col items-center justify-center gap-4 pt-2 text-lg sm:flex-row">
           <Link href="#projects">View Projects</Link>
           <Link href="/contact">Get In Touch</Link>
         </div>
@@ -136,90 +134,84 @@ const homeSchema = [
     </section>
 
     <section class="py-16">
-      <h2
-        class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl"
-      >
+      <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
         Skills
       </h2>
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {
-          skills.map((skill) => (
-            <Panel tier="glass" padding="lg" class="flex flex-col gap-3">
-              <h3 class="font-display text-ink text-xl font-semibold">
-                {skill.title}
-              </h3>
-              <p class="text-ink-secondary grow">{skill.description}</p>
-              <div class="flex flex-wrap gap-2">
-                {skill.tags.map((tag) => (
-                  <Badge tone="accent">{tag}</Badge>
-                ))}
-              </div>
-            </Panel>
-          ))
-        }
+        {skills.map((skill) => (
+          <Panel tier="glass" padding="lg" class="flex flex-col gap-3">
+            <h3 class="font-display text-ink text-xl font-semibold">
+              {skill.title}
+            </h3>
+            <p class="text-ink-secondary grow">{skill.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {skill.tags.map((tag) => (
+                <Badge tone="accent">{tag}</Badge>
+              ))}
+            </div>
+          </Panel>
+        ))}
       </div>
     </section>
 
     <section id="projects" class="py-16">
-      <h2
-        class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl"
-      >
+      <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
         Featured Projects
       </h2>
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {featuredProjects.map((project) => <ProjectCard project={project} />)}
+        {featuredProjects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
       </div>
       <div class="mt-12 text-center text-lg">
         <Link href="/projects">View All Projects ({allProjects.length})</Link>
       </div>
     </section>
 
-    {
-      latestPosts.length > 0 && (
-        <section id="writing" class="py-16">
-          <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
-            Latest Writing
-          </h2>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {latestPosts.map((post) => (
-              <Panel
-                tier="glass"
-                padding="lg"
-                interactive
-                class="relative flex h-full flex-col gap-3"
+    {latestPosts.length > 0 && (
+      <section id="writing" class="py-16">
+        <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
+          Latest Writing
+        </h2>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {latestPosts.map((post) => (
+            <Panel
+              tier="glass"
+              padding="lg"
+              interactive
+              class="relative flex h-full flex-col gap-3"
+            >
+              <time
+                datetime={post.publishedAt.toISOString()}
+                class="text-ink-muted font-mono text-sm"
               >
-                <time
-                  datetime={post.publishedAt.toISOString()}
-                  class="text-ink-muted font-mono text-sm"
+                {postDate.format(post.publishedAt)}
+              </time>
+              <h3 class="font-display text-ink text-xl font-semibold">
+                <Link
+                  href={post.url}
+                  subtle
+                  class="after:absolute after:inset-0 after:content-['']"
                 >
-                  {postDate.format(post.publishedAt)}
-                </time>
-                <h3 class="font-display text-ink text-xl font-semibold">
-                  <Link
-                    href={post.url}
-                    subtle
-                    class="after:absolute after:inset-0 after:content-['']"
-                  >
-                    {post.title}
-                  </Link>
-                </h3>
-                <p class="text-ink-secondary grow">{post.description}</p>
-                <div class="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <Badge tone="neutral">{tag}</Badge>
-                  ))}
-                </div>
-              </Panel>
-            ))}
-          </div>
-          <div class="mt-12 text-center text-lg">
-            <Link href={BLOG_URL} external>
-              All posts →
-            </Link>
-          </div>
-        </section>
-      )
-    }
+                  {post.title}
+                </Link>
+              </h3>
+              <p class="text-ink-secondary grow">{post.description}</p>
+              <div class="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <Badge tone="neutral">{tag}</Badge>
+                ))}
+              </div>
+            </Panel>
+          ))}
+        </div>
+        <div class="mt-12 text-center text-lg">
+          <Link href={BLOG_URL} external>
+            All posts →
+          </Link>
+        </div>
+      </section>
+    )}
   </main>
 </Layout>
 

@@ -87,7 +87,9 @@ export async function mountSnow(root: ParentNode = document): Promise<void> {
 
   document.addEventListener(
     "astro:before-swap",
-    () => scenes.forEach((scene) => scene.destroy()),
+    () => {
+      for (const scene of scenes) scene.destroy();
+    },
     { once: true },
   );
 }

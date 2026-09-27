@@ -32,19 +32,17 @@ const isCurrent = (href: string) =>
     aria-label="Site"
     class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm sm:gap-x-5"
   >
-    {
-      navItems.map((item) => (
-        <Link
-          href={item.href}
-          external={item.external}
-          subtle={!isCurrent(item.href)}
-          aria-current={isCurrent(item.href) ? "page" : undefined}
-          class={isCurrent(item.href) ? "font-medium" : undefined}
-        >
-          {item.label}
-        </Link>
-      ))
-    }
+    {navItems.map((item) => (
+      <Link
+        href={item.href}
+        external={item.external}
+        subtle={!isCurrent(item.href)}
+        aria-current={isCurrent(item.href) ? "page" : undefined}
+        class={isCurrent(item.href) ? "font-medium" : undefined}
+      >
+        {item.label}
+      </Link>
+    ))}
     <ThemeToggle client:load />
   </nav>
 </Header>

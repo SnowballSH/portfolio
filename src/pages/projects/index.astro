@@ -63,12 +63,12 @@ const projectListSchema = {
   schema={projectListSchema}
 >
   <main class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
-    <Link href="/" subtle>← Back to Portfolio</Link>
+    <Link href="/" subtle>
+      ← Back to Portfolio
+    </Link>
 
     <section class="py-14 text-center">
-      <h1
-        class="font-display text-ink mb-6 text-4xl font-bold tracking-tight md:text-5xl"
-      >
+      <h1 class="font-display text-ink mb-6 text-4xl font-bold tracking-tight md:text-5xl">
         Projects
       </h1>
       <p class="text-ink-secondary mx-auto max-w-3xl text-lg md:text-xl">
@@ -77,53 +77,49 @@ const projectListSchema = {
       </p>
     </section>
 
-    {
-      groups.map((group) => (
-        <section class="py-8">
-          <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
-            {group.label}
-          </h2>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {group.projects.map((project) => (
-              <ProjectCard
-                project={project}
-                showFeaturedIcon={true}
-                loading={project.id === eagerProjectId ? "eager" : "lazy"}
-              />
-            ))}
-          </div>
-        </section>
-      ))
-    }
+    {groups.map((group) => (
+      <section class="py-8">
+        <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
+          {group.label}
+        </h2>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {group.projects.map((project) => (
+            <ProjectCard
+              project={project}
+              showFeaturedIcon={true}
+              loading={project.id === eagerProjectId ? "eager" : "lazy"}
+            />
+          ))}
+        </div>
+      </section>
+    ))}
 
-    {
-      earlierProjects.length > 0 && (
-        <section class="py-8">
-          <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
-            {categories.earlier}
-          </h2>
-          <Panel tier="glass" padding="lg">
-            <ul class="divide-line divide-y">
-              {earlierProjects.map((project) => (
-                <li class="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-4">
-                  <span class="text-ink-muted w-12 shrink-0 font-mono text-sm">
-                    {project.data.date.getUTCFullYear()}
+    {earlierProjects.length > 0 && (
+      <section class="py-8">
+        <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
+          {categories.earlier}
+        </h2>
+        <Panel tier="glass" padding="lg">
+          <ul class="divide-line divide-y">
+            {earlierProjects.map((project) => (
+              <li class="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-4">
+                <span class="text-ink-muted w-12 shrink-0 font-mono text-sm">
+                  {project.data.date.getUTCFullYear()}
+                </span>
+                <span>
+                  <Link href={`/projects/${project.id}`} class="font-medium">
+                    {project.data.title}
+                  </Link>
+                  <span class="text-ink-secondary">
+                    {" "}
+                    — {project.data.shortDescription}
                   </span>
-                  <span>
-                    <Link href={`/projects/${project.id}`} class="font-medium">
-                      {project.data.title}
-                    </Link>
-                    <span class="text-ink-secondary">
-                      {" "}
-                      — {project.data.shortDescription}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Panel>
-        </section>
-      )
-    }
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      </section>
+    )}
   </main>
 </Layout>

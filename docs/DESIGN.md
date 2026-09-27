@@ -22,11 +22,23 @@ only allows its own origin (CORS), so posts are fetched at build time by
   changes, the build logs a warning and the section is omitted rather than
   failing the build.
 
-## Type checking
+## Type checking and linting
 
-`tsconfig.json` covers the site and deliberately has no Bun types, so browser
-code cannot use `Bun` or other runtime-only APIs. Tests are checked separately
-by `tsconfig.test.json`, which adds the Bun types; `bun run check` runs both.
+TypeScript 7 (the native compiler, installed as the `typescript-7` alias)
+type-checks every `.ts` file: `tsconfig.json` covers the site and deliberately
+has no Bun types, so browser code cannot use `Bun` or other runtime-only APIs;
+`tsconfig.test.json` adds the Bun types for tests.
+
+`.astro` files are checked by `astro check`, which runs Astro's language server
+on the TypeScript JavaScript API. TypeScript 7 no longer ships that API and
+`@astrojs/check` accepts only TypeScript 5 or 6, so TypeScript 6 stays installed
+under the plain `typescript` name solely as that engine. Drop it and point
+`check` at TypeScript 7 alone once Astro's checker supports it. `bun run check`
+runs all three passes.
+
+Biome lints the whole repository with its recommended preset and full HTML and
+Astro template support, so template usages count and imports used only in
+markup are not reported as unused. Prettier remains the formatter.
 
 ## Share image
 
