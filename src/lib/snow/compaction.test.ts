@@ -84,3 +84,39 @@ describe("Compaction defaults", () => {
     expect(compaction.value).toBe(0);
   });
 });
+
+describe("direction changes", () => {
+  const close = (a: CompactionLook, b: CompactionLook) => {
+    expect(a.layerAlpha).toBeCloseTo(b.layerAlpha, 2);
+    expect(a.flakeAlpha).toBeCloseTo(b.flakeAlpha, 2);
+    expect(a.flakeScale).toBeCloseTo(b.flakeScale, 2);
+  };
+
+  test("breaking during formation continues from the current look", () => {
+    const compaction = new Compaction(1000, 200);
+    compaction.step(600, true);
+    const before = compaction.look();
+    compaction.step(1, false);
+    close(compaction.look(), before);
+    compaction.step(1000, false);
+    expect(compaction.look()).toEqual(formingLook(0));
+  });
+
+  test("re-forming during a break continues from the current look", () => {
+    const compaction = new Compaction(1000, 200);
+    compaction.step(1000, true);
+    compaction.step(140, false);
+    const before = compaction.look();
+    compaction.step(1, true);
+    close(compaction.look(), before);
+    compaction.step(2000, true);
+    expect(compaction.look()).toEqual(formingLook(1));
+  });
+
+  test("breaking a solid word shows the flakes at once", () => {
+    const compaction = new Compaction(1000, 200);
+    compaction.step(1000, true);
+    compaction.step(1, false);
+    expect(compaction.look().flakeAlpha).toBe(1);
+  });
+});

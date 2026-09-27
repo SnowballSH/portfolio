@@ -67,7 +67,7 @@ the page (`src/lib/snow/`).
   and hero are visible but nothing has drawn 4 s after the scene starts. The
   heading keeps its text for layout, search, and screen readers.
 - **Compaction.** Once the particles settle, `Compaction` ramps from 0 to 1
-  over 1.4 s, and `compactionLook` turns that progress into eased,
+  over 1.4 s, and `formingLook` turns that progress into eased,
   overlapping fades: the crisp word (`renderWordmarkLayer`, same font, same
   gradient) fades in beneath the flakes first, and the flakes fade out on top
   only once it is mostly opaque, growing at most 10%. There is never a moment
@@ -80,7 +80,11 @@ the page (`src/lib/snow/`).
   it pulls together; it re-forms and compacts once the snow settles again.
   Breaking has its own `breakingLook`: the flakes appear at full strength at
   once while the type fades out beneath them over 200 ms. A mouse that only
-  passes near a solid word leaves it alone; entering the word breaks it.
+  passes near a solid word leaves it alone; entering the word breaks it. If
+  the direction changes part-way (reaching for the word while it is still
+  compacting, or the snow settling again mid-break), `Compaction` blends from
+  the look at that moment into the new direction's curve over the remaining
+  travel, so there is no one-frame pop.
 - **One gradient definition.** `WORDMARK_STOPS` in `color.ts` drives the CSS
   gradient on the heading, the particle shades, and the crisp layer, all mixed
   in Oklab and laid out along the CSS gradient line of the heading's box
