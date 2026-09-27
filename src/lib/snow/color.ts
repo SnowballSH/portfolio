@@ -1,3 +1,5 @@
+import { type Box, type Point, clamp } from "./math";
+
 export interface Rgb {
   r: number;
   g: number;
@@ -7,6 +9,12 @@ export interface Rgb {
 export interface GradientStop {
   offset: number;
   color: Rgb;
+}
+
+export interface GradientLine {
+  start: Point;
+  direction: Point;
+  length: number;
 }
 
 interface Oklab {
@@ -97,10 +105,7 @@ export function colorAt(stops: readonly GradientStop[], offset: number): Rgb {
   for (const stop of stops) {
     if (offset <= stop.offset) {
       const span = stop.offset - previous.offset;
-      const t =
-        span > 0
-          ? Math.min(1, Math.max(0, (offset - previous.offset) / span))
-          : 0;
+      const t = span > 0 ? clamp((offset - previous.offset) / span, 0, 1) : 0;
       return mixOklab(previous.color, stop.color, t);
     }
     previous = stop;
@@ -127,3 +132,27 @@ export const wordmarkCssGradient = (): string => {
   });
   return `linear-gradient(${WORDMARK_ANGLE_DEG}deg, ${stops.join(", ")})`;
 };
+
+export function cssGradientLine(angleDeg: number, box: Box): GradientLine {
+  const radians = (angleDeg * Math.PI) / 180;
+  const direction = { x: Math.sin(radians), y: -Math.cos(radians) };
+  const length =
+    Math.abs(box.width * direction.x) + Math.abs(box.height * direction.y);
+  return {
+    start: {
+      x: box.left + box.width / 2 - (direction.x * length) / 2,
+      y: box.top + box.height / 2 - (direction.y * length) / 2,
+    },
+    direction,
+    length,
+  };
+}
+
+export const gradientOffset = (point: Point, line: GradientLine): number =>
+  clamp(
+    ((point.x - line.start.x) * line.direction.x +
+      (point.y - line.start.y) * line.direction.y) /
+      line.length,
+    0,
+    1,
+  );

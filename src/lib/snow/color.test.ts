@@ -1,6 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import {
   colorAt,
+  cssGradientLine,
+  gradientOffset,
   mixOklab,
   parseCanvasColor,
   toRgba,
@@ -79,5 +81,38 @@ describe("gradients", () => {
 
   test("formats rounded rgba strings", () => {
     expect(toRgba({ r: 1.4, g: 2.6, b: 3 }, 0.5)).toBe("rgba(1, 3, 3, 0.5)");
+  });
+});
+
+describe("cssGradientLine", () => {
+  test("a 180deg gradient runs straight down the box", () => {
+    const line = cssGradientLine(180, {
+      left: 10,
+      top: 20,
+      width: 200,
+      height: 100,
+    });
+    expect(line.start.x).toBeCloseTo(110);
+    expect(line.start.y).toBeCloseTo(20);
+    expect(line.length).toBeCloseTo(100);
+    expect(gradientOffset({ x: 50, y: 70 }, line)).toBeCloseTo(0.5);
+    expect(gradientOffset({ x: 50, y: 500 }, line)).toBe(1);
+  });
+
+  test("a 90deg gradient runs left to right", () => {
+    const line = cssGradientLine(90, {
+      left: 0,
+      top: 0,
+      width: 200,
+      height: 100,
+    });
+    expect(gradientOffset({ x: 50, y: 0 }, line)).toBeCloseTo(0.25);
+  });
+
+  test("the corners of an angled gradient reach both ends", () => {
+    const box = { left: 0, top: 0, width: 300, height: 100 };
+    const line = cssGradientLine(172, box);
+    expect(gradientOffset({ x: 0, y: 0 }, line)).toBeCloseTo(0);
+    expect(gradientOffset({ x: 300, y: 100 }, line)).toBeCloseTo(1);
   });
 });

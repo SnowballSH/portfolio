@@ -91,6 +91,10 @@ const homeSchema = [
   schema={homeSchema}
 >
   <main class="mx-auto w-full max-w-6xl px-4 sm:px-6">
+    <canvas
+      data-snow-backdrop
+      class="pointer-events-none fixed inset-0 -z-10 h-full w-full"
+      aria-hidden="true"></canvas>
     <section
       data-snow-hero
       class="relative flex min-h-[calc(100svh-4rem)] items-center justify-center py-16 text-center"
@@ -220,9 +224,9 @@ const homeSchema = [
 </Layout>
 
 <script>
-  import { mountSnowHero } from "../lib/snow/hero";
+  import { mountSnow } from "../lib/snow/mount";
 
-  void mountSnowHero();
+  void mountSnow();
 </script>
 
 <style>
@@ -233,8 +237,26 @@ const homeSchema = [
     transition: opacity 0.6s ease;
   }
 
-  .wordmark:global(.snow-ready) {
-    opacity: 0;
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+    .wordmark {
+      opacity: 0;
+      animation: wordmark-reveal 0.6s ease 4s forwards;
+    }
+
+    .wordmark:global(.snow-active) {
+      animation: none;
+    }
+  }
+
+  .wordmark:global(.snow-fallback) {
+    animation: none;
+    opacity: 1;
+  }
+
+  @keyframes wordmark-reveal {
+    to {
+      opacity: 1;
+    }
   }
 
   .frost-field {

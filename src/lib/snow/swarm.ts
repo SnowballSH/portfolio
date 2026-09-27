@@ -24,6 +24,7 @@ export interface SwarmTuning {
   introStagger: number;
   introSweep: number;
   introDrift: number;
+  introSkyFraction: number;
   settleDistance: number;
   settleSpeed: number;
 }
@@ -35,10 +36,11 @@ export const DEFAULT_TUNING: SwarmTuning = {
   hoverForce: 1.6,
   burstRadius: 130,
   burstForce: 14,
-  introDuration: 1500,
-  introStagger: 600,
+  introDuration: 1400,
+  introStagger: 450,
   introSweep: 300,
   introDrift: 240,
+  introSkyFraction: 0.3,
   settleDistance: 0.15,
   settleSpeed: 0.02,
 };
@@ -167,7 +169,8 @@ export class LetterSwarm {
   }
 
   private beginIntro(skyHeight: number): void {
-    const { introDrift, introStagger, introSweep } = this.tuning;
+    const { introDrift, introStagger, introSweep, introSkyFraction } =
+      this.tuning;
     const width = Math.max(1, this.bounds.right - this.bounds.left);
     this.startX = new Float32Array(this.count);
     this.startY = new Float32Array(this.count);
@@ -175,7 +178,7 @@ export class LetterSwarm {
     for (let i = 0; i < this.count; i++) {
       const targetX = this.targetX[i];
       this.startX[i] = targetX + (this.random() - 0.5) * introDrift;
-      this.startY[i] = -this.random() * skyHeight * 0.7 - 20;
+      this.startY[i] = -this.random() * skyHeight * introSkyFraction - 20;
       this.x[i] = this.startX[i];
       this.y[i] = this.startY[i];
       const across = (targetX - this.bounds.left) / width;

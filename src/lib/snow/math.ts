@@ -12,6 +12,13 @@ export interface Bounds {
   bottom: number;
 }
 
+export interface Box {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
 export const clamp = (value: number, min: number, max: number): number =>
   Math.min(max, Math.max(min, value));
 
@@ -22,3 +29,6 @@ export const isNear = (point: Point, bounds: Bounds, margin: number): boolean =>
   point.x < bounds.right + margin &&
   point.y > bounds.top - margin &&
   point.y < bounds.bottom + margin;
+
+export const modulo = (value: number, span: number): number =>
+  ((value % span) + span) % span;
