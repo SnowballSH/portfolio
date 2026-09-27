@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import type { CollectionEntry } from "astro:content";
 import { Badge, Link, Panel, Prose } from "foundationui/svelte";
 import { categories } from "../../data/categories";
+import Layout from "../../layouts/Layout.astro";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getCollection("projects");
@@ -87,45 +87,35 @@ const projectSchema = {
   image={image || "/og.jpg"}
   publishedTime={publishedIso}
   modifiedTime={modifiedIso}
-  keywords={[
-    "SnowballSH",
-    "Yinuo Huang",
-    "project",
-    categoryLabel,
-    ...technologies,
-  ]}
+  keywords={["SnowballSH", "Yinuo Huang", "project", categoryLabel, ...technologies]}
   schema={projectSchema}
 >
   <main class="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6">
-    <Link href="/projects" subtle>← Back to Projects</Link>
+    <Link href="/projects" subtle> ← Back to Projects </Link>
 
     <section class="py-10">
       <div
         class="text-ink-secondary mb-6 flex flex-wrap items-center gap-x-3 gap-y-2"
       >
         <span>{formattedDate}</span>
-        {
-          formattedUpdated && (
-            <>
-              <span class="text-ink-muted">•</span>
-              <span>Updated {formattedUpdated}</span>
-            </>
-          )
-        }
+        {formattedUpdated && (
+  <>
+    <span class="text-ink-muted">•</span>
+    <span>Updated {formattedUpdated}</span>
+  </>
+)}
         <span class="text-ink-muted">•</span>
         <span>{categoryLabel}</span>
-        {
-          status !== "completed" && (
-            <>
-              <span class="text-ink-muted">•</span>
-              {status === "in-progress" ? (
-                <Badge tone="aurora">In Progress</Badge>
-              ) : (
-                <Badge tone="neutral">Planned</Badge>
-              )}
-            </>
-          )
-        }
+        {status !== "completed" && (
+  <>
+    <span class="text-ink-muted">•</span>
+    {status === "in-progress" ? (
+      <Badge tone="aurora">In Progress</Badge>
+    ) : (
+      <Badge tone="neutral">Planned</Badge>
+    )}
+  </>
+)}
       </div>
 
       <h1
@@ -139,42 +129,34 @@ const projectSchema = {
       </p>
 
       <div class="mb-8 flex flex-wrap gap-2">
-        {
-          technologies.map((tech: string) => (
-            <Badge tone="accent">{tech}</Badge>
-          ))
-        }
+        {technologies.map((tech: string) => <Badge tone="accent">{tech}</Badge>)}
       </div>
 
-      {
-        externalLinks.length > 0 && (
-          <div class="flex flex-wrap gap-x-5 gap-y-2 text-lg">
-            {externalLinks.map((link) => (
-              <Link href={link.url} external>
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        )
-      }
+      {externalLinks.length > 0 && (
+  <div class="flex flex-wrap gap-x-5 gap-y-2 text-lg">
+    {externalLinks.map((link) => (
+      <Link href={link.url} external>
+        {link.label}
+      </Link>
+    ))}
+  </div>
+)}
     </section>
 
-    {
-      image && (
-        <section class="pb-10">
-          <Panel tier="glass" padding="md">
-            <img
-              src={image}
-              alt={imageAlt || `Screenshot of ${title}`}
-              width="800"
-              height="480"
-              class="h-80 w-full rounded-md object-contain"
-              loading="eager"
-            />
-          </Panel>
-        </section>
-      )
-    }
+    {image && (
+  <section class="pb-10">
+    <Panel tier="glass" padding="md">
+      <img
+        src={image}
+        alt={imageAlt || `Screenshot of ${title}`}
+        width="800"
+        height="480"
+        class="h-80 w-full rounded-md object-contain"
+        loading="eager"
+      />
+    </Panel>
+  </section>
+)}
 
     <section class="pb-10">
       <Panel tier="glass" padding="lg">

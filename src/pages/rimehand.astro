@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
 import { Link, Panel } from "foundationui/svelte";
 import EmailLink from "../components/EmailLink.astro";
 import { email } from "../data/contact";
+import Layout from "../layouts/Layout.astro";
 
 const description =
   "Rimehand is a long-term project exploring a generalist robot that can perceive, reason about, and play many physical tabletop games.";
@@ -22,12 +22,12 @@ const schema = {
   description={description}
   canonical="https://snowballsh.com/rimehand/"
   keywords={[
-    "Rimehand",
-    "robotics",
-    "generalist robotics",
-    "game-playing robot",
-    "tabletop games",
-  ]}
+  "Rimehand",
+  "robotics",
+  "generalist robotics",
+  "game-playing robot",
+  "tabletop games",
+]}
   schema={schema}
 >
   <main
@@ -45,7 +45,8 @@ const schema = {
           id="rimehand-title"
           class="font-display text-ink max-w-[12ch] text-5xl font-bold tracking-tight md:text-7xl"
         >
-          Rimehand is<br />
+          Rimehand is
+          <br>
           <span class="text-accent">coming soon.</span>
         </h1>
 

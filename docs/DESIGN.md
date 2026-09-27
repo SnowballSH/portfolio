@@ -22,11 +22,32 @@ only allows its own origin (CORS), so posts are fetched at build time by
   changes, the build logs a warning and the section is omitted rather than
   failing the build.
 
-## Type checking
+## Type checking, linting, and formatting
 
+TypeScript 7 (the native compiler, installed under the alias `typescript-7` and
+run with `bun run tsc7`) is the authoritative type check for `.ts` files:
 `tsconfig.json` covers the site and deliberately has no Bun types, so browser
-code cannot use `Bun` or other runtime-only APIs. Tests are checked separately
-by `tsconfig.test.json`, which adds the Bun types; `bun run check` runs both.
+code cannot use `Bun` or other runtime-only APIs, and `tsconfig.test.json` adds
+the Bun types for tests.
+
+`.astro` files are checked by `astro check`, which runs Astro's language server
+on the TypeScript JavaScript API. TypeScript 7 no longer ships that API and
+`@astrojs/check` accepts only TypeScript 5 or 6, so TypeScript 6 stays installed
+under the plain `typescript` name as that engine; incidentally it also checks
+the site's `.ts` files. `bun run check` runs all three passes. Once Astro's
+checker supports TypeScript 7, drop TypeScript 6 and the alias. Dependabot does
+not follow the `npm:` alias, so bump `typescript-7` by hand.
+
+Biome lints, formats, and sorts imports for TypeScript, JavaScript, JSON, CSS,
+HTML, SVG, and `.astro` files (`html.experimentalFullSupportEnabled` with the
+HTML formatter on, so template usages count and templates are formatted).
+`bun run lint` checks everything and `bun run format` applies fixes. Markdown
+and YAML are not formatted by any tool. The HTML formatter is whitespace
+sensitive: text that must touch an element, such as a period after a link,
+stays attached (`</Link>.`), because a line break there renders as a space.
+Biome's experimental Astro formatter also outdents `.map()` callback bodies
+in templates to a fixed column; leave that as formatted rather than fighting
+it. Tailwind class order is not enforced.
 
 ## Share image
 

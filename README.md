@@ -14,7 +14,6 @@ Live at [snowballsh.com](https://snowballsh.com).
 - `bun run lint`
 - `bun run test`
 - `bun run format`
-- `bun run format:check`
 - `bun run build`
 - `bun run preview`
 

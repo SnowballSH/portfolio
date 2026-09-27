@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import {
+  breakingLook,
   Compaction,
   type CompactionLook,
-  breakingLook,
   formingLook,
 } from "./compaction";
 

@@ -1,9 +1,9 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import ProjectCard from "../../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import { Link, Panel } from "foundationui/svelte";
+import ProjectCard from "../../components/ProjectCard.astro";
 import { categories, categoryOrder } from "../../data/categories";
+import Layout from "../../layouts/Layout.astro";
 
 const allProjects = await getCollection("projects");
 const sortedProjects = allProjects.sort((a, b) => {
@@ -53,17 +53,17 @@ const projectListSchema = {
   title="Projects - SnowballSH (Yinuo Huang)"
   description="Projects by SnowballSH (Yinuo Huang): chess engines, games, infrastructure, machine learning, and hackathon builds."
   keywords={[
-    "SnowballSH",
-    "Yinuo Huang",
-    "software projects",
-    "portfolio",
-    "chess engine",
-    "infrastructure",
-  ]}
+  "SnowballSH",
+  "Yinuo Huang",
+  "software projects",
+  "portfolio",
+  "chess engine",
+  "infrastructure",
+]}
   schema={projectListSchema}
 >
   <main class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
-    <Link href="/" subtle>← Back to Portfolio</Link>
+    <Link href="/" subtle> ← Back to Portfolio </Link>
 
     <section class="py-14 text-center">
       <h1
@@ -77,53 +77,49 @@ const projectListSchema = {
       </p>
     </section>
 
-    {
-      groups.map((group) => (
-        <section class="py-8">
-          <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
-            {group.label}
-          </h2>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {group.projects.map((project) => (
-              <ProjectCard
-                project={project}
-                showFeaturedIcon={true}
-                loading={project.id === eagerProjectId ? "eager" : "lazy"}
-              />
-            ))}
-          </div>
-        </section>
-      ))
-    }
+    {groups.map((group) => (
+  <section class="py-8">
+    <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
+      {group.label}
+    </h2>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {group.projects.map((project) => (
+        <ProjectCard
+          project={project}
+          showFeaturedIcon={true}
+          loading={project.id === eagerProjectId ? "eager" : "lazy"}
+        />
+      ))}
+    </div>
+  </section>
+))}
 
-    {
-      earlierProjects.length > 0 && (
-        <section class="py-8">
-          <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
-            {categories.earlier}
-          </h2>
-          <Panel tier="glass" padding="lg">
-            <ul class="divide-line divide-y">
-              {earlierProjects.map((project) => (
-                <li class="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-4">
-                  <span class="text-ink-muted w-12 shrink-0 font-mono text-sm">
-                    {project.data.date.getUTCFullYear()}
-                  </span>
-                  <span>
-                    <Link href={`/projects/${project.id}`} class="font-medium">
-                      {project.data.title}
-                    </Link>
-                    <span class="text-ink-secondary">
-                      {" "}
-                      — {project.data.shortDescription}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Panel>
-        </section>
-      )
-    }
+    {earlierProjects.length > 0 && (
+  <section class="py-8">
+    <h2 class="font-display text-ink mb-8 text-2xl font-bold md:text-3xl">
+      {categories.earlier}
+    </h2>
+    <Panel tier="glass" padding="lg">
+      <ul class="divide-line divide-y">
+        {earlierProjects.map((project) => (
+          <li class="flex flex-col gap-1 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-4">
+            <span class="text-ink-muted w-12 shrink-0 font-mono text-sm">
+              {project.data.date.getUTCFullYear()}
+            </span>
+            <span>
+              <Link href={`/projects/${project.id}`} class="font-medium">
+                {project.data.title}
+              </Link>
+              <span class="text-ink-secondary">
+                {" "}
+                — {project.data.shortDescription}
+              </span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Panel>
+  </section>
+)}
   </main>
 </Layout>

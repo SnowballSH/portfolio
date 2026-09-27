@@ -1,13 +1,13 @@
 import { context2d } from "./canvas";
 import {
-  type GradientStop,
-  WORDMARK_ANGLE_DEG,
   colorAt,
   cssGradientLine,
+  type GradientStop,
   gradientOffset,
   toRgba,
+  WORDMARK_ANGLE_DEG,
 } from "./color";
-import { type Box, type Random, clamp } from "./math";
+import { type Box, clamp, type Random } from "./math";
 import type { SwarmTargets } from "./swarm";
 
 export interface WordmarkLayout {

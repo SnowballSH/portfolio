@@ -7,6 +7,8 @@ export interface Profile {
 
 export const email = "yinuo@snowballsh.com";
 
+export const academicProfileUrl = "https://www.andrew.cmu.edu/user/yinuohua/";
+
 export const profiles: readonly Profile[] = [
   {
     label: "GitHub",

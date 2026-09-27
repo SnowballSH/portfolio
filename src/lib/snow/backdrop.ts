@@ -5,8 +5,8 @@ import {
   fitCanvas,
   watchPixelRatio,
 } from "./canvas";
-import { type Cadence, FrameLoop } from "./frame-loop";
 import { Flurry } from "./flurry";
+import { type Cadence, FrameLoop } from "./frame-loop";
 import type { Random } from "./math";
 import { createFlakeSprite, readThemeColors } from "./palette";
 

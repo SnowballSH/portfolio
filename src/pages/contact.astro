@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import EmailLink from "../components/EmailLink.astro";
-import { email, profiles } from "../data/contact";
 import { Link, Panel } from "foundationui/svelte";
+import EmailLink from "../components/EmailLink.astro";
+import { academicProfileUrl, email, profiles } from "../data/contact";
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout
@@ -36,35 +36,29 @@ import { Link, Panel } from "foundationui/svelte";
             <EmailLink address={email} />
           </p>
         </Panel>
-        {
-          profiles.map((profile) => (
-            <Panel
-              tier="glass"
-              padding="lg"
-              class="flex min-h-32 flex-col items-center justify-center gap-2 text-center"
-            >
-              <h2 class="font-display text-ink text-xl font-semibold">
-                {profile.label}
-              </h2>
-              <p class="text-lg font-medium">
-                <Link href={profile.url} external>
-                  {profile.handle}
-                </Link>
-              </p>
-            </Panel>
-          ))
-        }
+        {profiles.map((profile) => (
+  <Panel
+    tier="glass"
+    padding="lg"
+    class="flex min-h-32 flex-col items-center justify-center gap-2 text-center"
+  >
+    <h2 class="font-display text-ink text-xl font-semibold">{profile.label}</h2>
+    <p class="text-lg font-medium">
+      <Link href={profile.url} external>
+        {profile.handle}
+      </Link>
+    </p>
+  </Panel>
+))}
       </div>
 
       <p
         class="text-ink-secondary mx-auto mt-10 max-w-2xl text-center text-base"
       >
-        You can also find me on Discord as <span class="text-ink font-medium"
-          >SnowballSH</span
-        >. For academic-related information about me, see my{" "}
-        <Link href="https://www.andrew.cmu.edu/user/yinuohua/" external>
-          CMU academic profile
-        </Link>.
+        You can also find me on Discord as{" "}
+        <span class="text-ink font-medium">SnowballSH</span>. For
+        academic-related information about me, see my{" "}
+        <Link href={academicProfileUrl} external>CMU academic profile</Link>.
       </p>
     </section>
   </main>
