@@ -29,6 +29,8 @@ export const HEADING_CLASSES = {
 type LayoutResult = "ready" | "empty" | "unreadable";
 
 const LAYOUT_DEBOUNCE_MS = 150;
+const FIRST_FRAME_DEADLINE_MS = 4000;
+const POINTER_REST_MS = 1000;
 
 const relativeBox = (rect: DOMRect, originTop: number): Box => ({
   left: rect.left,
@@ -45,6 +47,9 @@ export class SnowWordmark {
   private readonly lifecycle = new AbortController();
   private readonly observers: { disconnect(): void }[] = [];
   private layoutTimer: ReturnType<typeof setTimeout> | undefined;
+  private watchdogTimer: ReturnType<typeof setTimeout> | undefined;
+  private pointerRestTimer: ReturnType<typeof setTimeout> | undefined;
+  private onScreen = true;
   private wordmarkLayout: WordmarkLayout | null = null;
   private pointer: Point | null = null;
   private pointerInWord = false;
@@ -64,6 +69,7 @@ export class SnowWordmark {
 
   start(): boolean {
     this.bindEvents();
+    this.armWatchdog();
     return this.applyLayout();
   }
 
@@ -72,6 +78,8 @@ export class SnowWordmark {
     for (const observer of this.observers) observer.disconnect();
     this.loop.destroy();
     clearTimeout(this.layoutTimer);
+    clearTimeout(this.watchdogTimer);
+    clearTimeout(this.pointerRestTimer);
     this.renderer.clear();
     const { classList } = this.elements.heading;
     classList.remove(HEADING_CLASSES.pending, HEADING_CLASSES.active);
@@ -92,6 +100,14 @@ export class SnowWordmark {
     }
     return this.swarm.settled && this.compaction.complete ? "sleep" : "active";
   };
+
+  private armWatchdog(): void {
+    this.watchdogTimer = setTimeout(() => {
+      if (this.drawn) return;
+      if (document.hidden || !this.onScreen) this.armWatchdog();
+      else this.destroy();
+    }, FIRST_FRAME_DEADLINE_MS);
+  }
 
   private currentLayoutKey(): string {
     const { height } = this.elements.section.getBoundingClientRect();
@@ -184,9 +200,10 @@ export class SnowWordmark {
     const { section, canvas } = this.elements;
     const { signal } = this.lifecycle;
 
-    const intersection = new IntersectionObserver(([entry]) =>
-      this.loop.setOnScreen(entry?.isIntersecting ?? false),
-    );
+    const intersection = new IntersectionObserver(([entry]) => {
+      this.onScreen = entry?.isIntersecting ?? false;
+      this.loop.setOnScreen(this.onScreen);
+    });
     intersection.observe(section);
     const resize = new ResizeObserver(this.scheduleLayout);
     resize.observe(section);
@@ -217,6 +234,10 @@ export class SnowWordmark {
         if (inWord && !this.pointerInWord) this.swarm.scatter(point);
         this.pointerInWord = inWord;
         this.pointer = point;
+        clearTimeout(this.pointerRestTimer);
+        this.pointerRestTimer = setTimeout(() => {
+          this.pointer = null;
+        }, POINTER_REST_MS);
         if (this.swarm.attracts(point)) this.loop.wake();
       },
       { passive: true, signal },

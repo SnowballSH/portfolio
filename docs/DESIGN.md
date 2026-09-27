@@ -62,7 +62,9 @@ the page (`src/lib/snow/`).
   `OffscreenCanvas` missing, any error), clearing its canvas so no stale snow
   sits under the revealed text. If the script never loads, a CSS animation
   reveals the heading after 4 s; a script that arrives after that reveal has
-  begun leaves the visible heading alone instead of hiding it again. The
+  begun leaves the visible heading alone instead of hiding it again. Because
+  `snow-pending` cancels that reveal, a watchdog takes the fallback if the page
+  and hero are visible but nothing has drawn 4 s after the scene starts. The
   heading keeps its text for layout, search, and screen readers.
 - **Compaction.** Once the particles settle, `Compaction` ramps from 0 to 1
   over 700 ms: the flakes swell and fade out while a crisp rendering of the word
@@ -89,7 +91,9 @@ the page (`src/lib/snow/`).
   30 fps, or 24 fps on touch devices (`pointer: coarse`), and redraws
   immediately after a resize so flakes do not blink when a phone's address bar
   moves. Both stop while the tab is hidden, and the letters also stop while
-  the hero is off screen. The compacted word is cached as one bitmap.
+  the hero is off screen. A settled frame is a single blit of the pre-rendered
+  word layer. A mouse resting on the word stops pushing flakes after 1 s, so
+  the word can settle and the loop can sleep.
 - **Scrolling moves through the snow.** Backdrop flakes live in viewport space
   and drift against the scroll with per-flake depth, so larger flakes move
   faster and the page reads as falling snow at every section.
