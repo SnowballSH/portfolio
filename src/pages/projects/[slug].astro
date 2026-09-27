@@ -75,7 +75,7 @@ const projectSchema = {
     alternateName: "SnowballSH",
     url: new URL("/", site).toString(),
   },
-  image: new URL(image || "/favicon.webp", site).toString(),
+  image: new URL(image || "/og.jpg", site).toString(),
   keywords: [categoryLabel, ...technologies],
 };
 ---
@@ -84,7 +84,7 @@ const projectSchema = {
   title={`${title} - SnowballSH (Yinuo Huang)`}
   description={shortDescription}
   type="article"
-  image={image || "/favicon.webp"}
+  image={image || "/og.jpg"}
   publishedTime={publishedIso}
   modifiedTime={modifiedIso}
   keywords={[

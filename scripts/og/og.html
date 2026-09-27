@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: "Inter";
+        src: url("../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+          format("woff2");
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        src: url("../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2")
+          format("woff2");
+        font-weight: 100 800;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 56px;
+        padding: 0 96px;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        color: #eaf3ff;
+        background:
+          radial-gradient(
+            40rem 28rem at 85% -10%,
+            rgb(96 165 250 / 0.35),
+            transparent
+          ),
+          radial-gradient(
+            36rem 26rem at -5% 110%,
+            rgb(45 212 191 / 0.22),
+            transparent
+          ),
+          linear-gradient(160deg, #0b1628, #0f2340 60%, #0b1a30);
+      }
+      .flake {
+        position: absolute;
+        border-radius: 50%;
+        background: #dbeafe;
+      }
+      img {
+        width: 220px;
+        height: 220px;
+        flex: none;
+        filter: drop-shadow(0 18px 40px rgb(56 189 248 / 0.35));
+      }
+      h1 {
+        margin: 0;
+        font-size: 112px;
+        line-height: 0.95;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        color: transparent;
+        background: linear-gradient(172deg, #ffffff 10%, #bfdbfe 55%, #60a5fa);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      .name {
+        margin: 22px 0 0;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 24px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #9cc3f5;
+      }
+      .tagline {
+        margin: 26px 0 0;
+        font-size: 30px;
+        color: #cfe0f7;
+      }
+      .url {
+        position: absolute;
+        right: 56px;
+        bottom: 40px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 22px;
+        color: #7aa7dc;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="../../public/favicon.webp" alt="" />
+    <div>
+      <h1>SnowballSH</h1>
+      <p class="name">Yinuo Huang</p>
+      <p class="tagline">Chess engines, infrastructure, and music.</p>
+    </div>
+    <span class="url">snowballsh.com</span>
+    <script>
+      let seed = 7;
+      const seededRandom = () =>
+        (seed = (seed * 16807) % 2147483647) / 2147483647;
+      for (let i = 0; i < 70; i++) {
+        const flake = document.createElement("span");
+        const size = 1.5 + seededRandom() * 4;
+        flake.className = "flake";
+        flake.style.cssText = `left:${seededRandom() * 1200}px;top:${seededRandom() * 630}px;width:${size}px;height:${size}px;opacity:${0.15 + seededRandom() * 0.45}`;
+        document.body.prepend(flake);
+      }
+    </script>
+  </body>
+</html>

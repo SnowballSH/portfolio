@@ -4,6 +4,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import { Badge, Link, Panel } from "foundationui/svelte";
 import { profiles } from "../data/contact";
+import { BLOG_URL, getLatestPosts } from "../lib/blog";
 
 const allProjects = await getCollection("projects");
 const featuredProjects = allProjects
@@ -15,6 +16,14 @@ const featuredProjects = allProjects
     return b.data.date.getTime() - a.data.date.getTime();
   })
   .slice(0, 4);
+
+const latestPosts = await getLatestPosts(3);
+const postDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
 
 const skills = [
   {
@@ -154,24 +163,52 @@ const homeSchema = [
       </div>
     </section>
 
-    <section id="contact" class="py-16 pb-24">
-      <Panel
-        tier="glass"
-        padding="lg"
-        class="mx-auto max-w-2xl space-y-4 text-center"
-      >
-        <h2 class="font-display text-ink text-3xl font-bold">
-          Problems are Better Solved Together
-        </h2>
-        <p class="text-ink-secondary text-lg">
-          Noticing any problems that can be solved with technologies? Have any
-          awesome ideas? Let's innovate together!
-        </p>
-        <p class="text-lg">
-          <Link href="/contact">Contact Me</Link>
-        </p>
-      </Panel>
-    </section>
+    {
+      latestPosts.length > 0 && (
+        <section id="writing" class="py-16">
+          <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
+            Latest Writing
+          </h2>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {latestPosts.map((post) => (
+              <Panel
+                tier="glass"
+                padding="lg"
+                interactive
+                class="relative flex h-full flex-col gap-3"
+              >
+                <time
+                  datetime={post.publishedAt.toISOString()}
+                  class="text-ink-muted font-mono text-sm"
+                >
+                  {postDate.format(post.publishedAt)}
+                </time>
+                <h3 class="font-display text-ink text-xl font-semibold">
+                  <Link
+                    href={post.url}
+                    subtle
+                    class="after:absolute after:inset-0 after:content-['']"
+                  >
+                    {post.title}
+                  </Link>
+                </h3>
+                <p class="text-ink-secondary grow">{post.description}</p>
+                <div class="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Badge tone="neutral">{tag}</Badge>
+                  ))}
+                </div>
+              </Panel>
+            ))}
+          </div>
+          <div class="mt-12 text-center text-lg">
+            <Link href={BLOG_URL} external>
+              All posts →
+            </Link>
+          </div>
+        </section>
+      )
+    }
   </main>
 </Layout>
 

@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import EmailLink from "../components/EmailLink.astro";
 import { email, profiles } from "../data/contact";
+import { serializeJsonLd } from "../lib/json-ld";
 import { Footer, Link } from "foundationui/svelte";
 
 export interface Props {
@@ -16,12 +17,13 @@ export interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  cta?: boolean;
 }
 
 const {
   title = "SnowballSH (Yinuo Huang)",
   description = "Portfolio showcasing SnowballSH (Yinuo Huang) projects and skills",
-  image = "/favicon.webp",
+  image = "/og.jpg",
   type = "website",
   canonical,
   noindex = false,
@@ -35,6 +37,7 @@ const {
   publishedTime,
   modifiedTime,
   schema,
+  cta = true,
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://snowballsh.com");
@@ -52,7 +55,8 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
     <meta name="author" content="Yinuo Huang" />
     <meta name="description" content={description} />
@@ -99,23 +103,27 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         <script
           is:inline
           type="application/ld+json"
-          set:html={JSON.stringify(item)}
+          set:html={serializeJsonLd(item)}
         />
       ))
     }
     <script is:inline>
       (() => {
-        let theme = "light";
-        try {
-          const stored = localStorage.getItem("fui-theme");
-          theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
-        } catch {}
-        document.documentElement.dataset.theme = theme;
+        const readStoredTheme = () => {
+          try {
+            return localStorage.getItem("fui-theme");
+          } catch {
+            return null;
+          }
+        };
+        const stored = readStoredTheme();
+        const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : prefersDark
+              ? "dark"
+              : "light";
       })();
     </script>
 
@@ -131,6 +139,21 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <Navbar />
     <div class="flex-1">
       <slot />
+      {
+        cta && (
+          <section class="mx-auto w-full max-w-2xl px-4 py-20 text-center sm:px-6">
+            <h2 class="font-display text-ink text-2xl font-bold md:text-3xl">
+              Let's talk
+            </h2>
+            <p class="text-ink-secondary mt-3 text-lg">
+              Ideas, questions, or a chess engine you want to test against mine.
+            </p>
+            <p class="mt-5 text-lg">
+              <Link href="/contact">Get in touch →</Link>
+            </p>
+          </section>
+        )
+      }
     </div>
     <Footer>
       <div class="flex flex-wrap items-center justify-between gap-4">
@@ -138,7 +161,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
           {
             profiles
-              .filter((profile) => profile.label !== "Codeforces")
+              .filter((profile) => profile.inFooter)
               .map((profile) => (
                 <Link subtle href={profile.url} external>
                   {profile.label}

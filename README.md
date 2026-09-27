@@ -11,7 +11,11 @@ Live at [snowballsh.com](https://snowballsh.com).
 - `bun install`
 - `bun run dev`
 - `bun run check`
+- `bun run lint`
+- `bun run test`
 - `bun run format`
 - `bun run format:check`
 - `bun run build`
 - `bun run preview`
+
+Design decisions are documented in [docs/DESIGN.md](docs/DESIGN.md).
