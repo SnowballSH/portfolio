@@ -45,7 +45,9 @@ HTML formatter on, so template usages count and templates are formatted).
 and YAML are not formatted by any tool. The HTML formatter is whitespace
 sensitive: text that must touch an element, such as a period after a link,
 stays attached (`</Link>.`), because a line break there renders as a space.
-Tailwind class order is not enforced.
+Biome's experimental Astro formatter also outdents `.map()` callback bodies
+in templates to a fixed column; leave that as formatted rather than fighting
+it. Tailwind class order is not enforced.
 
 ## Share image
 
