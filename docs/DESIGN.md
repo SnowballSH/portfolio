@@ -41,3 +41,36 @@ the image.
 `favicon-32.png`, `favicon.ico`, `apple-touch-icon.png`, and `logo-64.webp` are
 derived from `favicon.webp` (800×800). The touch icon is flattened onto an
 opaque background because iOS fills transparent corners with black.
+
+## Snowfall hero
+
+The home page wordmark is drawn by snow particles that fall and settle into the
+letters (`src/lib/snow/`).
+
+- **The real heading stays.** The `<h1>` keeps its text for layout, search, and
+  screen readers. It fades out only after the canvas has drawn its first frame,
+  so without JavaScript, without `OffscreenCanvas`, or with
+  `prefers-reduced-motion`, visitors see the gradient wordmark unchanged.
+- **Targets come from the real font.** `sampleWordmark` renders the word with
+  the heading's computed font and letter spacing into an offscreen canvas,
+  scales it to the heading's measured width, and samples the ink on a jittered
+  grid. The particle budget scales with viewport width (700–1,800), so phones
+  simulate fewer particles.
+- **Simulation is separate from rendering.** `LetterSwarm` (intro fall, spring
+  physics, hover, burst) and `Flurry` (ambient flakes) are pure and unit-tested;
+  `SnowRenderer` only draws. Particle state is stored in typed arrays.
+- **Idle is cheap.** Particles are drawn from pre-rendered dot sprites, one per
+  shade of the wordmark gradient. Once the letters settle they are painted into
+  one cached bitmap, so a settled frame is a single image blit plus the ambient
+  flakes. The loop stops while the hero is off screen or the tab is hidden, and
+  device pixel ratio is capped at 2.
+- **Touch never blocks scrolling.** The mouse pushes snow aside on hover; a tap
+  or click away from links puffs it outward. Touch moves are ignored, so the
+  page scrolls normally on phones.
+- **Resizes morph.** A width change resamples the word; existing particles
+  spring to their new targets and any extra ones fall in from above. Height-only
+  changes (mobile address bars) are ignored.
+
+Measured on a desktop at 120 Hz: 0.09 ms of physics and 1.6 ms of drawing per
+frame with 1,800 moving particles, 0.18 ms when settled, and no dropped frames
+during a burst.

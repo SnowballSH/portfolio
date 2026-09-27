@@ -91,6 +91,7 @@ const homeSchema = [
 >
   <main class="mx-auto w-full max-w-6xl px-4 sm:px-6">
     <section
+      data-snow-hero
       class="relative flex min-h-[calc(100svh-4rem)] items-center justify-center py-16 text-center"
     >
       <div
@@ -101,11 +102,15 @@ const homeSchema = [
         <div class="frost-orb frost-orb-deep"></div>
         <div class="frost-orb frost-orb-high"></div>
       </div>
+      <canvas
+        data-snow-canvas
+        class="pointer-events-none absolute top-0 left-0 h-full w-full"
+        aria-hidden="true"></canvas>
       <div class="relative mx-auto max-w-3xl space-y-6">
         <h1
           class="wordmark font-display text-[clamp(3rem,10vw,7.5rem)] leading-[0.95] font-bold tracking-[-0.045em] whitespace-nowrap"
         >
-          SnowballSH
+          <span data-snow-word>SnowballSH</span>
         </h1>
         <p
           class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase"
@@ -212,7 +217,21 @@ const homeSchema = [
   </main>
 </Layout>
 
+<script>
+  import { mountSnowHero } from "../lib/snow/hero";
+
+  mountSnowHero();
+</script>
+
 <style>
+  .wordmark {
+    transition: opacity 0.6s ease;
+  }
+
+  .wordmark:global(.snow-ready) {
+    opacity: 0;
+  }
+
   .wordmark {
     color: transparent;
     background-image: linear-gradient(
