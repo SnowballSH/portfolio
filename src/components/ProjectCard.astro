@@ -42,30 +42,32 @@ const extraLinks = (links ?? []).filter(
   class="relative flex h-full flex-col gap-4"
 >
   {(featured && showFeaturedIcon) || status !== "completed" ? (
-    <div class="flex flex-wrap gap-2">
-      {featured && showFeaturedIcon && <Badge tone="accent">Featured</Badge>}
-      {status === "in-progress" && <Badge tone="aurora">In Progress</Badge>}
-      {status === "planned" && <Badge tone="neutral">Planned</Badge>}
-    </div>
-  ) : null}
+  <div class="flex flex-wrap gap-2">
+    {featured && showFeaturedIcon && <Badge tone="accent">Featured</Badge>}
+    {status === "in-progress" && <Badge tone="aurora">In Progress</Badge>}
+    {status === "planned" && <Badge tone="neutral">Planned</Badge>}
+  </div>
+) : null}
 
-  <div class="bg-glass-3 flex h-48 items-center justify-center overflow-hidden rounded-md">
+  <div
+    class="bg-glass-3 flex h-48 items-center justify-center overflow-hidden rounded-md"
+  >
     {image ? (
-      <img
-        src={image}
-        alt={imageAlt || `Screenshot of ${title}`}
-        width="800"
-        height="480"
-        class="h-full w-full object-contain"
-        loading={loading}
-        decoding="async"
-        fetchpriority={loading === "eager" ? "high" : "auto"}
-      />
-    ) : (
-      <span class="font-display text-ink-muted text-4xl font-semibold">
-        {title.slice(0, 1)}
-      </span>
-    )}
+  <img
+    src={image}
+    alt={imageAlt || `Screenshot of ${title}`}
+    width="800"
+    height="480"
+    class="h-full w-full object-contain"
+    loading={loading}
+    decoding="async"
+    fetchpriority={loading === "eager" ? "high" : "auto"}
+  />
+) : (
+  <span class="font-display text-ink-muted text-4xl font-semibold">
+    {title.slice(0, 1)}
+  </span>
+)}
   </div>
 
   <h3 class="font-display text-ink text-xl font-semibold">
@@ -81,27 +83,27 @@ const extraLinks = (links ?? []).filter(
   <p class="text-ink-secondary grow">{shortDescription}</p>
 
   <div class="flex flex-wrap gap-2">
-    {technologies.map((tech) => (
-      <Badge tone="neutral">{tech}</Badge>
-    ))}
+    {technologies.map((tech) => <Badge tone="neutral">{tech}</Badge>)}
   </div>
 
-  <div class="relative z-10 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+  <div
+    class="relative z-10 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"
+  >
     {primaryLink && (
-      <Link href={primaryLink} external>
-        {primaryLabel}
-      </Link>
-    )}
+  <Link href={primaryLink} external>
+    {primaryLabel}
+  </Link>
+)}
     {githubUrl && primaryLink !== githubUrl && (
-      <Link href={githubUrl} external>
-        Source Code
-      </Link>
-    )}
+  <Link href={githubUrl} external>
+    Source Code
+  </Link>
+)}
     {extraLinks.map((link) => (
-      <Link href={link.url} external>
-        {link.label}
-      </Link>
-    ))}
+  <Link href={link.url} external>
+    {link.label}
+  </Link>
+))}
     <Link href={`/projects/${project.id}`} subtle class="ml-auto">
       Details →
     </Link>

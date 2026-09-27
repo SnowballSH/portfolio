@@ -53,105 +53,107 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="author" content="Yinuo Huang" />
-    <meta name="description" content={description} />
-    <meta name="keywords" content={keywordContent} />
-    <meta name="robots" content={robotsContent} />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="generator" content={Astro.generator}>
+    <meta name="author" content="Yinuo Huang">
+    <meta name="description" content={description}>
+    <meta name="keywords" content={keywordContent}>
+    <meta name="robots" content={robotsContent}>
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"
       content="#fbfdff"
-    />
+    >
     <meta
       name="theme-color"
       media="(prefers-color-scheme: dark)"
       content="#0a1220"
-    />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content={type} />
-    <meta property="og:image" content={imageUrl} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="SnowballSH (Yinuo Huang)" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={imageUrl} />
+    >
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:type" content={type}>
+    <meta property="og:image" content={imageUrl}>
+    <meta property="og:url" content={canonicalUrl}>
+    <meta property="og:site_name" content="SnowballSH (Yinuo Huang)">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={imageUrl}>
     {publishedTime && (
-      <meta property="article:published_time" content={publishedTime} />
-    )}
-    {modifiedTime && (
-      <meta property="article:modified_time" content={modifiedTime} />
-    )}
-    <link rel="canonical" href={canonicalUrl} />
+  <meta property="article:published_time" content={publishedTime} />
+)}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    <link rel="canonical" href={canonicalUrl}>
     <link
       rel="sitemap"
       type="application/xml"
       href={normalizeUrl("/sitemap-index.xml")}
-    />
+    >
     {schemaItems.map((item) => (
-      <script
-        is:inline
-        type="application/ld+json"
-        set:html={serializeJsonLd(item)}
-      />
-    ))}
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeJsonLd(item)}
+  />
+))}
     <script is:inline>
-      (() => {
-        const readStoredTheme = () => {
-          try {
-            return localStorage.getItem("fui-theme");
-          } catch {
-            return null;
-          }
-        };
-        const stored = readStoredTheme();
-        const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme =
-          stored === "light" || stored === "dark"
-            ? stored
-            : prefersDark
-              ? "dark"
-              : "light";
-      })();
+    (() => {
+      const readStoredTheme = () => {
+        try {
+          return localStorage.getItem("fui-theme");
+        } catch {
+          return null;
+        }
+      };
+      const stored = readStoredTheme();
+      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        stored === "light" || stored === "dark"
+          ? stored
+          : prefersDark
+            ? "dark"
+            : "light";
+    })();
     </script>
     <title>{title}</title>
   </head>
-  <body class="bg-surface text-ink flex min-h-svh flex-col font-sans antialiased">
-    <div class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(60rem_40rem_at_85%_-10%,color-mix(in_oklab,var(--fui-accent)_20%,transparent),transparent),radial-gradient(50rem_36rem_at_-10%_110%,color-mix(in_oklab,var(--fui-aurora)_16%,transparent),transparent),radial-gradient(38rem_26rem_at_50%_50%,color-mix(in_oklab,var(--fui-accent)_7%,transparent),transparent)]"></div>
+  <body
+    class="bg-surface text-ink flex min-h-svh flex-col font-sans antialiased"
+  >
+    <div
+      class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(60rem_40rem_at_85%_-10%,color-mix(in_oklab,var(--fui-accent)_20%,transparent),transparent),radial-gradient(50rem_36rem_at_-10%_110%,color-mix(in_oklab,var(--fui-aurora)_16%,transparent),transparent),radial-gradient(38rem_26rem_at_50%_50%,color-mix(in_oklab,var(--fui-accent)_7%,transparent),transparent)]"
+    ></div>
     <Navbar />
     <div class="flex-1">
       <slot />
       {cta && (
-        <section class="mx-auto w-full max-w-2xl px-4 py-20 text-center sm:px-6">
-          <h2 class="font-display text-ink text-2xl font-bold md:text-3xl">
-            Let's talk
-          </h2>
-          <p class="text-ink-secondary mt-3 text-lg">
-            Ideas, questions, or a chess engine you want to test against mine.
-          </p>
-          <p class="mt-5 text-lg">
-            <Link href="/contact">Get in touch →</Link>
-          </p>
-        </section>
-      )}
+  <section class="mx-auto w-full max-w-2xl px-4 py-20 text-center sm:px-6">
+    <h2 class="font-display text-ink text-2xl font-bold md:text-3xl">
+      Let's talk
+    </h2>
+    <p class="text-ink-secondary mt-3 text-lg">
+      Ideas, questions, or a chess engine you want to test against mine.
+    </p>
+    <p class="mt-5 text-lg">
+      <Link href="/contact">Get in touch →</Link>
+    </p>
+  </section>
+)}
     </div>
     <Footer>
       <div class="flex flex-wrap items-center justify-between gap-4">
         <span>© 2026 SnowballSH · Yinuo Huang</span>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
           {profiles
-            .filter((profile) => profile.inFooter)
-            .map((profile) => (
-              <Link subtle href={profile.url} external>
-                {profile.label}
-              </Link>
-            ))}
+  .filter((profile) => profile.inFooter)
+  .map((profile) => (
+    <Link subtle href={profile.url} external>
+      {profile.label}
+    </Link>
+  ))}
           <EmailLink address={email} label="Email" subtle />
         </div>
       </div>

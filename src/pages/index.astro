@@ -120,13 +120,17 @@ const homeSchema = [
         >
           <span data-snow-word>SnowballSH</span>
         </h1>
-        <p class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase">
+        <p
+          class="text-ink-secondary font-mono text-sm font-medium tracking-[0.22em] uppercase"
+        >
           Yinuo Huang
         </p>
         <p class="text-ink-secondary mx-auto max-w-2xl text-lg md:text-xl">
           I write innovative software, produce cool music, and more.
         </p>
-        <div class="flex flex-col items-center justify-center gap-4 pt-2 text-lg sm:flex-row">
+        <div
+          class="flex flex-col items-center justify-center gap-4 pt-2 text-lg sm:flex-row"
+        >
           <Link href="#projects">View Projects</Link>
           <Link href="/contact">Get In Touch</Link>
         </div>
@@ -134,34 +138,34 @@ const homeSchema = [
     </section>
 
     <section class="py-16">
-      <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
+      <h2
+        class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl"
+      >
         Skills
       </h2>
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {skills.map((skill) => (
-          <Panel tier="glass" padding="lg" class="flex flex-col gap-3">
-            <h3 class="font-display text-ink text-xl font-semibold">
-              {skill.title}
-            </h3>
-            <p class="text-ink-secondary grow">{skill.description}</p>
-            <div class="flex flex-wrap gap-2">
-              {skill.tags.map((tag) => (
-                <Badge tone="accent">{tag}</Badge>
-              ))}
-            </div>
-          </Panel>
-        ))}
+  <Panel tier="glass" padding="lg" class="flex flex-col gap-3">
+    <h3 class="font-display text-ink text-xl font-semibold">{skill.title}</h3>
+    <p class="text-ink-secondary grow">{skill.description}</p>
+    <div class="flex flex-wrap gap-2">
+      {skill.tags.map((tag) => (
+        <Badge tone="accent">{tag}</Badge>
+      ))}
+    </div>
+  </Panel>
+))}
       </div>
     </section>
 
     <section id="projects" class="py-16">
-      <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
+      <h2
+        class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl"
+      >
         Featured Projects
       </h2>
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {featuredProjects.map((project) => (
-          <ProjectCard project={project} />
-        ))}
+        {featuredProjects.map((project) => <ProjectCard project={project} />)}
       </div>
       <div class="mt-12 text-center text-lg">
         <Link href="/projects">View All Projects ({allProjects.length})</Link>
@@ -169,144 +173,142 @@ const homeSchema = [
     </section>
 
     {latestPosts.length > 0 && (
-      <section id="writing" class="py-16">
-        <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
-          Latest Writing
-        </h2>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {latestPosts.map((post) => (
-            <Panel
-              tier="glass"
-              padding="lg"
-              interactive
-              class="relative flex h-full flex-col gap-3"
+  <section id="writing" class="py-16">
+    <h2 class="font-display text-ink mb-12 text-center text-3xl font-bold md:text-4xl">
+      Latest Writing
+    </h2>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {latestPosts.map((post) => (
+        <Panel
+          tier="glass"
+          padding="lg"
+          interactive
+          class="relative flex h-full flex-col gap-3"
+        >
+          <time
+            datetime={post.publishedAt.toISOString()}
+            class="text-ink-muted font-mono text-sm"
+          >
+            {postDate.format(post.publishedAt)}
+          </time>
+          <h3 class="font-display text-ink text-xl font-semibold">
+            <Link
+              href={post.url}
+              subtle
+              class="after:absolute after:inset-0 after:content-['']"
             >
-              <time
-                datetime={post.publishedAt.toISOString()}
-                class="text-ink-muted font-mono text-sm"
-              >
-                {postDate.format(post.publishedAt)}
-              </time>
-              <h3 class="font-display text-ink text-xl font-semibold">
-                <Link
-                  href={post.url}
-                  subtle
-                  class="after:absolute after:inset-0 after:content-['']"
-                >
-                  {post.title}
-                </Link>
-              </h3>
-              <p class="text-ink-secondary grow">{post.description}</p>
-              <div class="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <Badge tone="neutral">{tag}</Badge>
-                ))}
-              </div>
-            </Panel>
-          ))}
-        </div>
-        <div class="mt-12 text-center text-lg">
-          <Link href={BLOG_URL} external>
-            All posts →
-          </Link>
-        </div>
-      </section>
-    )}
+              {post.title}
+            </Link>
+          </h3>
+          <p class="text-ink-secondary grow">{post.description}</p>
+          <div class="flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <Badge tone="neutral">{tag}</Badge>
+            ))}
+          </div>
+        </Panel>
+      ))}
+    </div>
+    <div class="mt-12 text-center text-lg">
+      <Link href={BLOG_URL} external>
+        All posts →
+      </Link>
+    </div>
+  </section>
+)}
   </main>
 </Layout>
 
 <script>
-  import { mountSnow } from "../lib/snow/mount";
+import { mountSnow } from "../lib/snow/mount";
 
-  void mountSnow();
+void mountSnow();
 </script>
 
 <style>
+.wordmark {
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: opacity 0.6s ease;
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (
+    forced-colors: none
+  ) {
   .wordmark {
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    transition: opacity 0.6s ease;
+    opacity: 0;
+    animation: wordmark-reveal 0.6s ease 4s forwards;
   }
 
-  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
-    .wordmark {
-      opacity: 0;
-      animation: wordmark-reveal 0.6s ease 4s forwards;
-    }
-
-    .wordmark:global(.snow-pending),
-    .wordmark:global(.snow-active) {
-      animation: none;
-    }
-  }
-
-  .wordmark:global(.snow-fallback) {
+  .wordmark:global(.snow-pending),
+  .wordmark:global(.snow-active) {
     animation: none;
+  }
+}
+
+.wordmark:global(.snow-fallback) {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes wordmark-reveal {
+  to {
     opacity: 1;
   }
+}
 
-  @keyframes wordmark-reveal {
-    to {
-      opacity: 1;
-    }
-  }
+.frost-field {
+  mask-image: radial-gradient(100% 90% at 50% 50%, black 30%, transparent 82%);
+}
 
-  .frost-field {
-    mask-image: radial-gradient(
-      100% 90% at 50% 50%,
-      black 30%,
-      transparent 82%
-    );
-  }
+.frost-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(56px);
+}
 
+.frost-orb-accent {
+  top: 4%;
+  left: 8%;
+  width: clamp(12rem, 36vw, 22rem);
+  height: clamp(12rem, 36vw, 22rem);
+  background: color-mix(in oklab, var(--fui-accent) 18%, transparent);
+}
+
+.frost-orb-deep {
+  right: 6%;
+  bottom: 4%;
+  width: clamp(10rem, 32vw, 19rem);
+  height: clamp(10rem, 32vw, 19rem);
+  background: color-mix(in oklab, var(--fui-accent-strong) 15%, transparent);
+}
+
+.frost-orb-high {
+  top: 8%;
+  right: 22%;
+  width: clamp(6rem, 18vw, 11rem);
+  height: clamp(6rem, 18vw, 11rem);
+  background: color-mix(in oklab, var(--fui-glass-sheen) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
   .frost-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(56px);
-  }
-
-  .frost-orb-accent {
-    top: 4%;
-    left: 8%;
-    width: clamp(12rem, 36vw, 22rem);
-    height: clamp(12rem, 36vw, 22rem);
-    background: color-mix(in oklab, var(--fui-accent) 18%, transparent);
+    animation: drift 26s ease-in-out infinite alternate;
   }
 
   .frost-orb-deep {
-    right: 6%;
-    bottom: 4%;
-    width: clamp(10rem, 32vw, 19rem);
-    height: clamp(10rem, 32vw, 19rem);
-    background: color-mix(in oklab, var(--fui-accent-strong) 15%, transparent);
+    animation-delay: -9s;
   }
 
   .frost-orb-high {
-    top: 8%;
-    right: 22%;
-    width: clamp(6rem, 18vw, 11rem);
-    height: clamp(6rem, 18vw, 11rem);
-    background: color-mix(in oklab, var(--fui-glass-sheen) 55%, transparent);
+    animation-delay: -18s;
   }
+}
 
-  @media (prefers-reduced-motion: no-preference) {
-    .frost-orb {
-      animation: drift 26s ease-in-out infinite alternate;
-    }
-
-    .frost-orb-deep {
-      animation-delay: -9s;
-    }
-
-    .frost-orb-high {
-      animation-delay: -18s;
-    }
+@keyframes drift {
+  to {
+    transform: translate3d(2.5rem, -1.5rem, 0) scale(1.08);
   }
-
-  @keyframes drift {
-    to {
-      transform: translate3d(2.5rem, -1.5rem, 0) scale(1.08);
-    }
-  }
+}
 </style>

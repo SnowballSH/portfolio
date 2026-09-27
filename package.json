@@ -7,11 +7,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check && node node_modules/typescript-7/bin/tsc -p tsconfig.json && node node_modules/typescript-7/bin/tsc -p tsconfig.test.json",
+    "check": "astro check && bun run tsc7 -p tsconfig.json && bun run tsc7 -p tsconfig.test.json",
     "format": "biome check --write",
     "astro": "astro",
     "lint": "biome check",
-    "test": "bun test"
+    "test": "bun test",
+    "tsc7": "node node_modules/typescript-7/bin/tsc"
   },
   "dependencies": {
     "@astrojs/compiler-rs": "0.5.1",

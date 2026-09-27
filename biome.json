@@ -5,9 +5,6 @@
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "files": {
-    "includes": ["**", "!.serena"]
-  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space"
@@ -24,6 +21,9 @@
     }
   },
   "html": {
-    "experimentalFullSupportEnabled": true
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true
+    }
   }
 }
