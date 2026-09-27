@@ -54,17 +54,25 @@ the page (`src/lib/snow/`).
   the backdrop keeps snowing.
 - **No flash of the static wordmark.** CSS hides the `<h1>` from the first
   paint whenever the snow will run (`scripting: enabled`,
-  `prefers-reduced-motion: no-preference`, `forced-colors: none`), so the page
-  never shows the word and then replaces it. The script marks the heading
-  `snow-active` on its first frame, or `snow-fallback` when it cannot run
-  (canvas readback blocked, `OffscreenCanvas` missing, any error). If the
-  script never loads at all, a CSS animation reveals the heading after 4 s.
-  The heading keeps its text for layout, search, and screen readers.
+  `prefers-reduced-motion: no-preference`, `forced-colors: none`), and
+  `supportsSnow` checks the same three conditions so script and CSS always
+  agree. When the script starts it claims the heading with `snow-pending`,
+  which cancels the CSS safety reveal; it then marks it `snow-active` on the
+  first frame, or `snow-fallback` when it cannot run (canvas readback blocked,
+  `OffscreenCanvas` missing, any error), clearing its canvas so no stale snow
+  sits under the revealed text. If the script never loads, a CSS animation
+  reveals the heading after 4 s; a script that arrives after that reveal has
+  begun leaves the visible heading alone instead of hiding it again. The
+  heading keeps its text for layout, search, and screen readers.
 - **Compaction.** Once the particles settle, `Compaction` ramps from 0 to 1
-  over 700 ms: the dots swell and a crisp rendering of the word
-  (`renderWordmarkLayer`, same font, same gradient) fades in beneath them, so
-  the final letters are solid with snowy edges. Hovering or bursting breaks it
-  back into snow within 160 ms, and it re-forms when the snow settles again.
+  over 700 ms: the flakes swell and fade out while a crisp rendering of the word
+  (`renderWordmarkLayer`, same font, same gradient) fades in, so the settled
+  heading is exactly the real type with no stray flakes. Moving the mouse onto
+  the word, or clicking or tapping it, `scatter`s every particle outward, with
+  force falling off with distance but never below a floor, and loosens the
+  springs for 900 ms, so the whole word breaks back into snow and drifts before
+  it pulls together; it re-forms and compacts once the snow
+  settles again.
 - **One gradient definition.** `WORDMARK_STOPS` in `color.ts` drives the CSS
   gradient on the heading, the particle shades, and the crisp layer, all mixed
   in Oklab and laid out along the CSS gradient line of the heading's box
@@ -72,21 +80,27 @@ the page (`src/lib/snow/`).
 - **Targets come from the real font.** `sampleWordmark` renders the word with
   the heading's computed font and letter spacing into an offscreen canvas and
   samples the ink on a jittered grid. The particle budget scales with viewport
-  width (700–1,800).
+  width (700–1,800). If the web font arrives late, the `loadingdone` font event
+  and the word's width in the layout key trigger a resample, and the snow
+  morphs to the real glyphs.
 - **Cadence.** The letters run at the display rate during the intro, hover,
-  and bursts, then sleep entirely once compacted; the mouse coming near the
+  and scatters, then sleep entirely once compacted; the mouse coming near the
   word, a click, a resize, or a theme change wakes them. The backdrop runs at
-  30 fps. Both stop while the tab is hidden, and the letters also stop while
+  30 fps, or 24 fps on touch devices (`pointer: coarse`), and redraws
+  immediately after a resize so flakes do not blink when a phone's address bar
+  moves. Both stop while the tab is hidden, and the letters also stop while
   the hero is off screen. The compacted word is cached as one bitmap.
 - **Scrolling moves through the snow.** Backdrop flakes live in viewport space
   and drift against the scroll with per-flake depth, so larger flakes move
   faster and the page reads as falling snow at every section.
-- **Touch never blocks scrolling.** Bursts fire on `click`, which browsers do
+- **Touch never blocks scrolling.** Taps scatter on `click`, which browsers do
   not dispatch after a scroll gesture.
 - **Layout follows the page.** A `ResizeObserver`, window resizes, and a
   device-pixel-ratio media query schedule debounced relayouts. A zero-size
   layout (a page loaded while hidden) waits for the next resize.
-- **Teardown.** Both scenes expose `destroy()`, run on `astro:before-swap`.
+- **Teardown.** Both scenes expose `destroy()`. `mountSnow` calls it on
+  `astro:before-swap`, which fires only if Astro view transitions
+  (`<ClientRouter />`) are enabled; the site does not enable them today.
 
 Measured in Chrome at 1280×800: snow is on screen about 0.7 s after load, the
 word lands at about 2.6 s and is solid by about 3.3 s. Afterwards the letter

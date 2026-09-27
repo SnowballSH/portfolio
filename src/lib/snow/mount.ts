@@ -13,6 +13,7 @@ interface Scene {
 
 export const supportsSnow = (): boolean =>
   typeof OffscreenCanvas !== "undefined" &&
+  matchMedia("(scripting: enabled)").matches &&
   !matchMedia("(prefers-reduced-motion: reduce)").matches &&
   !matchMedia("(forced-colors: active)").matches;
 
@@ -36,6 +37,14 @@ async function waitForFont(elements: WordmarkElements): Promise<void> {
   ]);
 }
 
+function claimHeading(heading: HTMLElement): boolean {
+  const revealed = Number(getComputedStyle(heading).opacity) > 0;
+  heading.classList.add(
+    revealed ? HEADING_CLASSES.fallback : HEADING_CLASSES.pending,
+  );
+  return !revealed;
+}
+
 function attempt<T extends Scene>(create: () => T | null): T | null {
   try {
     return create();
@@ -54,6 +63,7 @@ export async function mountSnow(root: ParentNode = document): Promise<void> {
     wordmark?.heading.classList.add(HEADING_CLASSES.fallback);
     return;
   }
+  const claimedWordmark = wordmark && claimHeading(wordmark.heading);
 
   const scenes: Scene[] = [];
   const backdrop =
@@ -65,7 +75,7 @@ export async function mountSnow(root: ParentNode = document): Promise<void> {
     });
   if (backdrop) scenes.push(backdrop);
 
-  if (wordmark) {
+  if (wordmark && claimedWordmark) {
     await waitForFont(wordmark);
     const scene = attempt(() => {
       const candidate = new SnowWordmark(wordmark);

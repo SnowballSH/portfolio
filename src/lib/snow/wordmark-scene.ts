@@ -21,6 +21,7 @@ export interface WordmarkElements {
 }
 
 export const HEADING_CLASSES = {
+  pending: "snow-pending",
   active: "snow-active",
   fallback: "snow-fallback",
 } as const;
@@ -46,6 +47,7 @@ export class SnowWordmark {
   private layoutTimer: ReturnType<typeof setTimeout> | undefined;
   private wordmarkLayout: WordmarkLayout | null = null;
   private pointer: Point | null = null;
+  private pointerInWord = false;
   private layoutKey = "";
   private laidOut = false;
   private drawn = false;
@@ -70,8 +72,9 @@ export class SnowWordmark {
     for (const observer of this.observers) observer.disconnect();
     this.loop.destroy();
     clearTimeout(this.layoutTimer);
+    this.renderer.clear();
     const { classList } = this.elements.heading;
-    classList.remove(HEADING_CLASSES.active);
+    classList.remove(HEADING_CLASSES.pending, HEADING_CLASSES.active);
     classList.add(HEADING_CLASSES.fallback);
   }
 
@@ -92,7 +95,13 @@ export class SnowWordmark {
 
   private currentLayoutKey(): string {
     const { height } = this.elements.section.getBoundingClientRect();
-    return `${document.documentElement.clientWidth}x${height}@${window.devicePixelRatio}`;
+    const { width: wordWidth } = this.elements.word.getBoundingClientRect();
+    return [
+      document.documentElement.clientWidth,
+      height,
+      wordWidth,
+      window.devicePixelRatio,
+    ].join(":");
   }
 
   private applyLayout(): boolean {
@@ -191,6 +200,9 @@ export class SnowWordmark {
 
     watchPixelRatio(signal, this.scheduleLayout);
     window.addEventListener("resize", this.scheduleLayout, { signal });
+    document.fonts.addEventListener("loadingdone", this.scheduleLayout, {
+      signal,
+    });
 
     const toCanvasPoint = (event: MouseEvent): Point => {
       const rect = canvas.getBoundingClientRect();
@@ -200,8 +212,12 @@ export class SnowWordmark {
       "pointermove",
       (event) => {
         if (event.pointerType !== "mouse") return;
-        this.pointer = toCanvasPoint(event);
-        if (this.swarm.attracts(this.pointer)) this.loop.wake();
+        const point = toCanvasPoint(event);
+        const inWord = this.swarm.contains(point);
+        if (inWord && !this.pointerInWord) this.swarm.scatter(point);
+        this.pointerInWord = inWord;
+        this.pointer = point;
+        if (this.swarm.attracts(point)) this.loop.wake();
       },
       { passive: true, signal },
     );
@@ -209,6 +225,7 @@ export class SnowWordmark {
       "pointerleave",
       () => {
         this.pointer = null;
+        this.pointerInWord = false;
       },
       { signal },
     );
@@ -217,7 +234,7 @@ export class SnowWordmark {
       (event) => {
         const target = event.target;
         if (target instanceof Element && target.closest("a, button")) return;
-        if (this.swarm.burst(toCanvasPoint(event))) this.loop.wake();
+        if (this.swarm.scatter(toCanvasPoint(event))) this.loop.wake();
       },
       { signal },
     );

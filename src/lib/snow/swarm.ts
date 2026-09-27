@@ -18,8 +18,10 @@ export interface SwarmTuning {
   damping: number;
   hoverRadius: number;
   hoverForce: number;
-  burstRadius: number;
-  burstForce: number;
+  scatterForce: number;
+  scatterFloor: number;
+  scatterRecoveryMs: number;
+  scatterSlack: number;
   introDuration: number;
   introStagger: number;
   introSweep: number;
@@ -34,8 +36,10 @@ export const DEFAULT_TUNING: SwarmTuning = {
   damping: 0.84,
   hoverRadius: 70,
   hoverForce: 1.6,
-  burstRadius: 130,
-  burstForce: 14,
+  scatterForce: 16,
+  scatterFloor: 0.5,
+  scatterRecoveryMs: 900,
+  scatterSlack: 0.9,
   introDuration: 1400,
   introStagger: 450,
   introSweep: 300,
@@ -67,6 +71,7 @@ export class LetterSwarm {
   private swayPhase = new Float32Array(0);
   private phase: Phase = "idle";
   private introElapsed = 0;
+  private looseness = 0;
   private clock = 0;
 
   constructor(
@@ -149,23 +154,32 @@ export class LetterSwarm {
     if (this.phase === "physics") this.stepPhysics(frames, pointer);
   }
 
-  burst(point: Point): boolean {
+  contains(point: Point): boolean {
+    return isNear(point, this.bounds, 0);
+  }
+
+  scatter(point: Point): boolean {
     if (this.phase === "idle" || this.phase === "intro") return false;
-    const { burstRadius, burstForce } = this.tuning;
-    let hit = false;
+    if (!this.attracts(point)) return false;
+    const { scatterForce, scatterFloor } = this.tuning;
+    const reach = Math.max(
+      1,
+      Math.hypot(
+        this.bounds.right - this.bounds.left,
+        this.bounds.bottom - this.bounds.top,
+      ),
+    );
     for (let i = 0; i < this.count; i++) {
       const dx = this.x[i] - point.x;
       const dy = this.y[i] - point.y;
       const distance = Math.hypot(dx, dy) || 1;
-      if (distance > burstRadius) continue;
-      const force = (1 - distance / burstRadius) * burstForce;
-      this.vx[i] =
-        this.vx[i] + (dx / distance) * force + (this.random() - 0.5) * 2;
-      this.vy[i] = this.vy[i] + (dy / distance) * force - this.random() * 2;
-      hit = true;
+      const force = Math.max(scatterFloor, 1 - distance / reach) * scatterForce;
+      this.vx[i] += (dx / distance) * force + (this.random() - 0.5) * 2;
+      this.vy[i] += (dy / distance) * force - this.random() * 2;
     }
-    if (hit) this.phase = "physics";
-    return hit;
+    this.looseness = 1;
+    this.phase = "physics";
+    return true;
   }
 
   private beginIntro(skyHeight: number): void {
@@ -216,17 +230,22 @@ export class LetterSwarm {
   private stepPhysics(frames: number, pointer: Point | null): void {
     const { spring, hoverRadius, hoverForce, settleDistance, settleSpeed } =
       this.tuning;
+    this.looseness = Math.max(
+      0,
+      this.looseness - (frames * FRAME_MS) / this.tuning.scatterRecoveryMs,
+    );
+    const pull = spring * (1 - this.tuning.scatterSlack * this.looseness);
     const damping = this.tuning.damping ** frames;
     const hoverRadiusSquared = hoverRadius * hoverRadius;
-    let active = false;
+    let active = this.looseness > 0;
 
     for (let i = 0; i < this.count; i++) {
       const x = this.x[i];
       const y = this.y[i];
       const targetX = this.targetX[i];
       const targetY = this.targetY[i];
-      let ax = (targetX - x) * spring;
-      let ay = (targetY - y) * spring;
+      let ax = (targetX - x) * pull;
+      let ay = (targetY - y) * pull;
 
       if (pointer) {
         const dx = x - pointer.x;

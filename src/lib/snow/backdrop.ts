@@ -11,6 +11,7 @@ import type { Random } from "./math";
 import { createFlakeSprite, readThemeColors } from "./palette";
 
 const RESIZE_DEBOUNCE_MS = 100;
+const IDLE_FPS = { fine: 30, coarse: 24 } as const;
 
 export class SnowBackdrop {
   private readonly flurry: Flurry;
@@ -29,7 +30,8 @@ export class SnowBackdrop {
   ) {
     this.flurry = new Flurry(random);
     this.context = context2d(canvas);
-    this.loop = new FrameLoop(this.tick);
+    const pointer = matchMedia("(pointer: coarse)").matches ? "coarse" : "fine";
+    this.loop = new FrameLoop(this.tick, 1000 / IDLE_FPS[pointer]);
   }
 
   start(): void {
@@ -58,6 +60,7 @@ export class SnowBackdrop {
     fitCanvas(this.canvas, this.size);
     this.flurry.resize(width, height);
     this.refreshSprite();
+    this.render();
   }
 
   private refreshSprite(): void {

@@ -65,28 +65,39 @@ describe("LetterSwarm", () => {
     });
   });
 
-  test("ignores bursts during the intro", () => {
+  test("ignores scatters during the intro", () => {
     const swarm = new LetterSwarm(seeded());
     swarm.setTargets(targets([[100, 100]]), 400);
-    expect(swarm.burst({ x: 100, y: 100 })).toBe(false);
+    expect(swarm.scatter({ x: 100, y: 100 })).toBe(false);
   });
 
-  test("a burst scatters nearby particles, which then return", () => {
+  test("a scatter breaks the whole word, which then re-forms", () => {
     const swarm = settledSwarm();
-    expect(swarm.burst({ x: 95, y: 100 })).toBe(true);
+    expect(swarm.scatter({ x: 99, y: 100 })).toBe(true);
     swarm.step(16, null);
     expect(swarm.settled).toBe(false);
-    expect(swarm.x[0]).toBeGreaterThan(100);
+    for (let i = 0; i < swarm.count; i++) {
+      expect(
+        Math.hypot(swarm.x[i] - (100 + i * 10), swarm.y[i] - 100),
+      ).toBeGreaterThan(1);
+    }
 
     runFor(swarm, 10_000);
     expect(swarm.settled).toBe(true);
-    expect(swarm.x[0]).toBe(100);
+    expect([...swarm.x]).toEqual([100, 110, 120]);
   });
 
-  test("a burst far away changes nothing", () => {
+  test("a scatter away from the word changes nothing", () => {
     const swarm = settledSwarm();
-    expect(swarm.burst({ x: 1000, y: 1000 })).toBe(false);
+    expect(swarm.scatter({ x: 1000, y: 1000 })).toBe(false);
     expect(swarm.settled).toBe(true);
+  });
+
+  test("contains only points over the word itself", () => {
+    const swarm = settledSwarm();
+    expect(swarm.contains({ x: 110, y: 100 })).toBe(true);
+    expect(swarm.contains({ x: 110, y: 130 })).toBe(false);
+    expect(swarm.attracts({ x: 110, y: 130 })).toBe(true);
   });
 
   test("a hovering pointer pushes particles away and they recover after it leaves", () => {

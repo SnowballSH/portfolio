@@ -8,7 +8,7 @@ import {
 } from "./color";
 
 export const SHADE_BUCKETS = 8;
-export const MAX_PARTICLE_SCALE = 1.6;
+const MAX_PARTICLE_SCALE = 1.6;
 export const FLAKE_SPRITE_RADIUS = 3;
 
 export interface ThemeColors {
