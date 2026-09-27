@@ -1,8 +1,4 @@
 <!doctype html>
-<!--
-  Source for public/og.jpg, the 1200x630 link-preview image. Regenerate with
-  scripts/og/render.sh after changing it.
--->
 <html>
   <head>
     <meta charset="utf-8" />
@@ -103,14 +99,14 @@
     </div>
     <span class="url">snowballsh.com</span>
     <script>
-      // Deterministic flakes so re-renders match.
       let seed = 7;
-      const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+      const seededRandom = () =>
+        (seed = (seed * 16807) % 2147483647) / 2147483647;
       for (let i = 0; i < 70; i++) {
         const flake = document.createElement("span");
-        const size = 1.5 + rand() * 4;
+        const size = 1.5 + seededRandom() * 4;
         flake.className = "flake";
-        flake.style.cssText = `left:${rand() * 1200}px;top:${rand() * 630}px;width:${size}px;height:${size}px;opacity:${0.15 + rand() * 0.45}`;
+        flake.style.cssText = `left:${seededRandom() * 1200}px;top:${seededRandom() * 630}px;width:${size}px;height:${size}px;opacity:${0.15 + seededRandom() * 0.45}`;
         document.body.prepend(flake);
       }
     </script>

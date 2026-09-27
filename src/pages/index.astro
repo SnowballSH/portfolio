@@ -4,7 +4,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import { Badge, Link, Panel } from "foundationui/svelte";
 import { profiles } from "../data/contact";
-import { BLOG_URL, getLatestPosts } from "../data/posts";
+import { BLOG_URL, getLatestPosts } from "../lib/blog";
 
 const allProjects = await getCollection("projects");
 const featuredProjects = allProjects

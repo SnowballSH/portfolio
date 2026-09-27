@@ -16,7 +16,6 @@ export interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
-  /** Show the closing "get in touch" call to action above the footer. */
   cta?: boolean;
 }
 
@@ -109,17 +108,21 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     }
     <script is:inline>
       (() => {
-        let theme = "light";
-        try {
-          const stored = localStorage.getItem("fui-theme");
-          theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
-        } catch {}
-        document.documentElement.dataset.theme = theme;
+        const readStoredTheme = () => {
+          try {
+            return localStorage.getItem("fui-theme");
+          } catch {
+            return null;
+          }
+        };
+        const stored = readStoredTheme();
+        const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : prefersDark
+              ? "dark"
+              : "light";
       })();
     </script>
 

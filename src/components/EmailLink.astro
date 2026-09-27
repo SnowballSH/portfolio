@@ -1,23 +1,20 @@
 ---
-// The address ships base64-encoded and is decoded into a mailto link in the
-// browser, so scrapers that read the raw HTML without running scripts miss it.
 import { Link } from "foundationui/svelte";
+import { encodeEmail } from "../lib/email";
 
 interface Props {
   address: string;
-  /** Fixed link text; when omitted, the decoded address is shown. */
   label?: string;
   subtle?: boolean;
   class?: string;
 }
 
 const { address, label, subtle, class: className } = Astro.props;
-const encoded = Buffer.from(address).toString("base64");
 ---
 
 <Link
   href="/contact"
-  data-email={encoded}
+  data-email={encodeEmail(address)}
   data-email-label={label ? "" : undefined}
   {subtle}
   class={className}
@@ -26,11 +23,7 @@ const encoded = Buffer.from(address).toString("base64");
 </Link>
 
 <script>
-  for (const link of document.querySelectorAll<HTMLAnchorElement>(
-    "a[data-email]",
-  )) {
-    const address = atob(link.dataset.email ?? "");
-    link.href = `mailto:${address}`;
-    if (link.dataset.emailLabel === undefined) link.textContent = address;
-  }
+  import { revealEmailLinks } from "../lib/email";
+
+  revealEmailLinks(document);
 </script>

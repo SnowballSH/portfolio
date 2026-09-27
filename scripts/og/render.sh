@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# Renders scripts/og/og.html to public/og.jpg with headless Chrome and ffmpeg.
 set -eu
 cd "$(dirname "$0")/../.."
 tmp="$(mktemp -d)"
