@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import EmailLink from "../components/EmailLink.astro";
 import { email, profiles } from "../data/contact";
+import { serializeJsonLd } from "../lib/json-ld";
 import { Footer, Link } from "foundationui/svelte";
 
 export interface Props {
@@ -102,7 +103,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         <script
           is:inline
           type="application/ld+json"
-          set:html={JSON.stringify(item)}
+          set:html={serializeJsonLd(item)}
         />
       ))
     }
@@ -160,7 +161,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
           {
             profiles
-              .filter((profile) => profile.label !== "Codeforces")
+              .filter((profile) => profile.inFooter)
               .map((profile) => (
                 <Link subtle href={profile.url} external>
                   {profile.label}

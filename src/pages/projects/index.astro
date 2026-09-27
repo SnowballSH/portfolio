@@ -13,8 +13,6 @@ const sortedProjects = allProjects.sort((a, b) => {
   return b.data.date.getTime() - a.data.date.getTime();
 });
 
-const firstProjectSlug = sortedProjects[0]?.id;
-
 const groups = categoryOrder
   .filter((category) => category !== "earlier")
   .map((category) => ({
@@ -24,6 +22,8 @@ const groups = categoryOrder
     ),
   }))
   .filter((group) => group.projects.length > 0);
+
+const eagerProjectId = groups[0]?.projects[0]?.id;
 
 const earlierProjects = allProjects
   .filter((project) => project.data.category === "earlier")
@@ -88,7 +88,7 @@ const projectListSchema = {
               <ProjectCard
                 project={project}
                 showFeaturedIcon={true}
-                loading={project.id === firstProjectSlug ? "eager" : "lazy"}
+                loading={project.id === eagerProjectId ? "eager" : "lazy"}
               />
             ))}
           </div>

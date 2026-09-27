@@ -22,6 +22,12 @@ only allows its own origin (CORS), so posts are fetched at build time by
   changes, the build logs a warning and the section is omitted rather than
   failing the build.
 
+## Type checking
+
+`tsconfig.json` covers the site and deliberately has no Bun types, so browser
+code cannot use `Bun` or other runtime-only APIs. Tests are checked separately
+by `tsconfig.test.json`, which adds the Bun types; `bun run check` runs both.
+
 ## Share image
 
 `public/og.jpg` is the default link-preview image (1200×630). Its source is
