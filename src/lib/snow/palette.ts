@@ -7,8 +7,8 @@ import {
   wordmarkGradient,
 } from "./color";
 
-export const SHADE_BUCKETS = 8;
-const MAX_PARTICLE_SCALE = 1.6;
+export const SHADE_BUCKETS = 16;
+const MAX_PARTICLE_SCALE = 1.35;
 export const FLAKE_SPRITE_RADIUS = 3;
 
 export interface ThemeColors {

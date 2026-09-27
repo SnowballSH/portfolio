@@ -1,4 +1,5 @@
 import { type CanvasSize, context2d, fitCanvas } from "./canvas";
+import type { CompactionLook } from "./compaction";
 import { type LetterSprites, shadeBucket } from "./palette";
 import type { LetterSwarm } from "./swarm";
 import type { WordmarkLayer } from "./wordmark";
@@ -7,8 +8,6 @@ export interface WordmarkArt {
   letters: LetterSprites;
   layer: WordmarkLayer;
 }
-
-const COMPACTION_GROWTH = 0.3;
 
 export class WordmarkRenderer {
   private readonly context: CanvasRenderingContext2D;
@@ -33,14 +32,14 @@ export class WordmarkRenderer {
     this.art = art;
   }
 
-  render(swarm: LetterSwarm, solidity: number): void {
+  render(swarm: LetterSwarm, look: CompactionLook): void {
     const { art, context } = this;
     if (!art) return;
     const { width, height, dpr } = this.size;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     context.clearRect(0, 0, width, height);
-    if (solidity > 0) this.drawLayer(art.layer, solidity);
-    if (solidity < 1) this.drawFlakes(swarm, art.letters, solidity);
+    if (look.layerAlpha > 0) this.drawLayer(art.layer, look.layerAlpha);
+    if (look.flakeAlpha > 0) this.drawFlakes(swarm, art.letters, look);
   }
 
   private drawLayer({ image, box }: WordmarkLayer, alpha: number): void {
@@ -52,13 +51,12 @@ export class WordmarkRenderer {
   private drawFlakes(
     swarm: LetterSwarm,
     letters: LetterSprites,
-    solidity: number,
+    { flakeAlpha, flakeScale }: CompactionLook,
   ): void {
     const { context } = this;
-    const growth = 1 + COMPACTION_GROWTH * solidity;
-    context.globalAlpha = 1 - solidity;
+    context.globalAlpha = flakeAlpha;
     for (let i = 0; i < swarm.count; i++) {
-      const radius = letters.radius * swarm.size[i] * growth;
+      const radius = letters.radius * swarm.size[i] * flakeScale;
       const y = swarm.y[i];
       if (y < -radius) continue;
       const sprite = letters.sprites[shadeBucket(swarm.shade[i])];

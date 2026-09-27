@@ -91,7 +91,7 @@ export class SnowWordmark {
     const drew = this.guard(() => {
       this.swarm.step(dtMs, this.pointer);
       this.compaction.step(dtMs, this.swarm.settled);
-      this.renderer.render(this.swarm, this.compaction.value);
+      this.renderer.render(this.swarm, this.compaction.look);
     });
     if (!drew) return "sleep";
     if (!this.drawn) {

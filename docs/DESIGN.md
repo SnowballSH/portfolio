@@ -67,9 +67,13 @@ the page (`src/lib/snow/`).
   and hero are visible but nothing has drawn 4 s after the scene starts. The
   heading keeps its text for layout, search, and screen readers.
 - **Compaction.** Once the particles settle, `Compaction` ramps from 0 to 1
-  over 700 ms: the flakes swell and fade out while a crisp rendering of the word
-  (`renderWordmarkLayer`, same font, same gradient) fades in, so the settled
-  heading is exactly the real type with no stray flakes. Moving the mouse onto
+  over 1.4 s, and `compactionLook` turns that progress into eased,
+  overlapping fades: the crisp word (`renderWordmarkLayer`, same font, same
+  gradient) fades in beneath the flakes first, and the flakes fade out on top
+  only once it is nearly opaque, growing at most 10%. There is never a moment
+  where both are half transparent, which read as a blurred double image; the
+  settled heading is exactly the real type. Flakes use 16 gradient shades so
+  their color matches the smooth gradient of the type. Moving the mouse onto
   the word, or clicking or tapping it, `scatter`s every particle outward, with
   force falling off with distance but never below a floor, and loosens the
   springs for 900 ms, so the whole word breaks back into snow and drifts before
@@ -107,5 +111,5 @@ the page (`src/lib/snow/`).
   (`<ClientRouter />`) are enabled; the site does not enable them today.
 
 Measured in Chrome at 1280×800: snow is on screen about 0.7 s after load, the
-word lands at about 2.6 s and is solid by about 3.3 s. Afterwards the letter
+word lands at about 2.6 s and is solid by about 4.2 s. Afterwards the letter
 canvas draws nothing (0 fps) and the backdrop runs at 30 fps.

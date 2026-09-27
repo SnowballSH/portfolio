@@ -32,3 +32,8 @@ export const isNear = (point: Point, bounds: Bounds, margin: number): boolean =>
 
 export const modulo = (value: number, span: number): number =>
   ((value % span) + span) % span;
+
+export const smoothstep = (edge0: number, edge1: number, x: number): number => {
+  const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+  return t * t * (3 - 2 * t);
+};
