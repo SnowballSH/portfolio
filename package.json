@@ -23,7 +23,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "7.3.5",
     "foundationui": "https://github.com/SnowballSH/foundationui/releases/download/v0.5.5/foundationui-0.5.5.tgz",
-    "svelte": "^5.57.1",
+    "svelte": "^5.57.2",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
